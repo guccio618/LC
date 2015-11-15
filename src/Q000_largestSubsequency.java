@@ -18,7 +18,7 @@ public class Q000_largestSubsequency {
 		local[0] = A[0];
 		
 		for (int i = 1; i < n; i++) {
-			if(local[i-1] > 0){
+			if(local[i-1] > 0){           //
 				local[i] = local[i-1] + A[i];
 				local_end = i;
 			}

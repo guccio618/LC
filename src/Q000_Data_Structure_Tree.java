@@ -3,22 +3,22 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 
-public class Q000_Tree {
+public class Q000_Data_Structure_Tree {
 	private int value;
-	private Q000_Tree left;
-	private Q000_Tree right;
+	private Q000_Data_Structure_Tree left;
+	private Q000_Data_Structure_Tree right;
 
-	public Q000_Tree(int v, int n) {
+	public Q000_Data_Structure_Tree(int v, int n) {
 		if (v >= n)
 			return;
 		value = v;
 		if ((2 * v + 1) < n)
-			left = new Q000_Tree(2 * v + 1, n);
+			left = new Q000_Data_Structure_Tree(2 * v + 1, n);
 		if ((2 * v + 2) < n)
-			right = new Q000_Tree(2 * v + 2, n);
+			right = new Q000_Data_Structure_Tree(2 * v + 2, n);
 	}
 
-	public static void recursivePreOrder(Q000_Tree root) {
+	public static void recursivePreOrder(Q000_Data_Structure_Tree root) {
 		if (root == null)
 			return;
 		System.out.print(root.value + ", ");
@@ -26,7 +26,7 @@ public class Q000_Tree {
 		recursivePreOrder(root.right);
 	}
 
-	public static void recursiveInOrder(Q000_Tree root) {
+	public static void recursiveInOrder(Q000_Data_Structure_Tree root) {
 		if (root == null)
 			return;
 		recursiveInOrder(root.left);
@@ -34,7 +34,7 @@ public class Q000_Tree {
 		recursiveInOrder(root.right);
 	}
 
-	public static void recursivePostOrder(Q000_Tree root) {
+	public static void recursivePostOrder(Q000_Data_Structure_Tree root) {
 		if (root == null)
 			return;
 		recursivePostOrder(root.left);
@@ -43,10 +43,10 @@ public class Q000_Tree {
 	}
 
 	// 先序遍历
-	public static void preOrder(Q000_Tree root) {
+	public static void preOrder(Q000_Data_Structure_Tree root) {
 		if (root == null)
 			return;
-		Stack s = new Stack<Q000_Tree>();
+		Stack s = new Stack<Q000_Data_Structure_Tree>();
 
 		while (root != null || !s.isEmpty()) {
 			while (root != null) {
@@ -54,13 +54,13 @@ public class Q000_Tree {
 				s.push(root); // 先访问，再入栈
 				root = root.left;
 			}
-			root = (Q000_Tree) s.pop(); // 如果是null，出栈并处理右子树
+			root = (Q000_Data_Structure_Tree) s.pop(); // 如果是null，出栈并处理右子树
 			root = root.right;
 		}
 	}
 
 	// 中序遍历
-	public static void inOrder(Q000_Tree root) {
+	public static void inOrder(Q000_Data_Structure_Tree root) {
 		if (root == null)
 			return;
 		Stack s = new Stack<Integer>();
@@ -70,7 +70,7 @@ public class Q000_Tree {
 				s.push(root); // 先入栈，后访问
 				root = root.left;
 			}
-			root = (Q000_Tree) s.pop();
+			root = (Q000_Data_Structure_Tree) s.pop();
 			System.out.print(root.value + ", ");
 			root = root.right; // 如果是null，出栈并处理右子树
 		}
@@ -80,7 +80,7 @@ public class Q000_Tree {
 	// 是要先处理完左右子树，然后再处理根(回溯)，
 	// 所以需要一个记录哪些节点已经被访问的结构(可以在树结构里面加一个标记)，
 	// 这里可以用map实现
-	public static void postOrder(Q000_Tree root) {
+	public static void postOrder(Q000_Data_Structure_Tree root) {
 		if (root == null)
 			return;
 		Stack s = new Stack<Integer>();
@@ -88,7 +88,7 @@ public class Q000_Tree {
 		s.push(root);
 
 		while (!s.isEmpty()) {
-			Q000_Tree temp = (Q000_Tree) s.peek();
+			Q000_Data_Structure_Tree temp = (Q000_Data_Structure_Tree) s.peek();
 			if (temp.left != null && !mySet.contains(temp.left)) {
 				temp = temp.left;
 				while (temp != null && !mySet.contains(temp)) {
@@ -101,22 +101,22 @@ public class Q000_Tree {
 				s.push(temp.right);
 				continue;
 			}
-			Q000_Tree t = (Q000_Tree) s.pop();
+			Q000_Data_Structure_Tree t = (Q000_Data_Structure_Tree) s.pop();
 			mySet.add(t);
 			System.out.print(t.value + ", ");
 		}
 	}
 
 	// 双栈实现的后序遍历
-	public static void postOrder2(Q000_Tree root) {
+	public static void postOrder2(Q000_Data_Structure_Tree root) {
 		if (root == null)
 			return;
-		Stack s1 = new Stack<Q000_Tree>();
-		Stack s2 = new Stack<Q000_Tree>();
+		Stack s1 = new Stack<Q000_Data_Structure_Tree>();
+		Stack s2 = new Stack<Q000_Data_Structure_Tree>();
 		s1.push(root);
 
 		while (!s1.isEmpty()) {
-			Q000_Tree temp = (Q000_Tree) s1.pop();
+			Q000_Data_Structure_Tree temp = (Q000_Data_Structure_Tree) s1.pop();
 			s2.push(temp); // 而s2先放入最后遍历的根节点，之后再按右，然后左的顺序存入节点
 			if (temp.left != null) // s1中按先左后右的顺序存入
 				s1.push(temp.left);
@@ -125,19 +125,19 @@ public class Q000_Tree {
 		}
 
 		while (!s2.isEmpty()) {
-			System.out.print(((Q000_Tree) s2.pop()).value + ", ");
+			System.out.print(((Q000_Data_Structure_Tree) s2.pop()).value + ", ");
 		}
 	}
 
 	// 层序遍历
-	public static void levelOrder(Q000_Tree root) {
+	public static void levelOrder(Q000_Data_Structure_Tree root) {
 		if (root == null)
 			return;
-		Queue q = new LinkedList<Q000_Tree>();
+		Queue q = new LinkedList<Q000_Data_Structure_Tree>();
 		q.add(root);
 
 		while (!q.isEmpty()) {
-			Q000_Tree temp = (Q000_Tree) q.poll();
+			Q000_Data_Structure_Tree temp = (Q000_Data_Structure_Tree) q.poll();
 			System.out.print(temp.value + ", ");
 			if (temp.left != null)
 				q.add(temp.left);
@@ -147,18 +147,18 @@ public class Q000_Tree {
 	}
 
 	// 双栈实现螺旋遍历
-	public static void spiralOrder(Q000_Tree root) {
+	public static void spiralOrder(Q000_Data_Structure_Tree root) {
 		if (root == null)
 			return;
-		Stack s1 = new Stack<Q000_Tree>();
-		Stack s2 = new Stack<Q000_Tree>();
+		Stack s1 = new Stack<Q000_Data_Structure_Tree>();
+		Stack s2 = new Stack<Q000_Data_Structure_Tree>();
 		s1.push(root);
 
 		while (!s1.isEmpty() || !s2.isEmpty()) {
-			Q000_Tree temp;
+			Q000_Data_Structure_Tree temp;
 			if(!s1.isEmpty()){
 				while (!s1.isEmpty()) {
-					temp = (Q000_Tree) s1.pop();
+					temp = (Q000_Data_Structure_Tree) s1.pop();
 					System.out.print(temp.value + ", ");
 					if (temp.right != null)
 						s2.push(temp.right);
@@ -167,7 +167,7 @@ public class Q000_Tree {
 				}
 			} else {
 				while (!s2.isEmpty()) {
-					temp = (Q000_Tree) s2.pop();
+					temp = (Q000_Data_Structure_Tree) s2.pop();
 					System.out.print(temp.value + ", ");
 					if (temp.left != null)
 						s1.push(temp.left);
@@ -179,7 +179,7 @@ public class Q000_Tree {
 	}
 	
 	//单栈实现螺旋遍历
-	public static void spiralOrder2(Q000_Tree root) {
+	public static void spiralOrder2(Q000_Data_Structure_Tree root) {
 		int depth = get_depth(root);
         for(int i = 0; i < depth; ++i){
                 if(i%2 != 0)
@@ -190,8 +190,8 @@ public class Q000_Tree {
         }
 	}
 	
-	public static void preOrder2Left(Q000_Tree root, int height){
-	    Stack s = new Stack<Q000_Tree>();	    
+	public static void preOrder2Left(Q000_Data_Structure_Tree root, int height){
+	    Stack s = new Stack<Q000_Data_Structure_Tree>();	    
 	    while(root != null || !s.empty()){
 	        while(root != null) {
 	          if(get_depth(root) == height)
@@ -200,14 +200,14 @@ public class Q000_Tree {
 	            root = root.left;
 	        }
 	        if(!s.empty()){
-	            root = (Q000_Tree) s.pop();
+	            root = (Q000_Data_Structure_Tree) s.pop();
 	            root = root.right;
 	        }
 	    }
 	}
 	
-	public static void preOrder2Right(Q000_Tree root, int height){
-	    Stack s = new Stack<Q000_Tree>();	    
+	public static void preOrder2Right(Q000_Data_Structure_Tree root, int height){
+	    Stack s = new Stack<Q000_Data_Structure_Tree>();	    
 	    while(root != null || !s.empty()){
 	        while(root != null) {
 	          if(get_depth(root) == height)
@@ -216,13 +216,13 @@ public class Q000_Tree {
 	            root = root.right;
 	        }
 	        if(!s.empty()){
-	            root = (Q000_Tree) s.pop();
+	            root = (Q000_Data_Structure_Tree) s.pop();
 	            root = root.left;
 	        }
 	    }
 	}
 	
-	public static int get_depth(Q000_Tree root){  
+	public static int get_depth(Q000_Data_Structure_Tree root){  
 	    int depth = 0;  
 	    if(root != null){  
 	        int left_depth = get_depth(root.left);  
@@ -235,7 +235,7 @@ public class Q000_Tree {
 
 
 	public static void main(String[] args) {
-		Q000_Tree t = new Q000_Tree(0,10);
+		Q000_Data_Structure_Tree t = new Q000_Data_Structure_Tree(0,10);
 		
 		System.out.print("recursivePreOrder:  ");
 		recursivePreOrder(t);

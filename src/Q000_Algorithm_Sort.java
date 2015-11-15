@@ -1,7 +1,9 @@
+import java.util.Arrays;
 
-public class Q000_Sort {
 
-	//*********************** Insert Sort **************************
+public class Q000_Algorithm_Sort {
+
+	/*********************** Insert Sort **************************/
 	
 	void insert_sort(int[] p) {      // 时间O(n^2)，空间O(1)，稳定
 		int j, key;
@@ -17,7 +19,7 @@ public class Q000_Sort {
 	}
 
 	
-	//*********************** Bubble Sort **************************
+	/*********************** Bubble Sort **************************/
 	
 	void bubble_sort(int[] p) {      // 时间O(n^2)，空间O(1)，稳定
 		for (int i = 0; i < p.length - 1; i++) {
@@ -30,7 +32,7 @@ public class Q000_Sort {
 	}
 	
 	
-	//*********************** Merge Sort **************************
+	/*********************** Merge Sort **************************/
 	
 	void recursive_merge_sort(int[] p, int x, int y){     // 时间O(n*logn)，空间O(n)，稳定
 		if(x < y){
@@ -61,7 +63,7 @@ public class Q000_Sort {
 	}
 
 	
-	//*********************** Quick Sort **************************
+	/*********************** Quick Sort **************************/
 	
 	public void Quicksort(int[] x, int left, int right){   // 时间最理想O(n*logn)，最差O(n^2)，
 		if(left >= right) return;                          // 空间O(logn)，不稳定
@@ -82,7 +84,8 @@ public class Q000_Sort {
 			Quicksort(x, j+1, right);		
 	}
 	
-	//*********************** Heap Sort **************************
+	
+	/*********************** Heap Sort **************************/
 	
 	void heapSort(int[] array) {         // 时间O(n*logn)，空间O(1)，不稳定
 		build_Max_heap(array);   // 构建堆,除了叶子外，其他叶子以上部分已经完成排序，
@@ -113,9 +116,39 @@ public class Q000_Sort {
 			heapify(A, largest, max);
 		}
 	}
-
 	
-    //*************************************************
+
+    /***********************   radix sort   **************************/	
+	
+    // 基于count_sort的radix sort
+	private void radixSort(int[] array,int radix, int bit_num) {  // array为待排序数; radix代表基数，如10进制radix就为10;          
+        int length = array.length;  		                      // bit_num代表排序元素的最大位数;
+        int[] temp = new int[length];       //用于暂存元素  
+        int[] count = new int[radix];       //用于计数排序  
+        int divide = 1;  
+          
+        for (int i = 0; i < bit_num; i++) {  	              
+            System.arraycopy(array, 0, temp, 0, length);  
+            Arrays.fill(count, 0);  
+              
+            for (int j = 0; j < length; j++) {  
+                int tempKey = (temp[j] / divide) % radix;  // 按位排序，从第1位开始
+                count[tempKey]++;  
+            }  
+              
+            for (int j = 1; j < radix; j++) {  
+                count [j] = count[j] + count[j-1];         // 统计每个位上的数应该排的位置，例如比7大的有多少个
+            }  
+                       
+            for (int j = length - 1; j >= 0; j--) {  
+                int tempKey = (temp[j] / divide) % radix;  
+                count[tempKey]--;  
+                array[count[tempKey]] = temp[j];           // 排在array里的第几位
+            }                
+            divide = divide * radix;                  
+        }  
+  
+    }  	
 	
 	public void swap(int[] x, int i, int j){
 		int temp = x[i];
@@ -123,9 +156,10 @@ public class Q000_Sort {
 		x[j] = temp;
 	}
 	
+	/***********************   main   **************************/
 	
 	public static void main(String[] args){
-		Q000_Sort t = new Q000_Sort();
+		Q000_Algorithm_Sort t = new Q000_Algorithm_Sort();
 		
 		int [] array = {2,5,3,3,3,2,35,2,1,36,6,4,9,6,7}; 
 		
@@ -174,5 +208,13 @@ public class Q000_Sort {
 			System.out.print(array5[i] + ", ");
 		System.out.println();
 		
+		int [] array6 = new int[array.length];
+		for(int i = 0; i < array.length; ++i)
+			array6[i] = array[i];
+		t.radixSort(array5, 10, 2);
+		System.out.print("Radix Sort:  ");
+		for(int i = 0; i < array5.length; ++i)
+			System.out.print(array5[i] + ", ");
+		System.out.println();
 	}	
 }
