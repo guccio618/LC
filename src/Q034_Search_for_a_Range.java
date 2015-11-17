@@ -1,5 +1,5 @@
 
-public class Q34_Search_for_a_Range {
+public class Q034_Search_for_a_Range {
 	//by jackie
 	public int[] searchRange(int[] nums, int target) {
         if(nums == null || nums.length == 0) {
@@ -40,7 +40,7 @@ public class Q34_Search_for_a_Range {
     }
     
     public static void main(String[] args){
-    	Q34_Search_for_a_Range test = new Q34_Search_for_a_Range();
+    	Q034_Search_for_a_Range test = new Q034_Search_for_a_Range();
     	int target = 4;
     	int[] array = {1, 5};
     	int[] res = test.searchRange(array, target);
