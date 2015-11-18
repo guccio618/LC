@@ -6,6 +6,6 @@ public class Q112_Path_Sum {
 	    if(root == null) return false;
 	    if(root.val == sum && root.left == null && root.right == null)
 	        return true;
-	    return hasPathSum_recursive(root.left,sum-root.val)|| hasPathSum_recursive(root.right, sum-root.val);
+	    return hasPathSum_recursive(root.left,sum-root.val) || hasPathSum_recursive(root.right, sum-root.val);
 	}
 }

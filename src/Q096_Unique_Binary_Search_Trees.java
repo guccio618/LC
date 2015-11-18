@@ -5,14 +5,14 @@ public class Q096_Unique_Binary_Search_Trees {
 	public int numTrees(int n) {
         if(n <= 0) return 0;
         int[] f = new int[n+1];
-        f[1] = 1; 
+        f[1] = 1;                 // 只有一个node时
         return countNum(1, n, n, f);
     }
 	
 	public int countNum(int startNode, int endNode, int max, int[] f){
 		if(startNode > endNode) return 0;
-//		if(startNode == endNode) return 1;
-		if(f[endNode - startNode + 1] > 0) return f[endNode - startNode + 1];
+		if(f[endNode - startNode + 1] > 0) 
+			return f[endNode - startNode + 1];
 		int count = 0;
 		
 		for (int i = startNode; i <= endNode; ++i) {			
