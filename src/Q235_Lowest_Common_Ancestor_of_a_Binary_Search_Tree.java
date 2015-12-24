@@ -1,7 +1,9 @@
 
 public class Q235_Lowest_Common_Ancestor_of_a_Binary_Search_Tree {
+	// by jackie 
+	// 从root向下遍历，如果node.val值在p和q的值之间，则此node即为最低的公共父节点
 	public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        if(root == null) return root;
+        if(root == null) return root;    
         if(p == null) return q;
         if(q == null) return p;
         

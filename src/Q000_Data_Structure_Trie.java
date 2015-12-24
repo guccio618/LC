@@ -86,6 +86,37 @@ public class Q000_Data_Structure_Trie {
 		}
 		return node.isEnd;
 	}
+	
+	// 匹配含“..”的 regular expression
+	public boolean search(String word) {
+        if(word.length() == 0) return false;
+        char[] letters = word.toCharArray();
+        TrieNode temp = root;
+        return bt(temp, letters, 0);
+    }
+	
+	public boolean bt(TrieNode node, char[] letters, int pos){
+		if(pos == letters.length) return node.isEnd;
+		
+		if(letters[pos] != '.'){
+			int n = letters[pos] - 'a';
+			if(node.son[n] != null)
+				return bt(node.son[n], letters, pos+1);
+			else
+				return false;
+		}
+		else{
+			boolean flag = false;
+			for(int i = 0; i < 26; ++i){
+				if(node.son[i] != null){
+					flag = bt(node.son[i], letters, pos+1);
+					if(flag == true)
+						return true;
+				}
+			}
+			return flag;
+		}
+	}
 
 	// 前序遍历字典树. 递归实现
 	public void preTraverse(TrieNode node) {
@@ -108,7 +139,8 @@ public class Q000_Data_Structure_Trie {
 		for (String str : strs) {
 			tree.insert(str);
 		}
-		System.out.println(tree.has("abc"));
+		System.out.println("acm: " + tree.has("acm"));
+		System.out.println("a..: " + tree.search("a..."));
 		tree.preTraverse(tree.getRoot());
 		System.out.println();
 		// tree.printAllWords();
