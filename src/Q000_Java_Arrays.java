@@ -25,7 +25,7 @@ public class Q000_Java_Arrays {
 			System.out.print(pair[i].val + ", ");
 		System.out.println();
 		
-		/********************* Arrays Sort ***********************/
+		/********************* Arrays binarySort ***********************/
 		// 1.该搜索键在范围内，但不在数组中，由1开始计数；
 		// 2.该搜索键在范围内，且在数组中，由0开始计数；
 		// 3.该搜索键不在范围内，且小于范围内元素，由1开始计数；
@@ -40,5 +40,11 @@ public class Q000_Java_Arrays {
 		
 		int N = 3;
 		System.out.println(Arrays.binarySearch(nums, 0, N, 2));
+		
+		/********************* Arrays copyOf ***********************/
+		int[] a = Arrays.copyOf(nums, nums.length);
+		for(int i = 0; i < a.length; ++i)
+			System.out.print(a[i] + ", ");
+		System.out.println();
 	}
 }
