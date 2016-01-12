@@ -27,7 +27,7 @@ public class Q126_Word_Ladder_II {
 				TreeNode node = q.poll();
 				String word = node.val;
 				if (word.equals(endWord)) {
-					found = true; // mark true so it will go on searching until
+					found = true;   // mark true so it will go on searching until
 									// the end of current level, so all paths
 									// are of the same length.
 					ArrayList<String> ladder = new ArrayList<>();
@@ -36,7 +36,8 @@ public class Q126_Word_Ladder_II {
 						node = node.parent;
 					}
 					list.add(ladder);
-				} else { // change character one at a time
+				} 
+				else { // change character one at a time
 					char[] wordArray = word.toCharArray();
 					for (int j = 0; j < wordArray.length; j++) {
 						char c = wordArray[j];
@@ -56,7 +57,7 @@ public class Q126_Word_Ladder_II {
 								}
 							}
 						}
-						wordArray[j] = c;// change it back before modifying next
+						wordArray[j] = c;   // change it back before modifying next
 											// char
 					}
 				}

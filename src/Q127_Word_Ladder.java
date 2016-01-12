@@ -27,11 +27,11 @@ public class Q127_Word_Ladder {
 	            char[] array = source.toCharArray();
 	            for (int j = 0; j < source.length(); j++) { // select one bit and change it for another
 	                for (char k = 'a'; k <= 'z'; k++) {     // character from "a" to "z"
-	                    char temp = array[j];          // temp is used for recording the previous value of array[j] 
+	                    char temp = array[j];               // temp is used for recording the previous value of array[j] 
 	                    array[j] = k;
 	                    String newStr = new String(array);
 	                    if (wordList.contains(newStr)) {
-	                        wordList.remove(newStr);
+	                        wordList.remove(newStr);   // means this word has been visited and should be remove from wordList
 	                        queue.add(newStr);
 	                    }
 	                    array[j] = temp;

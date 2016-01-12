@@ -9,7 +9,7 @@ public class Q074_Searcha_2D_Matrix {
         int left = 0, right = row*column-1;
         
         while(left <= right){
-            int pivot = (left+right)/2;
+            int pivot = (left+right) / 2;
             if(matrix[pivot/column][pivot%column] > target)
                 right = pivot-1;
             else if(matrix[pivot/column][pivot%column] < target)
