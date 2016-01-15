@@ -70,8 +70,8 @@ public class Q000_Algorithm_Sort {
 		int i = left, j = right;
 		double pivot = (x[left]+x[right])/2.0;  // pivot必须用double
 		while(i < j){
-			while(x[i] < pivot && i < right) i++;  // 右边界的判定
-			while(x[j] >= pivot && j > left) j--;  // 左边界的判定
+			while(i < right && x[i] < pivot) i++;  // 右边界的判定
+			while(j > left && x[j] >= pivot) j--;  // 左边界的判定
 			if(i < j){
 				int temp = x[i];
 				x[i] = x[j];

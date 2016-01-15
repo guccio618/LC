@@ -22,11 +22,11 @@ public class Q300_Longest_Increasing_Subsequence {
 	// by Jackie using DP, O(n^2)
 	public int lengthOfLIS2(int[] nums) {
         if(nums == null || nums.length == 0) return 0;
-        int[] res = new int[nums.length];
-        res[0] = 0;
+        int[] res = new int[nums.length];  // 存放到当前位为止最大的的increasing subsequence个数
+        res[0] = 0;  // 必须从0开始，否则例如在res[0] = 1时，在之后的叠加中，每次都会被多加上1
         int max = -1;
         
-        for(int i = 1, len = nums.length; i < len; ++i){
+        for(int i = 1, len = nums.length; i < len; ++i){ // 反向DP
         	for(int j = 0; j < i; ++j){
         		if(nums[j] < nums[i])
         			res[i] = Math.max(res[i], res[j]+1);
