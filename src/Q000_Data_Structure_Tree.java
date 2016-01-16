@@ -117,7 +117,7 @@ public class Q000_Data_Structure_Tree {
 
 		while (!s1.isEmpty()) {
 			Q000_Data_Structure_Tree temp = (Q000_Data_Structure_Tree) s1.pop();
-			s2.push(temp); // 而s2先放入最后遍历的根节点，之后再按右，然后左的顺序存入节点
+			s2.push(temp); // 而s2先放入最后遍历的根节点，之后再按右，然后左的顺序存入节点; 这里可以控制s2打印的先后顺序
 			if (temp.left != null) // s1中按先左后右的顺序存入
 				s1.push(temp.left);
 			if (temp.right != null)
