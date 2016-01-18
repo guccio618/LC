@@ -15,10 +15,7 @@ public class Q010_Regular_Expression_Matching {
 				if (c != '*') {	
 					// The previous character of s and p should match;
 					// And, dp[i-1][j-1] is true;
-					dp[i][j] = ( i > 0              
-								 && dp[i-1][j-1]    
-								 && (c == '.' || c == s.charAt(i-1)) 
-							   ); 
+					dp[i][j] = ( i > 0 && dp[i-1][j-1] && (c == '.' || c == s.charAt(i-1)) ); 
 				} 
 				else {
 					// Two situations:
