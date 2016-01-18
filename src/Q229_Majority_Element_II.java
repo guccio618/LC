@@ -57,6 +57,9 @@ public class Q229_Majority_Element_II {
 	
 	/*****************************************************/
 	// by other, slow
+	
+	
+	
 	public List<Integer> majorityElement2(int[] nums) {
 		List<Integer> list = new ArrayList<Integer>();
 		Map<Integer, Integer> map = new HashMap<Integer, Integer>();

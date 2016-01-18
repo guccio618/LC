@@ -7,19 +7,20 @@ public class Q000_Algorithm_Greedy {
 		 * ps:排序用到了选择排序，详情请查看选择排序 
          */  
 		int num = weight.length;
-        double[] r = new double[num];  
+        double[] rate = new double[num];  
         int[] index = new int[num];   // 存放排序前的数组顺序
         for (int i = 0; i < num; i++) {  
-            r[i] = (double) value[i] / (double) weight[i];  
+            rate[i] = (double) value[i] / (double) weight[i];  
             index[i] = i;  
         }  
         double temp = 0;  
         for (int i = 0; i < num - 1; i++) {  
             for (int j = i + 1; j < num; j++) {  
-                if (r[i] < r[j]) {  
-                    temp = r[i];  
-                    r[i] = r[j];  
-                    r[j] = temp;  
+                if (rate[i] < rate[j]) {  
+                    temp = rate[i];  
+                    rate[i] = rate[j];  
+                    rate[j] = temp;  
+                    
                     int x = index[i];  
                     index[i] = index[j];  
                     index[j] = x;  
@@ -66,8 +67,8 @@ public class Q000_Algorithm_Greedy {
 
 	public static void main(String[] args) {
 		Q000_Algorithm_Greedy t = new Q000_Algorithm_Greedy();
-		int[] w = { 1, 3, 0, 5, 3, 5, 6, 8, 8, 2, 12 };
-		int[] v = { 4, 5, 6, 7, 9, 9, 10, 11, 12, 14, 16 };
-		t.greedy(w, v, 30);
+		int[] w = { 77,22,29,50,99 };
+		int[] v = { 92,22,87,46,90 };
+		t.greedy(w, v, 100);
 	}
 }

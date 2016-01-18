@@ -2,10 +2,22 @@ import java.util.Arrays;
 
 
 public class Q000_Algorithm_Sort {
+	
+	/************************ Select Sort ************************/
+	// 时间O(n^2)，空间O(1)，稳定
+	void select_sort(int[] p){
+		for (int i = 0; i < p.length; i++) {
+            for (int j = i + 1; j < p.length; j++) {
+                if (p[i] > p[j]) {
+                    swap(p, i, j);
+                }
+            }
+        }
+	}
 
 	/*********************** Insert Sort **************************/
-	
-	void insert_sort(int[] p) {      // 时间O(n^2)，空间O(1)，稳定
+	// 时间O(n^2)，空间O(1)，稳定
+	void insert_sort(int[] p) {      
 		int j, key;
 		for (int i = 1; i < p.length; i++) {
 			j = i - 1;
@@ -20,8 +32,8 @@ public class Q000_Algorithm_Sort {
 
 	
 	/*********************** Bubble Sort **************************/
-	
-	void bubble_sort(int[] p) {      // 时间O(n^2)，空间O(1)，稳定
+	// 时间O(n^2)，空间O(1)，稳定
+	void bubble_sort(int[] p) {      
 		for (int i = 0; i < p.length - 1; i++) {
 			for (int j = p.length - 1; j >= i + 1; j--) {
 				if (p[j] < p[j - 1]) {
@@ -33,8 +45,8 @@ public class Q000_Algorithm_Sort {
 	
 	
 	/*********************** Merge Sort **************************/
-	
-	void recursive_merge_sort(int[] p, int x, int y){     // 时间O(n*logn)，空间O(n)，稳定
+	// 时间O(n*logn)，空间O(n)，稳定
+	void recursive_merge_sort(int[] p, int x, int y){     
 		if(x < y){
 			int m = (x+y) / 2;
 			recursive_merge_sort(p, x, m);
@@ -162,6 +174,15 @@ public class Q000_Algorithm_Sort {
 		Q000_Algorithm_Sort t = new Q000_Algorithm_Sort();
 		
 		int [] array = {2,5,3,3,3,2,35,2,1,36,6,4,9,6,7}; 
+		
+		int [] array0 = new int[array.length];
+		for(int i = 0; i < array.length; ++i)
+			array0[i] = array[i];
+		t.select_sort(array0);
+		System.out.print("Select Sort: ");
+		for(int i = 0; i < array0.length; ++i)
+			System.out.print(array0[i] + ", ");
+		System.out.println();
 		
 		int [] array1 = new int[array.length];
 		for(int i = 0; i < array.length; ++i)

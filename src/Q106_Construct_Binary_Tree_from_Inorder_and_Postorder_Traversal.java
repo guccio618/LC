@@ -21,7 +21,7 @@ public class Q106_Construct_Binary_Tree_from_Inorder_and_Postorder_Traversal {
         int inNum = inRoot - inStart;
         
         root.left = buildTree(inorder, inStart, inRoot-1, postorder, posStart, posStart+inNum-1, inMap);
-        root.right = buildTree(inorder, inRoot+1, inEnd, postorder, posStart+inNum, posEnd-1, inMap); 
+        root.right = buildTree(inorder, inRoot+1, inEnd, postorder, posStart+inNum, posEnd-1, inMap);  // 需要注意顺序
         return root;
     }
     
