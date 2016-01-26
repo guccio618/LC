@@ -45,7 +45,8 @@ public class Q000_Algorithm_Sort {
 	
 	
 	/*********************** Merge Sort **************************/
-	// 时间O(n*logn)，空间O(n)，稳定
+	// 时间稳定在O(n*logn)，空间O(n)，稳定； 但如果n足够大，开辟space O(n)费时
+	// Divide and Conquer; 先局部有序，再整体有序
 	void recursive_merge_sort(int[] p, int x, int y){     
 		if(x < y){
 			int m = (x+y) / 2;
@@ -76,9 +77,10 @@ public class Q000_Algorithm_Sort {
 
 	
 	/*********************** Quick Sort **************************/
-	
-	public void Quicksort(int[] x, int left, int right){   // 时间最理想O(n*logn)，最差O(n^2)，
-		if(left >= right) return;                          // 空间O(logn)，不稳定
+	// 时间最理想O(n*logn)，最差O(n^2)，空间O(logn)，不稳定; worse case 是整个序列倒序，此时快速排序退化成冒泡排序
+	// Divide and Conquer； 先整体有序，再局部有序； 如果不是worse case，其速度快于merge sort
+	public void Quicksort(int[] x, int left, int right){   
+		if(left >= right) return;                         
 		int i = left, j = right;
 		double pivot = (x[left]+x[right])/2.0;  // pivot必须用double
 		while(i < j){
@@ -205,7 +207,7 @@ public class Q000_Algorithm_Sort {
 		int [] array3 = new int[array.length];
 		for(int i = 0; i < array.length; ++i)
 			array3[i] = array[i];
-		t.recursive_merge_sort(array3, 0, array2.length-1);
+		t.recursive_merge_sort(array3, 0, array3.length-1);
 		System.out.print("Merge Sort:  ");
 		for(int i = 0; i < array3.length; ++i)
 			System.out.print(array3[i] + ", ");
@@ -214,7 +216,7 @@ public class Q000_Algorithm_Sort {
 		int [] array4 = new int[array.length];
 		for(int i = 0; i < array.length; ++i)
 			array4[i] = array[i];
-		t.Quicksort(array4, 0, array3.length-1);
+		t.Quicksort(array4, 0, array4.length-1);
 		System.out.print("Quick Sort:  ");
 		for(int i = 0; i < array4.length; ++i)
 			System.out.print(array4[i] + ", ");

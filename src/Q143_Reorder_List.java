@@ -4,8 +4,11 @@ import java.util.Stack;
 
 
 public class Q143_Reorder_List {
-	public ListNode reorderList(ListNode head) {  //by jackie using stack
-        if(head == null || head.next == null) return head;
+	// by Jackie using stack
+	public ListNode reorderList(ListNode head) {  
+        if(head == null || head.next == null){
+        	return head;
+        }
         Stack<ListNode> s1 = new Stack<>();       
         ListNode front = head, back = head , temp;
         int len = 1;
@@ -16,7 +19,8 @@ public class Q143_Reorder_List {
         		back = back.next;
         }
         back = back.next;
-        if(len % 2 != 0) back = back.next;
+        if(len % 2 != 0) 
+        	back = back.next;
         while(back != null){
         	s1.push(back);
         	back = back.next;
@@ -34,8 +38,8 @@ public class Q143_Reorder_List {
         		front.next = null;       		
         	}
         	else{
-        		front = front.next;
-        		front = front.next;
+        		front = front.next.next;
+//        		front = front.next;
         	}
         }
         return head;
