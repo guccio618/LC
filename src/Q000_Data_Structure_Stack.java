@@ -25,35 +25,36 @@ public class Q000_Data_Structure_Stack extends RuntimeException {
 		return (top < 0);
 	}
 
-	public void push(Object obj) throws ExceptionStackFull {
+	public void push(Object obj) throws Exception {
 		if (getSize() == capacity) {
-			throw new ExceptionStackFull("error: overflow");
+			throw new Exception("error: overflow");
 		}
 		S[++top] = obj;
 	}
 
-	public Object top() throws ExceptionStackEmpty {
+	public Object top() throws Exception {
 		if (isEmpty()) {
-			throw new ExceptionStackEmpty("error: stack is empty");
+			throw new Exception("error: stack is empty");
 		}
 		return S[top];
 	}
 
-	public Object pop() throws ExceptionStackEmpty {
+	public Object pop() throws Exception {
 		Object elem;
 		if (isEmpty()) {
-			throw new ExceptionStackEmpty("error: stack is empty");
+			throw new Exception("error: stack is empty");
 		}
 		elem = S[top];
 		S[top--] = null;
 		return elem;
 	}
 
-	/************   应用   ************/
+	/************   应用   
+	 * @throws Exception ************/
 	// (1).翻转数组
-	public static int[] ReverseArray(int[] a) {  
+	public static int[] ReverseArray(int[] a) throws Exception {  
 		int[] b = new int[a.length];
-		Stack_Array sa = new Stack_Array(a.length);
+		Q000_Data_Structure_Stack sa = new Q000_Data_Structure_Stack(a.length);
 		for (int i = 0; i < a.length; i++)
 			sa.push(a[i]);
 		for (int i = 0; i < a.length; i++)
@@ -62,8 +63,8 @@ public class Q000_Data_Structure_Stack extends RuntimeException {
 	}
 
 	// (2). 匹配括号
-	public static boolean ParenMatch(String str) {
-		Stack_Array sa = new Stack_Array(str.length());
+	public static boolean ParenMatch(String str) throws Exception {
+		Q000_Data_Structure_Stack sa = new Q000_Data_Structure_Stack(str.length());
 		for (int i = 0; i < str.length(); i++) {           //只要是左边的括号就入栈
 			if (str.charAt(i) == '(' || str.charAt(i) == '[' || str.charAt(i) == '{') {
 				sa.push(str.charAt(i));
