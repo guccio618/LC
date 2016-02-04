@@ -23,7 +23,7 @@ public class Q000_Data_Structure_PriorityQueue {
 	public String toString() {
 		return getName() + " - " + getPopulation();
 	}
-
+	
 	public static void main(String args[]) {
 		
 		//如果想实现按照自己的意愿进行优先级排列的队列的话，需要实现Comparator接口；

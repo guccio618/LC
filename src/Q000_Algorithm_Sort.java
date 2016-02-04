@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Random;
 
 
 public class Q000_Algorithm_Sort {
@@ -76,10 +77,49 @@ public class Q000_Algorithm_Sort {
 	}
 
 	
+	/*********************** Random Quick Sort **************************/
+	// 时间最理想O(n*logn)，最差O(n^2)，空间O(logn)，不稳定; worse case 是整个序列倒序，此时快速排序退化成冒泡排序
+	// Divide and Conquer； 先整体有序，再局部有序； 如果不是worse case，其速度快于merge sort
+	public int partition(int[] p, int x, int y) {
+		int i = x - 1;
+		int temp;
+		int pivot = p[y];
+		for (int j = x; j < y; j++) {
+			if (p[j] <= pivot) {
+				i++;
+				temp = p[i];
+				p[i] = p[j];
+				p[j] = temp;
+			}
+		}
+		temp = p[i + 1];
+		p[i + 1] = p[y];
+		p[y] = temp;
+		return i + 1;
+	}
+
+	public int randomized_partition(int[] p, int x, int y) {
+		int n = y - x + 1;
+		int temp;
+		int gap = new Random().nextInt(n); // 0~n-1间的随机数
+		temp = p[y];
+		p[y] = p[x + gap];
+		p[x + gap] = temp;
+		return partition(p, x, y);
+	}
+
+	public void quickSort(int[] p, int x, int y) {
+		if (x < y) {
+			int r = randomized_partition(p, x, y); // 也可以用 random_partition
+			quickSort(p, x, r - 1);
+			quickSort(p, r + 1, y);
+		}
+	}
+	
 	/*********************** Quick Sort **************************/
 	// 时间最理想O(n*logn)，最差O(n^2)，空间O(logn)，不稳定; worse case 是整个序列倒序，此时快速排序退化成冒泡排序
 	// Divide and Conquer； 先整体有序，再局部有序； 如果不是worse case，其速度快于merge sort
-	public void Quicksort(int[] x, int left, int right){   
+	public void quickSort2(int[] x, int left, int right){   
 		if(left >= right) return;                         
 		int i = left, j = right;
 		double pivot = (x[left]+x[right])/2.0;  // pivot必须用double
@@ -93,9 +133,9 @@ public class Q000_Algorithm_Sort {
 			}
 		}
 		if(j > left)                         // 分割
-			Quicksort(x, left, j);
+			quickSort2(x, left, j);
 		if(right > j+1)
-			Quicksort(x, j+1, right);		
+			quickSort2(x, j+1, right);		
 	}
 	
 	
@@ -216,7 +256,7 @@ public class Q000_Algorithm_Sort {
 		int [] array4 = new int[array.length];
 		for(int i = 0; i < array.length; ++i)
 			array4[i] = array[i];
-		t.Quicksort(array4, 0, array4.length-1);
+		t.quickSort(array4, 0, array4.length-1);
 		System.out.print("Quick Sort:  ");
 		for(int i = 0; i < array4.length; ++i)
 			System.out.print(array4[i] + ", ");
@@ -225,8 +265,8 @@ public class Q000_Algorithm_Sort {
 		int [] array5 = new int[array.length];
 		for(int i = 0; i < array.length; ++i)
 			array5[i] = array[i];
-		t.heapSort(array5);
-		System.out.print("Heap Sort:   ");
+		t.quickSort(array5, 0, array5.length-1);
+		System.out.print("Quick Sort2:  ");
 		for(int i = 0; i < array5.length; ++i)
 			System.out.print(array5[i] + ", ");
 		System.out.println();
@@ -234,10 +274,19 @@ public class Q000_Algorithm_Sort {
 		int [] array6 = new int[array.length];
 		for(int i = 0; i < array.length; ++i)
 			array6[i] = array[i];
-		t.radixSort(array5, 10, 2);
+		t.heapSort(array6);
+		System.out.print("Heap Sort:   ");
+		for(int i = 0; i < array6.length; ++i)
+			System.out.print(array6[i] + ", ");
+		System.out.println();
+		
+		int [] array7 = new int[array.length];
+		for(int i = 0; i < array.length; ++i)
+			array7[i] = array[i];
+		t.radixSort(array7, 10, 2);
 		System.out.print("Radix Sort:  ");
-		for(int i = 0; i < array5.length; ++i)
-			System.out.print(array5[i] + ", ");
+		for(int i = 0; i < array7.length; ++i)
+			System.out.print(array7[i] + ", ");
 		System.out.println();
 	}	
 }

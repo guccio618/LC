@@ -13,6 +13,7 @@ public class Q229_Majority_Element_II {
 	 * Finally, output the numbers appearing more than n/3 times.
 	 *********************************************************************************************************/
 	// by other using Moore's Voting Algorithm
+	
 	public List<Integer> majorityElement(int[] nums) {
 		ArrayList<Integer> res = new ArrayList<Integer>();
 		if (nums.length == 0) return res;
@@ -56,10 +57,7 @@ public class Q229_Majority_Element_II {
 
 	
 	/*****************************************************/
-	// by other, slow
-	
-	
-	
+	// by other, slow	
 	public List<Integer> majorityElement2(int[] nums) {
 		List<Integer> list = new ArrayList<Integer>();
 		Map<Integer, Integer> map = new HashMap<Integer, Integer>();

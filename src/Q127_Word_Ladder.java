@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -12,8 +13,71 @@ import java.util.Set;
  *		Each intermediate word must exist in the word list
  ********************************************************/
 public class Q127_Word_Ladder {
+	
+	/***********************************************************/
+	// by ninechapter using BFS of graph
+	public int ladderLength(String start, String end, Set<String> dict) {
+        if (dict == null || dict.size() == 0) {
+            return 0;
+        }
+
+        HashSet<String> hash = new HashSet<String>();
+        Queue<String> queue = new LinkedList<String>();
+        queue.offer(start);
+        hash.add(start);
+        dict.add(end);           // 必须把end加入dict
+        
+        int length = 1;          // 必须从1开始
+        while(!queue.isEmpty()) {
+            length++;
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                String word = queue.poll();     
+                for (String nextWord: findWordRange(word, dict)) {
+                    if (hash.contains(nextWord)) {
+                        continue;
+                    }
+                    if (nextWord.equals(end)) {
+                        return length;
+                    }
+                    
+                    hash.add(nextWord);
+                    queue.offer(nextWord);
+                }
+            }
+        }
+        return 0;
+    }
+	
+	public ArrayList<String> findWordRange(String word, Set<String> dict){
+        ArrayList<String> wordList = new ArrayList<String>();
+        char[] array = word.toCharArray();
+        int len = word.length();
+              
+        for (int i = 0; i < len; i++) {
+        	char temp = array[i];      //此步非常重要，因为每次只能改变一个位置，因此改动下一个位置时，需要还原前一位
+            for (char k = 'a'; k <= 'z'; k++) {
+                if(k == array[i]){
+                    continue;
+                }
+                
+                array[i] = k;
+                String newWord = new String(array);
+                if(dict.contains(newWord)){
+                    wordList.add(newWord);
+                }
+            }
+            array[i] = temp;         //此步非常重要，因为每次只能改变一个位置，因此改动下一个位置时，需要还原前一位
+        }
+        
+        return wordList;
+    }
+	
+	
+	
+	/***********************************************************/
 	//by other using BFS of graph
-	public static int ladderLength(String beginWord, String endWord, Set<String> wordList) {
+	public static int ladderLength2(String beginWord, String endWord, Set<String> wordList) {
 	    Queue<String> queue = new LinkedList<>();
 	    queue.add(beginWord);
 	    wordList.add(endWord);

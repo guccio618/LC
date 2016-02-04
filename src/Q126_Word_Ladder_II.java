@@ -14,8 +14,7 @@ public class Q126_Word_Ladder_II {
 		int level = 0;
 		boolean found = false; // flag used to stop searching for the next level
 		Queue<TreeNode> q = new LinkedList<>();
-		Map<String, Integer> map = new HashMap<>(); // map records visited node
-													// and its level
+		Map<String, Integer> map = new HashMap<>(); // map records visited node and its level
 		q.offer(new TreeNode(beginWord, null)); // beginWord is the root of
 												// tree, no parent
 		map.put(beginWord, 0);
@@ -38,6 +37,9 @@ public class Q126_Word_Ladder_II {
 					list.add(ladder);
 				} 
 				else { // change character one at a time
+					if(found){
+						continue;
+					}
 					char[] wordArray = word.toCharArray();
 					for (int j = 0; j < wordArray.length; j++) {
 						char c = wordArray[j];
@@ -48,17 +50,14 @@ public class Q126_Word_Ladder_II {
 								// if a visited node is at lower level, it won't
 								// be added again. Duplicate is allowed ONLY at
 								// same level
-								if (wordList.contains(newWord)
-										&& (!map.containsKey(newWord) || map
-												.get(newWord) == level)) {
+								if (wordList.contains(newWord) && (!map.containsKey(newWord) || map.get(newWord) == level)) {
 									map.put(newWord, level);
 									TreeNode child = new TreeNode(newWord, node);
 									q.offer(child);
 								}
 							}
 						}
-						wordArray[j] = c;   // change it back before modifying next
-											// char
+						wordArray[j] = c;   // change it back before modifying next char
 					}
 				}
 			}

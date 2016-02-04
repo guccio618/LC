@@ -18,14 +18,14 @@ public class Q084_Largest_Rectangle_in_Histogram {
 				stack.push(i);
 			} else {
 				int start = stack.pop();
-				int width = stack.empty() ? i : i - stack.peek() - 1;
+				int width = stack.empty() ? i : i - stack.peek() - 1;  // 注意，用i-stack.peek()-1保险，防止(3,6,5,2), i=2的情况，
 				area = Math.max(area, height[start] * width);
 				i--;   // 当前的height[i]由于没有入栈，因此，需要重新判断入栈
 			}
 		}
 		while (!stack.empty()) {    // 防止到最后一直是递增的情况
 			int start = stack.pop();
-			int width = stack.empty() ? height.length : height.length - stack.peek() - 1;
+			int width = stack.empty() ? height.length : height.length - stack.peek() - 1; // 注意：start为最后一个时,width = height.length, 
 			area = Math.max(area, height[start] * width);
 		}
 		return area;
@@ -63,7 +63,7 @@ public class Q084_Largest_Rectangle_in_Histogram {
 	
 	public static void main(String[] args){
 		Q084_Largest_Rectangle_in_Histogram t = new Q084_Largest_Rectangle_in_Histogram();
-		int[] height = {2,1,5,6,2,3};
+		int[] height = {3,5,5,2,5,5,6,6,4,4,1,1,2,5,5,6,6,4,1,3};
 		System.out.println(t.maxArea(height));
 	}
 }
