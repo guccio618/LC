@@ -3,6 +3,16 @@ import java.util.Iterator;
 
 
 public class Q000_Java_HashMap {
+	/**************** Hash Function ******************/
+	public int HashCode(char[] arrays, int HASH_SIZE){
+		long sum = (int)arrays[0];
+		for(int i = 1; i < arrays.length; ++i){
+			sum = sum * 33 % HASH_SIZE + (int)arrays[i];  // 防止溢出； 乘数选择prime，这里也可以是31
+		}
+		return (int)(sum % HASH_SIZE);
+	}
+	
+	
 	public static void main(String[] args){
 		HashMap<Character, Integer> map = new HashMap<Character, Integer>();
 		map.put('a', 1);

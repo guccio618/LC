@@ -81,21 +81,23 @@ public class Q000_Algorithm_Sort {
 	// 时间最理想O(n*logn)，最差O(n^2)，空间O(logn)，不稳定; worse case 是整个序列倒序，此时快速排序退化成冒泡排序
 	// Divide and Conquer； 先整体有序，再局部有序； 如果不是worse case，其速度快于merge sort
 	public int partition(int[] p, int x, int y) {
-		int i = x - 1;
+		int i = x;
 		int temp;
 		int pivot = p[y];
 		for (int j = x; j < y; j++) {
 			if (p[j] <= pivot) {
-				i++;
 				temp = p[i];
 				p[i] = p[j];
 				p[j] = temp;
+				i++;
 			}
 		}
-		temp = p[i + 1];
-		p[i + 1] = p[y];
+		
+		temp = p[i];
+		p[i] = p[y];
 		p[y] = temp;
-		return i + 1;
+		
+		return i;
 	}
 
 	public int randomized_partition(int[] p, int x, int y) {
@@ -121,7 +123,7 @@ public class Q000_Algorithm_Sort {
 	// Divide and Conquer； 先整体有序，再局部有序； 如果不是worse case，其速度快于merge sort
 	public void quickSort2(int[] x, int left, int right){   
 		if(left >= right) return;                         
-		int i = left, j = right;
+		int i = left, j = right;                  
 		double pivot = (x[left]+x[right])/2.0;  // pivot必须用double
 		while(i < j){
 			while(i < right && x[i] < pivot) i++;  // 右边界的判定
@@ -170,6 +172,34 @@ public class Q000_Algorithm_Sort {
 			heapify(A, largest, max);
 		}
 	}
+	
+	
+	/***********************   count sort   **************************/	
+	// 时间复杂度为O(n+k), 其中k为排序数的范围； 空间复杂度为O(n+k)
+	// 限制:
+	// (1). 必须知道待排序的数组的最大值range
+	// (2). 待排序数组中的元素必须为非负值
+
+	void countSort(int[] p, int range) {
+		int[] countArray = new int[range + 1];
+		int[] temp = new int[p.length];      // 与数组p一样长的临时数组
+		for (int i = 0; i < p.length; i++){
+			countArray[ p[i] ]++;
+		}
+		for (int i = 1; i < countArray.length; i++){
+			countArray[i] += countArray[i-1];
+		}
+		for (int i = p.length-1; i >= 0; i--) {
+			int value = p[i];
+			int position = countArray[value]-1;
+			temp[position] = value;
+			countArray[value] -= 1;
+		}
+		for (int i = 0; i < p.length; i++)
+			p[i] = temp[i];
+	}
+
+	
 	
 
     /***********************   radix sort   **************************/	
@@ -283,10 +313,19 @@ public class Q000_Algorithm_Sort {
 		int [] array7 = new int[array.length];
 		for(int i = 0; i < array.length; ++i)
 			array7[i] = array[i];
-		t.radixSort(array7, 10, 2);
-		System.out.print("Radix Sort:  ");
+		t.countSort(array7, 36);
+		System.out.print("Count Sort:  ");
 		for(int i = 0; i < array7.length; ++i)
 			System.out.print(array7[i] + ", ");
+		System.out.println();
+		
+		int [] array8 = new int[array.length];
+		for(int i = 0; i < array.length; ++i)
+			array8[i] = array[i];
+		t.radixSort(array8, 10, 2);
+		System.out.print("Radix Sort:  ");
+		for(int i = 0; i < array8.length; ++i)
+			System.out.print(array8[i] + ", ");
 		System.out.println();
 	}	
 }
