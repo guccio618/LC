@@ -14,9 +14,11 @@ public class Q106_Construct_Binary_Tree_from_Inorder_and_Postorder_Traversal {
     }
     
     public TreeNode buildTree(int[] inorder, int inStart, int inEnd, int[] postorder, int posStart, int posEnd, Map<Integer, Integer> inMap){
-        if(inStart > inEnd || posStart > posEnd || posEnd < 0) return null;
-        
-        TreeNode root = new TreeNode(postorder[posEnd]);
+        if(inStart > inEnd || posStart > posEnd || posEnd < 0) {
+        	return null;
+        }
+        // root表示当前子树的根结点
+        TreeNode root = new TreeNode(postorder[posEnd]);  // 注意此时用posEnd，不同于105的preStart；中序和后序的区别在于后序的最后一个
         int inRoot = inMap.get(root.val);
         int inNum = inRoot - inStart;
         

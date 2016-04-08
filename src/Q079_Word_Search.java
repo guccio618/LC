@@ -40,8 +40,9 @@ public class Q079_Word_Search {
         
         for(int i = 0; i < row; ++i)
             for(int j = 0; j < column; ++j)
-                if(backtrack(letters, 0, board, i, j, row, column, visited) == true)
+                if(backtrack(letters, 0, board, i, j, row, column, visited) == true){
                     return true;
+                }
         
         return false;
     }

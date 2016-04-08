@@ -6,23 +6,23 @@ import java.util.Set;
 
 public class Q140_Word_Break_II {
 	/********************************************************/
-	// by other using memorizing space
+	// by other using memorizing space O(n);
 	public List<String> wordBreak(String s, Set<String> wordDict) {
 		List<String> result = new LinkedList<String>();
-		if (s == null || s.length() == 0 || wordDict.size() == 0)
+		if (s == null || s.length() == 0 || wordDict.size() == 0){
 			return result;
+		}
 		return getBreaks(s, wordDict, 0, new List[s.length()]);
 	}
 
-	public List<String> getBreaks(String s, Set<String> wordDict, int pos,
-			List<String>[] memo) {
+	public List<String> getBreaks(String s, Set<String> wordDict, int start, List<String>[] memo) {
 		List<String> result = new LinkedList<String>();
-		if (pos == s.length()) {
+		if (start == s.length()) {
 			result.add("");
 			return result;
 		}
-		for (int index = pos, len = s.length(); index < len; ++index) {
-			String curStr = s.substring(pos, index + 1);
+		for (int index = start, len = s.length(); index < len; ++index) {
+			String curStr = s.substring(start, index + 1);
 			if (wordDict.contains(curStr)) {
 				if (memo[index] == null) {
 					memo[index] = getBreaks(s, wordDict, index + 1, memo);
@@ -72,8 +72,52 @@ public class Q140_Word_Break_II {
 			helper(pointer, s, item - 1, nextPattern);
 		}
 	}
+	
+	
+	
+	/*******************************************************************/
+	// by Jackie, but exceed time limit
+	public List<String> wordBreak3(String s, Set<String> wordDict) {
+		if (s == null || s.length() == 0 || wordDict.size() == 0){
+			return new LinkedList<String>();
+		}
+		
+		int maxLen = getLen(wordDict);
+		int n = s.length();
+		List<String>[] memo = new List[s.length()]; 
+		
+		for(int i = 0; i < n; ++i){
+			memo[i] = new ArrayList<String>();
+			for(int lastWordLen = 0; lastWordLen < maxLen && i - lastWordLen >= 0; ++lastWordLen){
+				String newStr = s.substring(i - lastWordLen, i + 1);
+				if(wordDict.contains(newStr)){
+					int last = i - lastWordLen - 1;
+					if(i - lastWordLen == 0){
+						memo[i].add(newStr);
+					} else if(memo[last] != null){
+						for(String str : memo[last]){
+							memo[i].add(str + " " + newStr);
+						}
+					}
+				}
+				
+	        }
+	    }
 
-	/********************************************************/
+		return memo[n - 1];
+	}
+	
+	public int getLen(Set<String> wordDict){
+		int maxLen = 0;
+		for(String str : wordDict){
+			maxLen = Math.max(maxLen, str.length());
+		}
+		return maxLen;
+	}
+	
+	
+
+	/*************************** main function *****************************/
 	public static void main(String[] args) {
 		Q140_Word_Break_II t = new Q140_Word_Break_II();
 		String s = "catsanddog";

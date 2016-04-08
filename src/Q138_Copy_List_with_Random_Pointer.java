@@ -32,7 +32,7 @@ public class Q138_Copy_List_with_Random_Pointer {
             pre = newNode;
             head = head.next;
         }
-
+        
         return dummy.next;
     }
 }

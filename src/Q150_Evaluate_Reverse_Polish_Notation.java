@@ -2,6 +2,7 @@ import java.util.Stack;
 
 
 public class Q150_Evaluate_Reverse_Polish_Notation {
+	// by Jackie
 	public int evalRPN(String[] tokens) {
 		if(tokens.length == 0) return 0;
         Stack<Integer> s = new Stack<>();
@@ -23,6 +24,8 @@ public class Q150_Evaluate_Reverse_Polish_Notation {
             }
             else s.push(Integer.parseInt(tokens[i]));  
         }
+        
+        System.out.println(Integer.MAX_VALUE + ", " + Integer.MIN_VALUE);
         return s.pop();
     }
 	

@@ -8,9 +8,13 @@ import java.util.Queue;
 /*******************************************/
 
 public class Q107_Binary_Tree_Level_Order_Traversal_II {
-	public ArrayList<ArrayList<Integer>> levelOrderBottom(TreeNode root) { //by jackie
+	//by jackie
+	public ArrayList<ArrayList<Integer>> levelOrderBottom(TreeNode root) { 
 		ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
-        if(root == null) return res;
+        if(root == null) {
+        	return res;
+        }
+        
         ArrayList<Integer> temp_list = new ArrayList<Integer>();
         int count = 1;
         Queue<TreeNode> queue = new LinkedList<TreeNode>();

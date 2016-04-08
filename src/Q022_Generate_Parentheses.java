@@ -7,8 +7,36 @@ import java.util.Stack;
 
 public class Q022_Generate_Parentheses {
 	/********************************************************/
+	// by other
+	public List<String> generateParenthesis(int n) {
+        List<String> ans = new ArrayList<String>();
+        if(n <= 0){
+            return ans;
+        }
+        
+        backtrack(ans, "", 0, 0, n);
+        return ans;
+    }
+    
+    public void backtrack(List<String> ans, String str, int openNum, int closeNum, int n){
+        if(str.length() == n * 2){
+            ans.add(str);
+            return ;
+        }
+        
+        if(openNum < n){
+            backtrack(ans, str + "(", openNum + 1, closeNum, n);
+        }
+        if(closeNum < openNum){        // closeNum 对比的对象是 openNum, 表示紧跟"("， 一旦少于"("数，则马上加上")"
+            backtrack(ans, str + ")", openNum, closeNum + 1, n);
+        }
+    }
+    
+    
+    
+	/********************************************************/
 	// by ninechapter
-	public ArrayList<String> generateParenthesis(int n) {
+	public ArrayList<String> generateParenthesis2(int n) {
         ArrayList<String> result = new ArrayList<String>();
         if (n <= 0) {
             return result;
@@ -41,7 +69,7 @@ public class Q022_Generate_Parentheses {
 	private List<String> res = new LinkedList<String>();
 	private HashSet<String> set = new HashSet<String>();
 	
-    public List<String> generateParenthesis2(int n) {
+    public List<String> generateParenthesis3(int n) {
         if(n <= 0){
             return res;
         }

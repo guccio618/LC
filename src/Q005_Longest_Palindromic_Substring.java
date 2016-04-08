@@ -8,58 +8,76 @@ public class Q005_Longest_Palindromic_Substring {
 	
 	//by other using string operation
 	public String longestPalindrome(String s) {
-        if(s == null || s.length() == 0) return s;
+        if(s == null || s.length() == 0){ 
+        	return s;
+        }
         int n = s.length();
         int min_start = 0;
         int max_len = 1;
+        char[] array = s.toCharArray();
         
         for (int i = 0; i < n;) {
-            if (n - i <= max_len / 2) break;
+            if (n - i <= max_len / 2){
+            	break;
+            }
             int front = i, back = i;
-            while (back < n-1 && s.charAt(back+1) == s.charAt(back)) {  // Skip duplicate characters. 
+            while (back < n-1 && array[back + 1] == array[back]) {  // Skip duplicate characters. 
                 ++back; 
             }
             i = back + 1;
-            while (back < n-1 && front > 0 && s.charAt(back+1) == s.charAt(front-1)) {  // Expand.
+            while (back < n-1 && front > 0 && array[back + 1] == array[front - 1]) {  // Expand.
                 ++back;
                 --front;
             } 
-            if ( (back-front+1) > max_len){
+            if ( (back-front+1) > max_len ){
                 min_start = front;
                 max_len = (back-front+1);
             }
         }
+        
         return s.substring(min_start, min_start + max_len);
     }
 		
-	//by other using DP, but sometimes will cause time limit exceeded
+	
+	//by Jackie using DP
 	public String longestPalindrome2(String s) {
-        if(s == null || s.length() == 0) return s;
-        int n = s.length();
-        boolean res[][] = new boolean[n][n];
-        int max = 1;
-        int startPos = 0;
-    
-        for(int j = 0; j < n; j++){
-            for(int i = j; i < n; i++)
-                res[i][j] = true;
+		if(s == null || s.length() <= 1){
+            return s;
         }
-            
-        for(int j = 1; j < n; j++){
-            for(int i = 0; i < j; i++){
-                if(s.charAt(i) == s.charAt(j)){
-                    res[i][j] = res[i+1][j-1];
-                    if(res[i][j] == true && j - i + 1 > max){
-                        max = j - i + 1;
-                        startPos = i;
-                    }
-                }
-                else
-                    res[i][j] = false;
+        
+        char[] array = s.toCharArray();
+        int maxLen = 1;
+        int pos = 0;
+        int len = s.length();
+        boolean[][] dp = new boolean[len][len];
+        
+        for(int i = 0; i < len; ++i){
+            dp[i][i] = true;
+        }
+        
+        for(int i = 1; i < len; ++i){
+            dp[i - 1][i] = (array[i - 1] == array[i]);
+            if(dp[i - 1][i] == true){
+                maxLen = 2;
+                pos = i - 1;
             }
         }
-        return s.substring(startPos, startPos+max);
+        
+        for(int length = 2; length < len; ++length){
+            for(int start = 0; start + length < len; ++start){
+                dp[start][start + length] = dp[start + 1][start + length - 1] && ( array[start] == array[start + length] );
+                if(dp[start][start + length] == true && maxLen <= length + 1){
+                    maxLen = length + 1;
+                    pos = start;
+                }
+            }
+        }
+        
+        return s.substring(pos, pos + maxLen);
     }
+	
+	
+	
 	
 	public static void main(String[] args){
 		Q005_Longest_Palindromic_Substring test = new Q005_Longest_Palindromic_Substring();

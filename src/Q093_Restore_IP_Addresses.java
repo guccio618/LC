@@ -1,34 +1,40 @@
 import java.util.LinkedList;
 
 public class Q093_Restore_IP_Addresses {
+	// by other
+	// test case = "0000"
 	public LinkedList<String> restoreIpAddresses(String s) {
 		LinkedList<String> res = new LinkedList<String>();
-        if(s==null || s.length() < 4 || s.length() > 12) return res;
-        helper(s, 0, res, new LinkedList<String>());
-        return res;
-    }
+		if (s == null || s.length() < 4 || s.length() > 12) {
+			return res;
+		}
+		backtrack(s, 0, res, new LinkedList<String>());
+		return res;
+	}
 
-    public void helper(String s, int startIndex, LinkedList<String> res, LinkedList<String> path){
-        if(path.size() == 4){
+	public void backtrack(String s, int startIndex, LinkedList<String> ans, LinkedList<String> solution) {
+		if(solution.size() == 4){
             if(startIndex == s.length()){
-                String str = "";
-                for(int i = 0; i < 4; i++){
-                    str += path.get(i);
-                    if(i != 3) str += '.';
+                StringBuffer builder = new StringBuffer();
+                builder.append(solution.get(0));
+                for(int i = 1; i < solution.size(); ++i){
+                    builder.append(".").append(solution.get(i));
                 }
-                res.add(str);
+                ans.add(builder.toString());
             }
             return;
-        }
+        } 
 
-        for(int i = startIndex; i < startIndex + 3 && i < s.length(); i++){
-            if(s.charAt(startIndex) == '0' && i != startIndex) break;
-            String cur = s.substring(startIndex, i+1);
-            if(Integer.valueOf(cur) <= 255){
-                path.add(cur);
-                helper(s, i+1, res, path);
-                path.remove(path.size()-1);
+		for(int endIndex = startIndex; endIndex < startIndex + 3 && endIndex < s.length(); ++endIndex){
+            if(s.charAt(startIndex) == '0' && endIndex != startIndex){
+                break;
+            }
+            String currentStr =s.substring(startIndex, endIndex + 1);
+            if(Integer.parseInt(currentStr) <= 255){
+                solution.add(currentStr);
+                backtrack(s, endIndex + 1, ans, solution);
+                solution.remove(solution.size() - 1);
             }
         }
-    }
+	}
 }

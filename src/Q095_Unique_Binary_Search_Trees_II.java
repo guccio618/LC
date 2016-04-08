@@ -1,14 +1,45 @@
-import java.awt.List;
+import java.util.List;
 import java.util.ArrayList;
 
 
 public class Q095_Unique_Binary_Search_Trees_II {
+	public List<TreeNode> generateTrees(int n) {
+        if(n <= 0){
+            return new ArrayList<TreeNode>();
+        }
+        return helper(1, n);
+    }
+    
+    public List<TreeNode> helper(int start, int end){
+        List<TreeNode> ans = new ArrayList<TreeNode>();
+        if(start > end){
+            ans.add(null);
+            return ans;
+        }
+        
+        for(int i = start; i <= end; ++i){
+            List<TreeNode> leftTree = helper(start, i - 1);
+            List<TreeNode> rightTree = helper(i + 1, end);
+            for(TreeNode l : leftTree){
+                for(TreeNode r : rightTree){
+                    TreeNode node = new TreeNode(i);
+                    node.left = l;
+                    node.right = r;
+                    ans.add(node);
+                }
+            }
+        }
+        
+        return ans;
+    }
+	
+	
 	
 	/*******************************   recursive + DP   ***********************************/
 	// by other, Recursive with memoization
 	// treesForRange used for store the sub-tree, 其为一个ArrayList的二维数组,
 	// 存放从node i到j的所有可能的子树组合的ArrayList
-	public ArrayList<TreeNode> generateTrees(int n) {  
+	public ArrayList<TreeNode> generateTrees2(int n) {  
 		ArrayList<TreeNode>[][] treesForRange = (ArrayList<TreeNode>[][]) new ArrayList[n+2][n+1];
         helper(1, n, treesForRange);
         return treesForRange[1][n];
@@ -42,7 +73,7 @@ public class Q095_Unique_Binary_Search_Trees_II {
     // DP, compute and store trees for intermediate ranges from 1 to n
     // time: exponential, since for each range the number of trees is combinatorial
     // space: O(n^2)
-    public ArrayList<TreeNode> generateTrees2(int n) {
+    public ArrayList<TreeNode> generateTrees3(int n) {
         if (n == 0) {
         	ArrayList<TreeNode> result = new ArrayList<TreeNode>();
             result.add(null);
@@ -87,6 +118,6 @@ public class Q095_Unique_Binary_Search_Trees_II {
     
     public static void main(String[] args){
     	Q095_Unique_Binary_Search_Trees_II t = new Q095_Unique_Binary_Search_Trees_II();
-    	ArrayList<TreeNode> list = t.generateTrees(3);
+    	ArrayList<TreeNode> list = (ArrayList<TreeNode>) t.generateTrees(3);
     	    }
 }

@@ -17,14 +17,14 @@ public class Q331_Verify_Preorder_Serialization_of_a_Binary_Tree {
         String[] strs = preorder.split(",");
         for (int pos = 0; pos < strs.length; pos++) {
             String curr = strs[pos];
-            while (curr.equals("#") && !st.isEmpty() && st.peek().equals(curr)) { // 最后将curr=#入栈，表示遍历完毕
+            while (curr.equals("#") && !st.isEmpty() && st.peek().equals(curr)) { // 按照#+#+num对进行剔除，完成后压入一个#表示遍历过
                 st.pop();
                 if (st.isEmpty()) {
                     return false;
                 }
                 st.pop();
             }
-            st.push(curr);
+            st.push(curr);  // 此步骤可以把#压入栈
         }
         return st.size() == 1 && st.peek().equals("#");  // 这里的#表示已经遍历完毕
     }

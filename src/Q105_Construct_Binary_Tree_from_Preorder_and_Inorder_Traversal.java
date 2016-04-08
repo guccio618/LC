@@ -16,8 +16,10 @@ public class Q105_Construct_Binary_Tree_from_Preorder_and_Inorder_Traversal {
 	}
 
 	public TreeNode buildTree(int[] preorder, int preStart, int preEnd, int[] inorder, int inStart, int inEnd, Map<Integer, Integer> inMap) {
-	    if(preStart > preEnd || inStart > inEnd) return null;
-
+	    if(preStart > preEnd || inStart > inEnd) {   // 注意退出条件！！！
+	    	return null;
+	    }
+	    // root表示当前子树的根结点
 	    TreeNode root = new TreeNode(preorder[preStart]);
 	    int inRoot = inMap.get(root.val);
 	    int numsLeft = inRoot - inStart;

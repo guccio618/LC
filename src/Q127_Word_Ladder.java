@@ -21,27 +21,27 @@ public class Q127_Word_Ladder {
             return 0;
         }
 
-        HashSet<String> hash = new HashSet<String>();
+        HashSet<String> visited = new HashSet<String>();
         Queue<String> queue = new LinkedList<String>();
         queue.offer(start);
-        hash.add(start);
+        visited.add(start);
         dict.add(end);           // 必须把end加入dict
         
         int length = 1;          // 必须从1开始
         while(!queue.isEmpty()) {
             length++;
-            int size = queue.size();
+            int size = queue.size();  // 设置size,相当于层序遍历
             for (int i = 0; i < size; i++) {
                 String word = queue.poll();     
                 for (String nextWord: findWordRange(word, dict)) {
-                    if (hash.contains(nextWord)) {
+                    if (visited.contains(nextWord)) {
                         continue;
                     }
                     if (nextWord.equals(end)) {
                         return length;
                     }
                     
-                    hash.add(nextWord);
+                    visited.add(nextWord);
                     queue.offer(nextWord);
                 }
             }

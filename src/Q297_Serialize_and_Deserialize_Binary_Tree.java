@@ -1,51 +1,68 @@
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
 
 public class Q297_Serialize_and_Deserialize_Binary_Tree {
-	// by other
+	// by ninechapter
 	// Encodes a tree to a single string.
     public String serialize(TreeNode root) {
-        if (root == null) return "";
-        Queue<TreeNode> q = new LinkedList<>();
-        StringBuilder res = new StringBuilder();
-        q.add(root);
-        
-        while (!q.isEmpty()) {    // 注意： 此处treenode = null的处理，不同于tree的level travel
-            TreeNode node = q.poll();
-            if (node == null) {
-                res.append("n ");
-                continue;
-            }
-            res.append(node.val + " ");
-            q.add(node.left);
-            q.add(node.right);
+    	if(root == null){
+            return "";
         }
-        return res.toString();
+        Queue<TreeNode> q = new LinkedList<TreeNode>();
+        q.add(root);
+        StringBuffer serial = new StringBuffer();
+        int lastPos = 0;
+        
+        while(!q.isEmpty()){
+            TreeNode node = q.poll();
+            if(node != null){
+                serial.append(node.val).append(",");
+                q.add(node.left);
+                q.add(node.right);
+                lastPos = serial.length() - 2;
+            } else {
+                serial.append("#,");
+            }
+        }
+        
+        return serial.substring(0, lastPos + 1);
     }
 
     // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
-        if (data == "") 
-        	return null;
-        Queue<TreeNode> q = new LinkedList<>();
-        String[] values = data.split(" ");
-        TreeNode root = new TreeNode(Integer.parseInt(values[0]));
-        q.add(root);
-        
-        for (int i = 1; i < values.length; i++) {
-            TreeNode parent = q.poll();
-            if (!values[i].equals("n")) {   // 左子树不为null
-                TreeNode left = new TreeNode(Integer.parseInt(values[i]));
-                parent.left = left;
-                q.add(left);
-            }
-            if (!values[++i].equals("n")) { // 右子树不为null
-                TreeNode right = new TreeNode(Integer.parseInt(values[i]));
-                parent.right = right;
-                q.add(right);
-            }
+    	if(data == null || data.equals("")){
+            return null;
         }
+        
+        String[] array = data.split(",");
+        int n = array.length;
+        if(array[0].equals("#")){
+            return null;
+        }
+        TreeNode root = new TreeNode(Integer.parseInt(array[0]));
+        ArrayList<TreeNode> list = new ArrayList<TreeNode>();
+        list.add(root);
+        int index = 0;
+        boolean isLeftChild = true;
+        
+        for(int i = 1; i < n; ++i){
+            if(!array[i].equals("#")){
+                TreeNode node = new TreeNode(Integer.parseInt(array[i]));
+                if(isLeftChild == true){
+                    list.get(index).left = node;
+                } else{
+                    list.get(index).right = node;
+                }
+                list.add(node);    // 注意，不能漏掉这一步！！！
+            }
+            if(isLeftChild == false){
+                index++;
+            }
+            isLeftChild = !isLeftChild;
+        }
+        
         return root;
     }
 }

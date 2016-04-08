@@ -6,17 +6,16 @@ public class Q222_Count_Complete_Tree_Nodes {
 	public int countNodes(TreeNode root) {
 		int h = height(root);
 		int nodeCount = 0;
-
+		
 		while (root != null) {
-			if (height(root.right) == h - 1) { // Left is full. Add left plus
-												// root.
-				nodeCount += (1 << h); // 2^(h) - 1 + 1
-				root = root.right;
-			} else { // Right is full. Add right plus root.
+			if (height(root.right) == h - 1) { // Left is full and height of left is h - 1 and has h levels. Add left plus root, 2^h - 1 + 1.
+				nodeCount += (1 << h);         // 2^(h) - 1 + 1
+				root = root.right;				
+			} else {                           // Right is full and height of right is h - 2 and has h - 1 levels. Add right plus root 2^(h-1) - 1 + 1.
 				nodeCount += (1 << h - 1);
 				root = root.left;
 			}
-			h--;
+			h--;           // 需要注意每次循环里h要--
 		}
 		return nodeCount;
 	}
@@ -84,5 +83,18 @@ public class Q222_Count_Complete_Tree_Nodes {
 		if (root.right != null)
 			count += countNodes3(root.right);
 		return count;
+	}
+	
+	
+	
+	public static void main(String[] args){
+		Q222_Count_Complete_Tree_Nodes t = new Q222_Count_Complete_Tree_Nodes();
+		TreeNode root = new TreeNode(1);
+		root.left = new TreeNode(1);
+		root.right = new TreeNode(1);
+		root.left.left = new TreeNode(1);
+		root.left.right = new TreeNode(1);
+		System.out.println(t.countNodes(root));
+		
 	}
 }

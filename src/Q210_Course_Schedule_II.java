@@ -1,8 +1,67 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Queue;
 
 
 public class Q210_Course_Schedule_II {
+	/****************************************************/
+	// by Jackie
+	public int[] findOrder(int numCourses, int[][] prerequisites) {
+        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();    
+        HashSet<Integer>[] graph = new HashSet[numCourses];
+        Queue<Integer> q = new LinkedList<Integer>();
+        int[] ans = new int[numCourses];
+        int index = 0;
+        
+        for(int i = 0; i < numCourses; ++i){
+            graph[i] = new HashSet<Integer>();
+        }
+        
+        for(int row = 0; row < prerequisites.length; ++row){
+            if(graph[prerequisites[row][1]].contains(prerequisites[row][0])){   
+        		continue;
+        	}
+            graph[prerequisites[row][1]].add(prerequisites[row][0]);
+            if(map.containsKey(prerequisites[row][0])){
+                map.put(prerequisites[row][0], map.get(prerequisites[row][0]) + 1);
+            } else {
+                map.put(prerequisites[row][0], 1);
+            }
+        }
+        
+        for(int i = 0; i < graph.length; ++i){
+            if(!map.containsKey(i)){
+                q.offer(i);
+            }
+        }
+        
+        if(q.isEmpty()){
+            return new int[0];
+        }
+        
+        while(!q.isEmpty()){
+            int temp = q.poll();
+            ans[index++] = temp;
+            for(int nextClass : graph[temp]){
+                if(map.containsKey(nextClass)){
+                    int count = map.get(nextClass);
+                    if(count == 1){
+                        map.remove(nextClass);
+                        q.offer(nextClass);
+                    } else {
+                        map.put(nextClass, count - 1);
+                    }
+                }
+            }
+        }
+        
+        return map.size() == 0 ? ans : new int[0];
+    }
+	
+	
+	
 	/****************************************************/
 	// by other, faster
 	public int[] findOrder2(int numCourses, int[][] prerequisites) {
@@ -43,13 +102,15 @@ public class Q210_Course_Schedule_II {
 	    return i+1;
 	}
 	
+	
+	
 	/****************************************************/
 	// by Jackie
 	private LinkedList<Integer>[] course;
 	private int[] visited;
 	private LinkedList<Integer> res = new LinkedList<Integer>();
 	
-	public int[] findOrder(int numCourses, int[][] prerequisites) {
+	public int[] findOrder3(int numCourses, int[][] prerequisites) {
 		visited = new int[numCourses];    
 		course = new LinkedList[numCourses];
 		for(int i = 0; i < numCourses; ++i)

@@ -1,10 +1,13 @@
 import java.util.LinkedList;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 
 public class Q131_Palindrome_Partitioning {
 	/********************************************************/
 	// by Jackie using backtrack
 	private LinkedList<LinkedList<String>> res = new LinkedList<LinkedList<String>>();
+	private Queue<Double> maxHeap = new PriorityQueue<Double>();
     
     public LinkedList<LinkedList<String>> partition(String s) {
         if(s == null) return res;

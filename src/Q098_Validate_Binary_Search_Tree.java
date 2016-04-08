@@ -4,8 +4,13 @@ import java.util.Stack;
 
 
 public class Q098_Validate_Binary_Search_Tree {
+	/*************************************************
+	 * test case: [0]
+	 * test case: [Integer.MIN_VALUE]
+	 *************************************************/
 	// by other using inorder_recursive
-	long tmp =Long.MIN_VALUE;
+	
+	long tmp =Long.MIN_VALUE;    // 防止输入为Integer.MIN_VALUE时的情况
     public boolean isValidBST(TreeNode root) {
         if(root != null){
             boolean left = isValidBST(root.left);

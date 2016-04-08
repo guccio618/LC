@@ -4,13 +4,17 @@ public class Q230_Kth_Smallest_Element_in_a_BST {
 	int count = 0;
 	
 	public int kthSmallest(TreeNode root, int k) {
-        if(root == null) return 0;      
+        if(root == null) {
+        	return 0;      
+        }
         inOrder(root, k);
         return res;
     }
     
     public void inOrder(TreeNode node, int k){
-        if(node == null) return ;
+        if(node == null) {
+        	return ;
+        }
         inOrder(node.left, k); 
         count++;
         if(count == k){

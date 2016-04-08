@@ -2,16 +2,34 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Set;
 import java.util.Stack;
 
 
-public class Q332_Reconstruct_Itinerary {
+public class Q332_Reconstruct_Itinerary {	
+	public List<String> findItinerary(String[][] tickets) {
+	    Map<String, PriorityQueue<String>> targets = new HashMap<>();
+	    for (String[] ticket : tickets)
+	        targets.computeIfAbsent(ticket[0], k -> new PriorityQueue()).add(ticket[1]);
+	    List<String> route = new LinkedList();
+	    Stack<String> stack = new Stack<>();
+	    stack.push("JFK");
+	    while (!stack.empty()) {
+	        while (targets.containsKey(stack.peek()) && !targets.get(stack.peek()).isEmpty())
+	            stack.push(targets.get(stack.peek()).poll());
+	        route.add(0, stack.pop());
+	    }
+	    return route;
+	}
+	
+	
 	// by other
-	@SuppressWarnings("unchecked")
 	public List<String> findItinerary2(String[][] tickets) {
         List<String> res = new ArrayList<String>();
         if(tickets == null || tickets.length == 0 || tickets[0].length == 0){
@@ -44,12 +62,10 @@ public class Q332_Reconstruct_Itinerary {
         
         while (!stack.empty()) {
             while (map.containsKey(stack.peek()) && !map.get(stack.peek()).isEmpty()){
-                stack.push(map.get(stack.peek()).poll());
+                stack.push(map.get(stack.peek()).poll());   // 保证顺序的进行，poll出去后，下次就不会再访问了，类似visited的作用
             }
-            System.out.print(stack.peek() + ", ");
             res.add(0, stack.pop());
         }
-        System.out.println();
         return res;
     }
 	
@@ -59,7 +75,8 @@ public class Q332_Reconstruct_Itinerary {
 		Q332_Reconstruct_Itinerary t = new Q332_Reconstruct_Itinerary();
 		String[][] tickets = {{"JFK","KUL"},{"JFK","NRT"},{"NRT","JFK"}};
 		String[][] tickets2 = {{"JFK","SFO"},{"JFK","ATL"},{"SFO","ATL"},{"ATL","JFK"},{"ATL","SFO"}};
-		List<String> res = t.findItinerary2(tickets);
+		String[][] tickets3 = {{"MUC","LHR"},{"JFK","MUC"},{"SFO","SJC"},{"LHR","SFO"}};
+		List<String> res = t.findItinerary2(tickets2);
 		for(int i = 0; i < res.size(); ++i){
 			System.out.print(res.get(i) + ", ");
 		}

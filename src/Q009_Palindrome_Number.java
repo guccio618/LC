@@ -2,22 +2,18 @@
 public class Q009_Palindrome_Number {
 	// by Jackie
 	public static boolean isPalindrome(int x) {
-	    if (x < 0) return false;
-	    long t = 0;
-	    int temp = x;
-	    while (temp > 0) {
-	    	t = t*10 + temp%10;
-	    	temp /= 10;
-	    }
-	    
-	    while(x > 0){
-	    	int first = x % 10;
-	    	int last = (int)(t % 10);
-	    	if(first != last) return false;
-	    	x /= 10;
-	    	t /= 10;    	
-	    }
-	    return true;
+		if(x < 0 || x >= Integer.MAX_VALUE){
+            return false;
+        }
+        
+        int sum = 0, tempNum = x;
+        
+        while(tempNum != 0){  // 123
+            sum = sum * 10 + tempNum % 10;
+            tempNum /= 10;
+        }
+        
+        return sum == x;
 	}
 	
 	

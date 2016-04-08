@@ -4,8 +4,46 @@ import java.util.Stack;
 
 
 public class Q143_Reorder_List {
+	/***********************************************/
 	// by Jackie using stack
-	public ListNode reorderList(ListNode head) {  
+	public void reorderList(ListNode head) {
+        if(head == null || head.next == null){
+            return ;
+        }
+        
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode fast = dummy, slow = dummy;
+        
+        while(fast != null && fast.next != null){
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        
+        Stack<ListNode> s = new Stack<ListNode>();
+        ListNode start = head;
+        slow = slow.next;
+        
+        while(slow != null){
+            s.push(slow);
+            slow = slow.next;
+        }
+        
+        while(!s.isEmpty()){
+            ListNode temp = s.pop();
+            temp.next = start.next;
+            start.next = temp;
+            start = start.next.next;
+        }
+
+        start.next = null;
+    }
+	
+
+	
+	/***********************************************/
+	// by Jackie using stack
+	public ListNode reorderList2(ListNode head) {  
         if(head == null || head.next == null){
         	return head;
         }
@@ -45,8 +83,20 @@ public class Q143_Reorder_List {
         return head;
     }
 	
+	
+	
 	public static void main(String[] args){
 		Q143_Reorder_List r = new Q143_Reorder_List();
+//		ListNode head = new ListNode(1);
+//		ListNode node = head;
+//		node.next = new ListNode(2);
+//		node = node.next;
+//		node.next = new ListNode(3);
+//		node = node.next;
+//		node.next = new ListNode(4);
+//		node = node.next;
+		
+		
 		ListNode head = new ListNode(1);
 		head.Insert(head, 2);
 		head.Insert(head, 3);
@@ -56,6 +106,7 @@ public class Q143_Reorder_List {
 		head.Insert(head, 7);
 		head.Insert(head, 8);
 		head.Insert(head, 9);
-		head.Display(r.reorderList(head));		
+		r.reorderList(head);
+		head.Display(head);		
 	}
 }

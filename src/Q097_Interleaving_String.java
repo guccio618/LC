@@ -34,7 +34,6 @@ public class Q097_Interleaving_String {
                 break;
         }
         
-        
         for(int i = 1; i <= len1; ++i){
             for(int j = 1; j <= len2; ++j){
                 k = i + j;
@@ -48,4 +47,11 @@ public class Q097_Interleaving_String {
         }
         return dp[len1][len2];
     }
+	
+	
+	
+	public static void main(String[] args){
+		Q097_Interleaving_String t = new Q097_Interleaving_String();
+		System.out.println(t.isInterleave("abb", "a", "aabb"));
+	}
 }

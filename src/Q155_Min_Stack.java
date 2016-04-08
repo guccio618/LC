@@ -1,43 +1,84 @@
 import java.util.ArrayList;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Stack;
 
 
 public class Q155_Min_Stack {
-	int min = Integer.MAX_VALUE;
-    int min_count = 0;
-    ArrayList<Integer> a = new ArrayList<Integer> ();
+	// by ninechapter uses stack to record the current minimum value, nice!
+	private Stack<Integer> s = new Stack<Integer>();
+    private Stack<Integer> minStack = new Stack<Integer>();
     
     public void push(int x) {
-        a.add(x);
-        if(x < min){
-            min = x;
-            min_count = 1;
+        s.push(x);
+        if(minStack.isEmpty()){
+            minStack.push(x);
+        } else {
+            minStack.push(Math.min(x, minStack.peek()));
         }
-        else if(min == x)
-            min_count++;
     }
 
     public void pop() {
-    	if(a.isEmpty()) return;
-        if(a.get(a.size()-1) == min)
-            min_count--;
-        a.remove(a.size()-1);
-        if(min_count == 0){
-            min = Integer.MAX_VALUE;
-            for(int i = 0; i < a.size(); i++){
-                if(min > a.get(i))
-                    min = a.get(i);
-            }
-            min_count++;
+        if(s.isEmpty()){
+            return;
         }
+        s.pop();
+        minStack.pop();
     }
 
     public int top() {
-        return a.get(a.size()-1);
+        if(s.isEmpty()){
+            return -1;
+        } 
+        return s.peek();
     }
 
     public int getMin() {
-        return min;
+        if(minStack.isEmpty()){
+            return -1;
+        }
+        return minStack.peek();
     }
+	
+	
+	
+    // by other using linkedlist
+//	int min = Integer.MAX_VALUE;
+//    int min_count = 0;
+//    ArrayList<Integer> a = new ArrayList<Integer> ();
+//    
+//    public void push(int x) {
+//        a.add(x);
+//        if(x < min){
+//            min = x;
+//            min_count = 1;
+//        }
+//        else if(min == x)
+//            min_count++;
+//    }
+//
+//    public void pop() {
+//    	if(a.isEmpty()) return;
+//        if(a.get(a.size()-1) == min)
+//            min_count--;
+//        a.remove(a.size()-1);
+//        if(min_count == 0){
+//            min = Integer.MAX_VALUE;
+//            for(int i = 0; i < a.size(); i++){
+//                if(min > a.get(i))
+//                    min = a.get(i);
+//            }
+//            min_count++;
+//        }
+//    }
+//
+//    public int top() {
+//        return a.get(a.size()-1);
+//    }
+//
+//    public int getMin() {
+//        return min;
+//    }
     
     public static void main(String[] args){
     	Q155_Min_Stack ms = new Q155_Min_Stack();

@@ -1,7 +1,32 @@
 
 public class Q045_Jump_Game_II {
-	//by ninechapter using DP
+	// by Jackie using Greedy, time complexity O(n)
 	public int jump(int[] nums) {
+        if(nums == null || nums.length <= 1){
+            return 0;
+        }
+        
+        int curFast = nums[0];
+        int nextFast = nums[0];
+        int n = nums.length;
+        int index = 0;
+        int count = 1;
+        
+        while(curFast < n - 1){
+            count++;
+            while(index <= curFast){
+                nextFast = Math.max(nextFast, index + nums[index]);
+                index++;
+            }
+            curFast = nextFast;
+        }
+        
+        return count;
+    }
+	
+	
+	//by ninechapter using DP
+	public int jump2(int[] nums) {
         int[] steps = new int[nums.length];
         
         steps[0] = 0;
@@ -18,7 +43,7 @@ public class Q045_Jump_Game_II {
     }
 	
 	//by ninechapter using Greedy
-	public int jump2(int[] A) {
+	public int jump3(int[] A) {
         if (A == null || A.length == 0) {
             return -1;
         }

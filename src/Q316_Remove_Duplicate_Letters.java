@@ -1,3 +1,6 @@
+import java.util.HashSet;
+import java.util.Stack;
+
 
 public class Q316_Remove_Duplicate_Letters {
 	// by other
@@ -37,10 +40,14 @@ public class Q316_Remove_Duplicate_Letters {
             inRes[c] = true;
         }
         return String.valueOf(res).substring(0, end + 1);  // string.valueof(): 将res转化为字符串
-    }
+    }	
+	
+	
+	
+	
 	
 	public static void main(String[] args){
 		Q316_Remove_Duplicate_Letters t = new Q316_Remove_Duplicate_Letters();
-		System.out.println(t.removeDuplicateLetters("cbacdcbc"));		
+		System.out.println(t.removeDuplicateLetters("cbacdcbc"));	
 	}
 }

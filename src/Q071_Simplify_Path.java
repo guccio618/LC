@@ -4,18 +4,30 @@ import java.util.Stack;
   (1). String.split & String.join                
 /*******************************************/
 
+//by jackie
 public class Q071_Simplify_Path {
-	public String simplifyPath(String path) { //by jackie
-		if(path.length() < 2) return path;
+	public String simplifyPath(String path) { 
+		if(path.length() < 2) {
+			return path;
+		}
+		
         Stack<String> stack = new Stack<String>();
 		for (String s : path.split("/")) {
-			if (s.equals("..") && !stack.isEmpty()) stack.pop();
-			else if (!s.equals(".") && !s.equals("..") && !s.equals("")) stack.push(s);
+			if (s.equals("..") && !stack.isEmpty()) {
+				stack.pop();
+			} else if (!s.equals(".") && !s.equals("..") && !s.equals("")) {
+				stack.push(s);
+			}
 		}
-		if(stack.isEmpty()) return "/";
+		
+		if(stack.isEmpty()) {
+			return "/";
+		}
+		
         path = "";
-		while(!stack.isEmpty())
+		while(!stack.isEmpty()){
 			path = '/' + stack.pop() + path;
+		}
 		return path;
 	}
 	

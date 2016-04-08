@@ -1,6 +1,60 @@
 
 public class Q165_Compare_Version_Numbers {
+	/******************************************************/
+	// by Jackie
 	public int compareVersion(String version1, String version2) {
+        if(version1 == null || version1.length() == 0){
+            if(version2 == null || version2.length() == 0){
+                return 0;
+            } else {
+                return -1;
+            }
+        } else if(version2 == null || version2.length() == 0){
+            return 1;
+        }
+        
+        String[] v1 = version1.split("\\.");
+        String[] v2 = version2.split("\\.");
+        int index1 = 0, index2 = 0, n1 = v1.length, n2 = v2.length;
+        
+        while(index1 < n1 && index2 < n2){
+            int num1 = Integer.parseInt(v1[index1++]);
+            int num2 = Integer.parseInt(v2[index2++]);
+            
+            if(num1 > num2){
+                return 1;
+            } else if(num1 < num2){
+                return -1;
+            }
+        }
+        
+        if(index1 < n1){
+        	while(index1 < n1){
+            	if(Integer.parseInt(v1[index1]) != 0){
+            		return 1;
+            	} else {
+            		index1++;
+            	}
+            }
+        	return 0;
+        } else if(index2 < n2){
+        	while(index2 < n2){
+            	if(Integer.parseInt(v2[index2]) != 0){
+            		return -1;
+            	} else {
+            		index2++;
+            	}
+            }
+        	return 0;
+        } else {
+        	return 0;
+        }
+    }
+	
+	
+	/******************************************************/
+	// by other
+	public int compareVersion2(String version1, String version2) {
         if(version1.length() == 0) return -1;
         if(version2.length() == 0) return 0;
         String str1 = "", str2 = "";
@@ -34,5 +88,6 @@ public class Q165_Compare_Version_Numbers {
 	public static void main(String[] args){
 		Q165_Compare_Version_Numbers c = new Q165_Compare_Version_Numbers();
 		System.out.println(c.compareVersion("012", "1.0.0"));
+		System.out.println(c.compareVersion("1", "1.0.0"));
 	}
 }

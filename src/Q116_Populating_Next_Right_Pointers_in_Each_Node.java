@@ -6,18 +6,21 @@ public class Q116_Populating_Next_Right_Pointers_in_Each_Node {
 	/*********************************************************/
 	// by other using iterator
 	public void connect(TreeLinkNode root) {
-		TreeLinkNode left = root;
-		TreeLinkNode current = root;
-		while (left != null) {
-			left = current.left;
-			if (left == null)
-				break;
-			while (current != null) {
-				current.left.next = current.right;
-				current.right.next = current.next == null ? null : current.next.left;
-				current = current.next;
-			}
-			current = left;
+		if(root == null){
+            return;
+        }
+        
+        TreeLinkNode current = root;
+        TreeLinkNode left = root;    // 记录上一层的最左边结点
+        
+        while(left != null && left.left != null){
+            current = left;
+            while(current != null){
+                current.left.next = current.right;
+                current.right.next = (current.next == null) ? null : current.next.left;
+                current = current.next;
+            }
+            left = left.left;
 		}
 	}
 	

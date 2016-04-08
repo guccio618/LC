@@ -3,6 +3,45 @@ public class Q008_String_to_Integer_atoi {
 	/********************************************************/
 	// by Jackie
 	public int myAtoi(String str) {
+        if(str == null || str.length() == 0){
+            return 0;
+        }
+        
+        str = str.trim();
+        int flag = 1;
+        if(str.charAt(0) == '-'){
+            flag = -1;
+            str = str.substring(1, str.length());
+        } else if(str.charAt(0) == '+'){
+            str = str.substring(1, str.length());
+        }
+        
+        int n = str.length();
+        long sum = 0;
+        
+        for(int i = 0; i < n; ++i){
+            char c = str.charAt(i);
+            if(c >= '0' && c <= '9'){
+                sum = sum * 10 + str.charAt(i) - '0';
+            } else {
+                break;
+            }
+            
+            if(sum * flag > Integer.MAX_VALUE){   // 防止sum越界，超过long的范围
+            	return Integer.MAX_VALUE;
+            } else if (sum * flag < Integer.MIN_VALUE){
+            	return Integer.MIN_VALUE;
+            }
+        }
+        
+        return (int) sum * flag;
+    }  
+	
+	
+	
+	/********************************************************/
+	// by Jackie
+	public int myAtoi2(String str) {
         if(str == null || str.length() == 0) return 0;
         long sum = 0;
         str = str.trim();
@@ -29,6 +68,6 @@ public class Q008_String_to_Integer_atoi {
 	
 	public static void main(String[] args){
 		Q008_String_to_Integer_atoi t = new Q008_String_to_Integer_atoi();
-		System.out.println(t.myAtoi("-0012a"));
+		System.out.println(t.myAtoi("9223372036854775809"));   // test case: "+1", "-1", "  -0012a42", "2147483648", "-2147483648", "      -11919730356x"
 	}
 }

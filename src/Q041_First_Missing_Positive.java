@@ -1,29 +1,59 @@
 
 public class Q041_First_Missing_Positive {
+	/*************************************************/
 	//by ninechapter using counting sort
-	public int firstMissingPositive(int[] A) {
-        if (A == null) {
-            return 1;
-        }
+	public int firstMissingPositive(int[] nums) {
+		if (nums == null) {
+			return 1;
+		}
 
-        for (int i = 0; i < A.length; i++) {
-            while (A[i] > 0 && A[i] <= A.length && A[i] != (i+1)) {
-                int tmp = A[A[i]-1];       //3,4,-1,1
-                if (tmp == A[i]) {
-                    break;
-                }
-                A[A[i]-1] = A[i];
-                A[i] = tmp;
-            }
-        }
+		for (int i = 0; i < nums.length; i++) {
+			while (nums[i] > 0 && nums[i] <= nums.length && nums[i] != (i + 1)) {
+				int tmp = nums[nums[i] - 1]; // 3,4,-1,1
+				if (tmp == nums[i]) {
+					break;
+				}
+				nums[nums[i] - 1] = nums[i];
+				nums[i] = tmp;
+			}
+		}
 
-        for (int i = 0; i < A.length; i ++) {
-                if (A[i] != i + 1) {
-                    return i + 1;
-                }
-        }
+		for (int i = 0; i < nums.length; i++) {
+			if (nums[i] != i + 1) {
+				return i + 1;
+			}
+		}
 
-        return A.length + 1;
+		return nums.length + 1;
+    }
+	
+	
+		
+	/*************************************************/
+	// by Jackie using hashset
+	public int firstMissingPositive2(int[] nums) {
+        if (nums == null) {
+			return 1;
+		}
+
+		for (int i = 0; i < nums.length; i++) {
+			while (nums[i] > 0 && nums[i] <= nums.length && nums[i] != (i + 1)) {
+				int tmp = nums[nums[i] - 1]; // 3,4,-1,1
+				if (tmp == nums[i]) {
+					break;
+				}
+				nums[nums[i] - 1] = nums[i];
+				nums[i] = tmp;
+			}
+		}
+
+		for (int i = 0; i < nums.length; i++) {
+			if (nums[i] != i + 1) {
+				return i + 1;
+			}
+		}
+
+		return nums.length + 1;
     }
 	
 	public static void main(String[] args){

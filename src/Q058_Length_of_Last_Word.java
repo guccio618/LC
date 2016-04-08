@@ -12,4 +12,24 @@ public class Q058_Length_of_Last_Word {
         }
         return count;
     }
+	
+	
+	public int lengthOfLastWord2(String s) {
+        if(s == null || s.length() == 0){
+            return 0;
+        }
+        
+        String[] strArray = s.split("\\s{1,}");
+        if(strArray.length == 0){
+        	return 0;
+        }
+        
+        return strArray[strArray.length - 1].length();    
+    }
+	
+	public static void main(String[] args){
+		Q058_Length_of_Last_Word t = new Q058_Length_of_Last_Word();
+		String str = "   Hello world   ";
+		System.out.println(t.lengthOfLastWord2(str));
+	}
 }

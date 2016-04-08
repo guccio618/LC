@@ -1,24 +1,86 @@
+import java.util.Arrays;
 import java.util.HashMap;
 
 
 public class Q003_Longest_Substring_Without_Repeating_Characters {
-	// by other, very fast
+	/*****************************************/
+	// by ninechapter using two pointers
 	public int lengthOfLongestSubstring(String s) {
+        if(s == null || s.length() == 0){
+            return 0;
+        } 
+        
+        int[] map = new int[256];
+        Arrays.fill(map, -1);
+        int ans = 0, n = s.length(), right = 0;
+        
+        for(int left = 0; left <n; ++left){
+            while(right < n && map[s.charAt(right)] == -1){
+                map[s.charAt(right)] = 0;
+                ans = Math.max(ans, right - left + 1);
+                right++;
+            }
+            map[s.charAt(left)] = -1;
+        }
+        
+        return ans;
+    }
+	
+	
+	
+	/*****************************************/
+	// by ninechapter using hashmap
+	public int lengthOfLongestSubstring2(String s) {
+        if(s == null || s.length() == 0){
+            return s.length();
+        } 
+        
+        HashMap<Character, Integer> myMap = new HashMap<Character, Integer>();
+        char[] array = s.toCharArray();
+        int maxLen = 1;
+        int prePos = 0;
+        int n = s.length();
+        
+        for(int i = 0; i < n; ++i){
+            if(!myMap.containsKey(array[i])){
+                myMap.put(array[i], i);
+            } else {
+                int tempPos = myMap.get(array[i]);
+                if(tempPos < prePos){
+                    myMap.put(array[i], i);
+                } else {
+                    maxLen = Math.max(maxLen, i - prePos);
+                    prePos = tempPos + 1;
+                    myMap.put(array[i], i);
+                }
+            }
+        }
+        
+        maxLen = Math.max(maxLen, n - prePos);   // 清理最后的尾巴部分，如aabc, abcde
+        
+        return maxLen;
+    }
+	
+	
+	
+	/*****************************************/
+	// by other, very fast
+	public int lengthOfLongestSubstring3(String s) {
         if(s.length() <= 1) return s.length();
-        int max = 1, ptr = 0;
+        int max = 1, startPos = 0;
         
         for(int i = 0, len = s.length(); i < len; ++i){
-            int index = s.indexOf(s.charAt(i), ptr);
+            int index = s.indexOf(s.charAt(i), startPos);
             if(index < i){
-                ptr = index+1;
+                startPos = index + 1;
             }
-            max = Math.max(max, i-ptr+1);
+            max = Math.max(max, i - startPos + 1);
         }
         return max;
     }
 	
 	//by other
-	public int lengthOfLongestSubstring2(String s) {
+	public int lengthOfLongestSubstring4(String s) {
         int n = s.length();
         int first = 0, res = 0;  // first表示不重复substring的第一个字符位置
         int[] chars = new int[256];
@@ -35,34 +97,40 @@ public class Q003_Longest_Substring_Without_Repeating_Characters {
     }
 	
 	//by jackie but time limit exceeded
-	public int lengthOfLongestSubstring3(String s) {
-		if(s == null || s.length() == 0) return 0;
-        if(s.length() == 1) return 1;
-        int max = Integer.MIN_VALUE;
-        int count = 0;
-        HashMap myMap = new HashMap<Character, Integer>();
-        int n = s.length();
-        
-        for(int i = 0; i < n; i++){
-            if(!myMap.containsKey(s.charAt(i))){
-                myMap.put(s.charAt(i), i);
-                count++;
-            }
-            else{
-            	i = (int) myMap.get(s.charAt(i)) + 1;
-                myMap.clear();                   // 从之前重复的地方＋1重新开始
-                myMap.put(s.charAt(i), i);
-                max = Math.max(max, count);
-                count = 1;
-            }
+	public int lengthOfLongestSubstring5(String s) {
+		if(s == null){
+            return 0;
+        } else if(s.length() <= 1){
+            return s.length();
         }
-        return Math.max(max, count);
+        
+        int maxLen = Integer.MIN_VALUE;
+        HashMap<Character, Integer> myMap = new HashMap<Character, Integer>();
+        int len = s.length();
+        int startPos = 0;
+        
+        for(int i = 0; i < len; ++i){
+            char c = s.charAt(i);
+            if(myMap.containsKey(c)){
+                int prePos = myMap.get(c);
+                if(prePos < startPos){
+                    myMap.put(s.charAt(i), i);
+                    maxLen = Math.max(maxLen, i - startPos + 1);
+                    continue;
+                }
+                startPos = prePos + 1;
+            } 
+            maxLen = Math.max(maxLen, i - startPos + 1);
+            myMap.put(s.charAt(i), i);
+        }
+        
+        return maxLen;
     }
 	
 	public static void main(String[] args){
-		String s = "dvdfdsffgrtujrerxgsdf";
+		String s = "abb";// "dvdfdsffgrtujrerxgsdf";
 		Q003_Longest_Substring_Without_Repeating_Characters test = new Q003_Longest_Substring_Without_Repeating_Characters();
 		System.out.println(test.lengthOfLongestSubstring(s));
-		System.out.println(test.lengthOfLongestSubstring2(s));
+		System.out.println(test.lengthOfLongestSubstring3(s));
 	}
 }

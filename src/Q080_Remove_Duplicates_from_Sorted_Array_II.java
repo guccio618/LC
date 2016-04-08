@@ -1,28 +1,32 @@
 public class Q080_Remove_Duplicates_from_Sorted_Array_II {
 	/************************************************************/
-	// by other
+	// by Jackie using two pointers
 	public int removeDuplicates(int[] nums) {
-		if (nums.length <= 1)
-			return nums.length;
-		int length = nums.length;
-		int pointer1 = 0;
-		int pointer2 = 1;
-		int count = 1;
-		while (pointer2 < length) {
-			if (nums[pointer2] == nums[pointer1]) {
-				if ((pointer2 - pointer1) < 2) {
-					nums[count] = nums[pointer1];
-					count++;
-				}
-				pointer2++;
-			} else {
-				pointer1 = pointer2;
-				pointer2++;
-				nums[count] = nums[pointer1];
-				count++;
-			}
-		}
-		return count;
+		if(nums == null){
+            return 0;
+        } else if(nums.length <= 2){
+            return nums.length;
+        }
+        
+        int front = 1, back = 0;
+        int n = nums.length;
+        int count = 1;
+        
+        while(front < n){
+            if(nums[front] == nums[back]){
+                count++;
+                if(count <= 2){
+                    nums[++back] = nums[front];
+                } 
+                front++;
+            } else {
+                nums[++back] = nums[front];
+                front++;
+                count = 1;
+            }
+        }
+        
+        return back + 1;
 	}
 	
 	public static void main(String[] args){

@@ -36,6 +36,65 @@ public class Q234_Palindrome_Linked_List {
         return true;
     }
 	
+	
+	public boolean isPalindrome2(ListNode head) {
+        if(head == null || head.next == null){
+            return true;
+        }
+        
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode fast = dummy;
+        ListNode slow = dummy;
+        
+        while(fast != null && fast.next != null){
+            fast = fast.next.next;
+            slow = slow.next;
+            System.out.println("slow = " + slow.val);
+        }
+        
+        System.out.println("l1:" + slow.val);
+        System.out.println("l2:" + slow.next.val);
+        
+        ListNode l1 = dummy.next;
+        ListNode l2 = reverse(slow.next);
+   
+//
+//        System.out.println("l2:" + l2.val);
+        
+        while(l1 != null && l2 != null){
+            if(l2.val != l1.val){
+                return false;
+            }
+            l1 = l1.next;
+            l2 = l2.next;
+        }
+        
+        return true;
+    }
+    
+    public ListNode reverse(ListNode head){
+        if(head == null || head.next == null){
+            return head;
+        }
+        
+        ListNode current = head;
+        ListNode curNext = current.next;
+        ListNode curNextNext = curNext.next;
+        
+        while(curNextNext != null){
+            curNext.next = current;
+            current = curNext;
+            curNext = curNextNext;
+            curNextNext = curNextNext.next;
+        }
+        
+        curNext.next = current;
+        head.next = null;
+        return curNext;
+    }
+	
+	
 	public static void main(String[] args){
 		Q234_Palindrome_Linked_List p = new Q234_Palindrome_Linked_List();
 		ListNode head = new ListNode(1);
@@ -43,7 +102,7 @@ public class Q234_Palindrome_Linked_List {
 		head.Insert(head, 0);
 		head.Insert(head, 0);
 		head.Insert(head, 1);
-		if(p.isPalindrome(head)) System.out.println("yes");
+		if(p.isPalindrome2(head)) System.out.println("yes");
 		else System.out.println("no");
 	}
 }

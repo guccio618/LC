@@ -1,32 +1,35 @@
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 
 public class Q113_Path_Sum_II {
-	LinkedList<LinkedList<Integer>> res = new LinkedList<LinkedList<Integer>>();
-    int sum;
-    
-    public LinkedList<LinkedList<Integer>> pathSum(TreeNode root, int sum) {
-        this.sum = sum;
-        LinkedList<Integer> path = new LinkedList<Integer>();
-        if(root == null) return res;
-        dfs(root, 0, path);
-        return res;
+	public List<List<Integer>> pathSum(TreeNode root, int target) {
+        List<List<Integer>> ans = new ArrayList<List<Integer>>();
+        if(root == null){
+            return ans;
+        }
+        
+        List<Integer> path = new ArrayList<Integer>(); 
+        dfs(ans, path, root, target);
+        return ans;
     }
     
-    public void dfs(TreeNode current, int curSum, LinkedList<Integer> path){
-        path.add(current.val);    // 加入当前节点，当本次递归执行完毕后，再移除
-        curSum += current.val;
-        if(current.left == null && current.right == null){
-            if(curSum == sum) {
-            	LinkedList<Integer> list = new LinkedList<Integer>(path);
-                res.add(list);
-            }
+    public void dfs(List<List<Integer>> ans, List<Integer> path, TreeNode node, int target){
+        if(node == null){
+            return;
         }
-        if(current.left!=null)
-            dfs(current.left, curSum, path);
-        if(current.right!=null)
-            dfs(current.right, curSum, path);
-        path.remove(path.size()-1);    // 移除当前节点
+        
+        path.add(node.val);
+        if(node.left == null && node.right == null){
+            if(node.val == target){
+                ans.add(new ArrayList<Integer>(path));
+            }
+        } else {
+            dfs(ans, path, node.left, target - node.val);
+            dfs(ans, path, node.right, target - node.val);
+        }
+        path.remove(path.size() - 1);
     }
     
     
@@ -48,7 +51,7 @@ public class Q113_Path_Sum_II {
     	root.right.right.right = new TreeNode(1);
     	
     	Q113_Path_Sum_II t = new Q113_Path_Sum_II();
-    	LinkedList<LinkedList<Integer>> res = t.pathSum(root, 22);
+    	List<List<Integer>> res = t.pathSum(root, 22);
     	
     	for(int i = 0; i < res.size(); ++i){
     		for(int j = 0; j < res.get(i).size(); ++j){

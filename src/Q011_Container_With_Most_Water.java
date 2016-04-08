@@ -5,6 +5,8 @@
  *  which together with x-axis forms a container, such that the container 
  *  contains the most water.
  *  Note: You may not slant the container.
+ *  
+ *  test case: [1, 1]
  *************************************************************************/
 
 public class Q011_Container_With_Most_Water {
@@ -16,7 +18,7 @@ public class Q011_Container_With_Most_Water {
             int H = Math.min(height[left], height[right]);
             int L = right - left;
             max = Math.max(max, H*L);
-            while(left < right && height[left] <= H)  // L在变小，更大的area只会发生于比当前更大的H上
+            while(left < right && height[left] <= H)  // L在变小，更大的area只会发生于比当前更大的H上; 必须要小于等于号，不满足的跳过；否则［1，1］会死循环
             	left++;
             while(left < right && height[right] <= H) 
             	right--;

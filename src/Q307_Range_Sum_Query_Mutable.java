@@ -40,47 +40,149 @@ public class Q307_Range_Sum_Query_Mutable {
      * j=i-(i&-i), up to j==idx-(idx&-idx) exclusive. (However, a quicker
      * way but using extra space is to store the original array.)
      */
-	// by other
-	
-	private int[] nums;
-    private int[] BIT;
-    private int n;
+	private SegmentTreeNode root;
 
     public Q307_Range_Sum_Query_Mutable(int[] nums) {
-        this.nums = nums;
-        n = nums.length;
-        BIT = new int[n + 1];
-        for (int i = 0; i < n; i++)
-            init(i, nums[i]);
-    }
-
-    public void init(int i, int val) {
-        i++;
-        while (i <= n) {
-            BIT[i] += val;
-            i += (i & -i);
-        }
+        root = buildTree(nums, 0, nums.length - 1);
     }
 
     void update(int i, int val) {
-        int diff = val - nums[i];
-        nums[i] = val;
-        init(i, diff);
-    }
-
-    public int getSum(int i) {
-        int sum = 0;
-        i++;
-        while (i > 0) {
-            sum += BIT[i];
-            i -= (i & -i);
-        }
-        return sum;
+        SegmentTreeNode node = root;
+        modify(node, i, val);
     }
 
     public int sumRange(int i, int j) {
-        return getSum(j) - getSum(i - 1);
+        SegmentTreeNode node = root;
+        return query(node, i, j);
     }
+    
+    public SegmentTreeNode buildTree(int[] nums, int start, int end){
+        if(start > end){
+            return null;   
+        } else if(start == end){
+            return new SegmentTreeNode(start, end, nums[start]);
+        } else {
+            SegmentTreeNode root = new SegmentTreeNode(start, end, nums[start]);
+            int mid = (start + end) / 2;
+            root.left = buildTree(nums, start, mid);
+            root.right = buildTree(nums, mid + 1, end);
+            root.sum = root.left.sum + root.right.sum;
+            return root;
+        }
+    }
+    
+    public int query(SegmentTreeNode node, int start, int end){
+        if(start > end){
+            return -1;
+        }
+        if(node.start == start && node.end == end){
+            return node.sum;
+        }
+        
+        int mid = (node.start + node.end) / 2;
+        int leftSum = 0;
+        int rightSum = 0;
+        if(start <= mid){
+            if(end > mid){
+                leftSum = query(node.left, start, mid);
+            } else {
+                leftSum = query(node.left, start, end);
+            }
+        }
+        if(end > mid){
+            if(start <= mid){
+                rightSum = query(node.right, mid + 1, end);
+            } else {
+                rightSum = query(node.right, start, end);
+            }
+        }
+        
+        return leftSum + rightSum;
+    }
+    
+    public void modify(SegmentTreeNode node, int index, int value){
+        if(node.start == index && node.end == index){
+            node.sum = value;
+            return;
+        }
+        
+        int mid = (node.start + node.end) / 2;
+        if(node.start <= index && index <= mid){
+            modify(node.left, index, value);
+        }
+        if(mid < index && index <= node.end) {
+            modify(node.right, index, value);
+        }
+        
+        node.sum = node.left.sum + node.right.sum;
+    }
+    
+    public class SegmentTreeNode {
+		public int start, end;
+		public int sum;
+		public SegmentTreeNode left, right;
+		
+		public SegmentTreeNode(int start, int end, int sum) {
+			this.start = start;
+			this.end = end;
+			this.sum = sum;
+			this.left = this.right = null;
+		}
+	}
+	
+	
+    
+    public static void main(String[] args){
+    	int[] nums = {1,3,5};
+    	Q307_Range_Sum_Query_Mutable t = new Q307_Range_Sum_Query_Mutable(nums);
+    	System.out.println(t.sumRange(0, 2));
+    	t.update(1, 2);
+    	System.out.println(t.sumRange(0, 2));
+    	
+    }
+	
+	
+	// by other
+	
+//	private int[] nums;
+//    private int[] BIT;
+//    private int n;
+//
+//    public Q307_Range_Sum_Query_Mutable(int[] nums) {
+//        this.nums = nums;
+//        n = nums.length;
+//        BIT = new int[n + 1];
+//        for (int i = 0; i < n; i++)
+//            init(i, nums[i]);
+//    }
+//
+//    public void init(int i, int val) {
+//        i++;
+//        while (i <= n) {
+//            BIT[i] += val;
+//            i += (i & -i);
+//        }
+//    }
+//
+//    void update(int i, int val) {
+//        int diff = val - nums[i];
+//        nums[i] = val;
+//        init(i, diff);
+//    }
+//
+//    public int getSum(int i) {
+//        int sum = 0;
+//        i++;
+//        while (i > 0) {
+//            sum += BIT[i];
+//            i -= (i & -i);
+//        }
+//        return sum;
+//    }
+//
+//    public int sumRange(int i, int j) {
+//        return getSum(j) - getSum(i - 1);
+//    }
 }
 
 // Your NumArray object will be instantiated and called as such:

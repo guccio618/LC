@@ -1,10 +1,56 @@
-import java.util.Deque;
-import java.util.LinkedList;
 import java.util.Stack;
 
 public class Q224_Basic_Calculator {
-	//by other 1
+	// by other
 	public int calculate(String s) {
+        if(s == null || s.length() == 0){
+            return 0;
+        }
+        
+        s = s.trim();
+        int n = s.length();
+        Stack<Integer> stack = new Stack<Integer>();
+        int num = 0, res = 0;
+        int sign = 1;
+        
+        for(int i = 0; i < n; ++i){
+            char c = s.charAt(i);
+            if(Character.isDigit(c)){
+                num = num * 10 + (int) (c - '0');
+            } else if(c == '+'){
+                res += num * sign;
+                num = 0;
+                sign = 1;
+            } else if(c == '-'){
+                res += num * sign;
+                num = 0;
+                sign = -1;
+            } else if(c == '('){
+                res += num * sign;
+                stack.push(res);
+                stack.push(sign);
+                num = 0;
+                res = 0;
+                sign = 1;
+            } else if(c == ')'){
+                res += num * sign;
+                num = 0;
+                sign = 1;
+                res *= stack.pop();
+                res += stack.pop();
+            }
+        }
+        
+        if(num != 0){
+            res += num * sign;
+        }
+        
+        return res;
+    }
+	
+	
+	//by other 1
+	public int calculate2(String s) {
 	    Stack<Character> stack = new Stack<Character>();
 	    int i = 0, sign = 1, res = 0;
 	    while(i < s.length()){
@@ -35,7 +81,7 @@ public class Q224_Basic_Calculator {
 	}
 	
 	//by other 2
-	public int calculate_2(String s) {
+	public int calculate3(String s) {
 	    //Deque<Integer> stack = new LinkedList<>();  //双端队列
 		Stack<Integer> stack = new Stack<Integer>();
 	    int rs = 0;
@@ -60,7 +106,7 @@ public class Q224_Basic_Calculator {
 	    return rs;
 	}
 	//by jackie but slow
-	public int calculate_3(String s) {
+	public int calculate4(String s) {
 		if (s.length() == 0) return 0;
 		Stack<String> stack = new Stack<String>(), stack2 = new Stack<String>();
 		String temp = "", num_str = "";
@@ -108,7 +154,9 @@ public class Q224_Basic_Calculator {
 	public static void main(String[] args) {
 		Q224_Basic_Calculator bc = new Q224_Basic_Calculator();
 		String str = "2-(5-6)";
-		System.out.println(bc.calculate(str));
-		System.out.println(bc.calculate_3(str));
+		String str2 = "2147483647";
+		System.out.println(bc.calculate(str2));
+//		System.out.println(bc.calculate(str));
+//		System.out.println(bc.calculate_3(str));
 	}
 }

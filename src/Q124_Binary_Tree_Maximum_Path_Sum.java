@@ -1,7 +1,33 @@
 
 public class Q124_Binary_Tree_Maximum_Path_Sum {
+	/**************************************************
+	 * 测试数据： [2, -1], 答案为2
+	 * 
+	 **************************************************/
+	// by Jackie
+	private int maxPath = Integer.MIN_VALUE; 
+    
+    public int maxPathSum(TreeNode root) {
+        if(root == null){
+            return 0;
+        }
+        maxPathHelper(root);
+        return maxPath;
+    }
+    
+    public int maxPathHelper(TreeNode node){
+        if(node == null){
+            return 0;
+        }
+        int leftPath = maxPathHelper(node.left);
+        int rightPath = maxPathHelper(node.right);
+        maxPath = Math.max(maxPath, leftPath + node.val + rightPath);
+        return Math.max(0, Math.max(leftPath, rightPath) + node.val);  // 任意结点到另一结点的距离，因此可以只取root
+    }
+	
+	
 	//by ninechapter
-	public int maxPathSum(TreeNode root) {
+	public int maxPathSum2(TreeNode root) {
         resultTuple res = getResult(root);
         return res.maxPath;
     }
@@ -28,5 +54,14 @@ public class Q124_Binary_Tree_Maximum_Path_Sum {
             maxSinglePath = s;
             maxPath = p;
         }
+    }
+    
+    
+    public static void main(String[] args){
+    	Q124_Binary_Tree_Maximum_Path_Sum t = new Q124_Binary_Tree_Maximum_Path_Sum();
+    	TreeNode root = new TreeNode(2);
+    	root.left = new TreeNode(-1);
+    	root.right = new TreeNode(-2);
+    	System.out.println(t.maxPathSum(root));
     }
 }

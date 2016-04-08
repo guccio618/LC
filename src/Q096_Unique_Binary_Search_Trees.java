@@ -11,8 +11,9 @@ public class Q096_Unique_Binary_Search_Trees {
 	
 	public int countNum(int startNode, int endNode, int max, int[] f){
 		if(startNode > endNode) return 0;
-		if(f[endNode - startNode + 1] > 0) 
+		if(f[endNode - startNode + 1] > 0) {
 			return f[endNode - startNode + 1];
+		}
 		int count = 0;
 		
 		for (int i = startNode; i <= endNode; ++i) {			

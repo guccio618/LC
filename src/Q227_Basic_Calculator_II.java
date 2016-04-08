@@ -2,7 +2,54 @@ import java.util.Stack;
 
 
 public class Q227_Basic_Calculator_II {
-	public int calculate(String s) {  //by jackie
+	/*************************************************/
+	// by other
+	public int calculate(String s) {
+        if(s == null || s.length() == 0){
+            return 0;
+        }
+        
+        int n = s.length();
+        Stack<Integer> stack = new Stack<Integer>();
+        int num = 0;
+        char sign = ' ';
+        
+        for(int i = 0; i < n; ++i){
+            char c = s.charAt(i);
+            if(Character.isDigit(c)){
+                num = num * 10 + (int)(c - '0');
+            } 
+            if(!Character.isDigit(c) && c != ' ' || i == n - 1){
+                if(sign == '+'){
+                    stack.push(num);
+                } else if(sign == '-'){
+                    stack.push(-num);
+                } else if(sign == '*'){
+                    stack.push(stack.pop() * num);
+                } else if(sign == '/'){
+                    stack.push(stack.pop() / num);
+                } else {
+                    stack.push(num);
+                }
+                sign = c;
+                num = 0;
+            }
+            
+        }
+        
+        num = 0;
+        while(!stack.isEmpty()){
+            num += stack.pop();
+        }
+        
+        return num;
+    }
+	
+	
+	
+	/*************************************************/
+	// by jackie
+	public int calculate2(String s) {
         if(s.length() == 0) return 0;
         if(s.length() == 1) return s.charAt(0) - '0';
         String str = "";
@@ -39,6 +86,11 @@ public class Q227_Basic_Calculator_II {
         	res += stack.pop();
         return res;
     }
+	
+	
+	
+	
+	
 	
 	public static void main(String[] args){
 		Q227_Basic_Calculator_II b = new Q227_Basic_Calculator_II();

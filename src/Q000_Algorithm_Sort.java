@@ -82,7 +82,7 @@ public class Q000_Algorithm_Sort {
 	// Divide and Conquer； 先整体有序，再局部有序； 如果不是worse case，其速度快于merge sort
 	public int partition(int[] p, int x, int y) {
 		int i = x;
-		int temp;
+	 	int temp;
 		int pivot = p[y];
 		for (int j = x; j < y; j++) {
 			if (p[j] <= pivot) {

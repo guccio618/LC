@@ -11,7 +11,10 @@ public class Q257_Binary_Tree_Paths {
 	
     // 前序遍历，直至所有的子树均为null，此时即得到一条路径
     public void preOrder(TreeNode node, ArrayList<String> res, String str){
-        if(node == null) return;
+        if(node == null) {
+        	return;
+        }
+        
         if(str.equals(""))
         	str +=  node.val;
         else

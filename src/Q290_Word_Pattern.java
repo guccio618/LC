@@ -2,8 +2,77 @@ import java.util.HashMap;
 
 
 public class Q290_Word_Pattern {
-	//by jackie
+	/***************************************/
+	// by other using one hashmap
 	public boolean wordPattern(String pattern, String str) {
+        if(pattern == null || pattern.length() == 0){
+			return false;
+		}
+        if(str == null || str.length() == 0){
+        	return false;
+        }
+        
+        HashMap<Character, String> map = new HashMap<Character, String>();
+        char[] array = pattern.toCharArray();
+        int n = array.length;
+        str = str.trim();
+        String[] strArray = str.split("\\s{1,}");
+        if(strArray.length != n){
+            return false;
+        }
+        
+        for(int i = 0; i < n; ++i){
+            if(map.containsKey(array[i])){
+                if(!strArray[i].equals(map.get(array[i]))){
+                    return false;
+                }
+            } else {
+                if(map.containsValue(strArray[i])){
+                    return false;
+                } else {
+                    map.put(array[i], strArray[i]);
+                }
+            }
+        }
+        
+        return true;
+    }
+	
+	
+	
+	/***************************************/
+	// by jackie using two hashmap
+	public boolean wordPattern2(String pattern, String str) {
+		if(pattern == null || pattern.length() == 0){
+			return false;
+		}
+        if(str == null || str.length() == 0){
+        	return false;
+        }
+        
+        String[] arr= str.split(" ");
+        HashMap<Character, String> map = new HashMap<Character, String>();
+        if(arr.length!= pattern.length())
+            return false;
+        for(int i=0; i<arr.length; i++){
+            char c = pattern.charAt(i);
+            if(map.containsKey(c)){
+                if(!map.get(c).equals(arr[i]))
+                    return false;
+            }else{
+                if(map.containsValue(arr[i]))
+                    return false;
+                map.put(c, arr[i]);
+            }    
+        }
+        return true;      
+    }
+	
+	
+	
+	/**********************************************************/
+	//by jackie
+	public boolean wordPattern3(String pattern, String str) {
         if(pattern == null || pattern.length() == 0) return false;
         if(str == null || str.length() == 0) return false;
         
@@ -27,7 +96,7 @@ public class Q290_Word_Pattern {
 	public static void main(String[] args){
 		Q290_Word_Pattern test = new Q290_Word_Pattern();
 		String pattern = "abba";
-		String str = "dog cat cat dog";
+		String str = "dog cat cat fish";
 		System.out.println(test.wordPattern(pattern, str));
 	}
 }

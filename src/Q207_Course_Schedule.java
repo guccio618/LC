@@ -1,11 +1,78 @@
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Set;
 
 
 public class Q207_Course_Schedule {
+	/******************************************/
+	// by Jackie using topology sort
+	// 用set存结点的邻居，用index索引，不易出错
+	// test case: {{5,8},{3,5},{1,9},{4,5},{1,9},{0,2},{7,8},{4,9}};
+	//            {{0,1},{3,1}, {1,3},{3,2}};
+	//	          {{1,0},{2,0}}
+	
+	public boolean canFinish(int numCourses, int[][] prerequisites) {
+		if(prerequisites == null || prerequisites.length == 0 || prerequisites[0] == null || prerequisites.length == 0 || numCourses <= 0){
+            return true;
+        }
+        
+        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();    
+        HashSet<Integer>[] graph = new HashSet[numCourses];
+        Queue<Set> q = new LinkedList<Set>();
+        
+        for(int i = 0; i < numCourses; ++i){
+            graph[i] = new HashSet<Integer>();
+        }
+        
+        for(int row = 0; row < prerequisites.length; ++row){
+            if(graph[prerequisites[row][1]].contains(prerequisites[row][0])){   // 去除prerequisites中的重复
+        		continue;
+        	}
+            graph[prerequisites[row][1]].add(prerequisites[row][0]);
+            if(map.containsKey(prerequisites[row][0])){
+                map.put(prerequisites[row][0], map.get(prerequisites[row][0]) + 1);
+            } else {
+                map.put(prerequisites[row][0], 1);
+            }
+        }
+        
+        for(int i = 0; i < graph.length; ++i){
+            if(!map.containsKey(i)){
+                q.offer(graph[i]);
+            }
+        }
+        
+        if(q.isEmpty()){
+            return false;
+        }
+        
+        while(!q.isEmpty()){
+            Set<Integer> temp = q.poll();
+            for(int nextClass : temp){
+                if(map.containsKey(nextClass)){
+                    int count = map.get(nextClass);
+                    if(count == 1){
+                        map.remove(nextClass);
+                        q.offer(graph[nextClass]);
+                    } else {
+                        map.put(nextClass, count - 1);
+                    }
+                }
+            }
+        }
+        return map.size() == 0;
+    }
+	
+	
+	
+	/*******************************************/
+	// by other
 	private LinkedList<Integer>[] course;
 	private int[] visited;
 	
-	public boolean canFinish(int numCourses, int[][] prerequisites) {
+	public boolean canFinish2(int numCourses, int[][] prerequisites) {
 		if(numCourses == 0) return true;
 		visited = new int[numCourses];    // 共3态，1:通，－1:不通，0:未判断
 		course = new LinkedList[numCourses];
@@ -37,7 +104,11 @@ public class Q207_Course_Schedule {
 	
 	public static void main(String[] args){
 		Q207_Course_Schedule t = new Q207_Course_Schedule();
+		// test case:
 		int[][] prerequisites = {{0,1},{3,1},{1,3},{3,2}};
-		System.out.println(t.canFinish(4, prerequisites));
+		int[][] prerequisites2 = {{0,1},{3,1}, {1,3},{3,2}};
+		int[][] prerequisites3 = {{1,0}, {2,1}};
+		int[][] prerequisites4 = {{5,8},{3,5},{1,9},{4,5},{1,9},{0,2},{7,8},{4,9}};   // {1,9}有重复
+		System.out.println(t.canFinish(10, prerequisites4));
 	}
 }
