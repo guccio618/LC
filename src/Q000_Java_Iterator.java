@@ -1,6 +1,8 @@
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map;
+
 
 public class Q000_Java_Iterator {
 	private Iterator iter;
@@ -15,12 +17,22 @@ public class Q000_Java_Iterator {
 			myMap.put(num[i], name[i]);
 		}
 		
+		System.out.println("iterator:");
 		iter = myMap.entrySet().iterator();  // 需要用到entrySet，比用keySet快一倍
 		while(iter.hasNext()) {
 			HashMap.Entry entry = (HashMap.Entry) iter.next();
 			int key = (int) entry.getKey();
 			String val = (String) entry.getValue();
 			System.out.print("[" + key + ", " + val + "], ");
+		}
+		System.out.println();
+		
+		// 非iterator访问方式
+		System.out.println("non-iterator:");
+		for(Map.Entry<Integer, String> entry : myMap.entrySet()){
+	    	int key = entry.getKey();
+	    	String val = entry.getValue();
+	    	System.out.print("[" + key + ", " + val + "], ");
 		}
 		System.out.println();
 	}

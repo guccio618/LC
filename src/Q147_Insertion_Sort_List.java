@@ -17,8 +17,8 @@ public class Q147_Insertion_Sort_List {
             }
             
             ListNode pNext = p.next;
-            p.next = current;
             ListNode next = current.next;
+            p.next = current;
 	        current.next = pNext;
 	        current = next;
         }

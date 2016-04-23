@@ -1,4 +1,5 @@
 import java.util.HashSet;
+import java.util.Set;
 
 
 public class Q202_Happy_Number {
@@ -60,23 +61,39 @@ public class Q202_Happy_Number {
     
     /******************************************************/
 	// by Jackie 
-	public boolean isHappy3(int n) {
-        HashSet<Integer> set = new HashSet<Integer>();
-        while(n != 1) {
-            n = getSum2(n);
-            if(set.contains(n))
-                return false;
-            set.add(n);
+    public boolean isHappy3(int n) {
+        if(n <= 0){
+            return false;
+        } else if(n == 1){
+            return true;
         }
+        
+        Set<Integer> set = new HashSet<Integer>();
+        
+        while(n != 1){
+            if(set.contains(n)){
+                return false;
+            }
+            set.add(n);
+            n = getSum3(n);            
+        }
+        
         return true;
     }
-
-    public int getSum2(int num) {
-        char[] temp = (num + "").toCharArray();
+    
+    public int getSum3(int num){
         int sum = 0;
-        for (int i = 0; i < temp.length; i++) {
-            sum += ((temp[i] - '0') * (temp[i] - '0'));
+        while(num > 0){
+            int digit = num % 10;
+            num /= 10;
+            sum += digit * digit;
         }
         return sum;
+    }
+    
+    
+    public static void main(String[] args){
+    	Q202_Happy_Number t = new Q202_Happy_Number();
+    	t.isHappy3(7);
     }
 }
