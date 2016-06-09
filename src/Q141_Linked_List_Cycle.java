@@ -7,7 +7,7 @@ public class Q141_Linked_List_Cycle {
         }
 
         ListNode fast, slow;
-        fast = head.next;
+        fast = head.next;    // 注意错开，fast = head.next
         slow = head;
         while (fast != slow) {
             if(fast == null || fast.next == null)

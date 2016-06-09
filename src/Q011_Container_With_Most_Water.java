@@ -6,6 +6,8 @@
  *  contains the most water.
  *  Note: You may not slant the container.
  *  
+ *  对比题目见42题
+ *  
  *  test case: [1, 1]
  *************************************************************************/
 

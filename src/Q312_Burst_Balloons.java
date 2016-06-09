@@ -1,8 +1,35 @@
 
 public class Q312_Burst_Balloons {
+	// by other using DP
+	public int maxCoins(int[] iNums) {
+		if (iNums == null || iNums.length == 0) {
+			return 0;
+		}
+
+		int[] nums = new int[iNums.length + 2];
+		int n = nums.length;
+		nums[0] = nums[n - 1] = 1;
+		int[][] dp = new int[n][n];
+
+		for (int i = 1; i < n - 1; ++i) {
+			nums[i] = iNums[i - 1];
+		}
+
+		for (int length = 2; length < n; ++length) { // length从2开始，表示start和end间至少有一个气球
+			for (int start = 0; start + length < n; ++start) {
+				int end = start + length;
+				for (int k = start + 1; k < end; ++k) { // k的起点和终点选择，相当于从原数组的 1 到 n-1!    注意这里用start + 1 !!!
+					dp[start][end] = Math.max(dp[start][end], dp[start][k] + dp[k][end] + nums[start] * nums[k] * nums[end]);  // 这里用[start][k], [k][end] !!!
+				}
+			}
+		}
+
+		return dp[0][n - 1];
+	}
+	
 	/****************************************************/
 	// by other using Divide & Conquer with Memoization, very fast
-	public int maxCoins(int[] iNums) {
+	public int maxCoins2(int[] iNums) {
 	    int[] nums = new int[iNums.length + 2];
 	    int n = 1;
 	    for (int x : iNums)
@@ -27,7 +54,7 @@ public class Q312_Burst_Balloons {
 	
 	/****************************************************/
 	// by other using DP, fast
-	public int maxCoins2(int[] iNums) {
+	public int maxCoins3(int[] iNums) {
 	    int[] nums = new int[iNums.length + 2];
 	    int n = 1;
 	    for (int x : iNums)
@@ -48,7 +75,7 @@ public class Q312_Burst_Balloons {
 	
 	/****************************************************/
 	// by Jackie using backtrack, exceed time limit
-	public int maxCoins3(int[] nums) {
+	public int maxCoins4(int[] nums) {
         if(nums.length == 0) return 0;
         boolean[] visited = new boolean[nums.length];
         int max = -1;

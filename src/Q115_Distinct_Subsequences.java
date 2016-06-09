@@ -13,7 +13,7 @@ public class Q115_Distinct_Subsequences {
 		dp[0][0] = 1;
 
 		// 任意一个字符串变换成一个空串都只有一种变换方法
-		for (int i = 0; i < S.length(); i++) {
+		for (int i = 1; i <= S.length(); i++) {   // 注意这里的初始化 ！！！
 			dp[i][0] = 1;
 		}
 

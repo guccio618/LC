@@ -32,6 +32,6 @@ public class Q279_Perfect_Squares {
 	/************************** main function ***************************/
 	public static void main(String[] args){
 		Q279_Perfect_Squares t = new Q279_Perfect_Squares();
-		System.out.println(t.numSquares(12));
+		System.out.println(t.numSquares(7));
 	}
 }

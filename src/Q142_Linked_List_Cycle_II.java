@@ -6,25 +6,27 @@ public class Q142_Linked_List_Cycle_II {
 	/*********************************************************/
 	// by ninechapter using two points
 	public ListNode detectCycle(ListNode head) {
-        if (head == null || head.next==null) {
+		if(head == null || head.next == null){
             return null;
         }
-
-        ListNode fast, slow;
-        fast = head.next;
-        slow = head;
-        while (fast != slow) {
-            if(fast==null || fast.next==null)
-                return null;
-            fast = fast.next.next;
-            slow = slow.next;
-        } 
         
-        while (head != slow.next) {
-            head = head.next;
-            slow = slow.next;
+        ListNode faster = head.next, slower = head;
+        
+        while(faster != null && faster.next != null && faster != slower){
+            faster = faster.next.next;
+            slower = slower.next;
         }
-        return head;
+        
+        if(faster != slower){
+            return null;
+        } else {
+            faster = head;
+            while(faster != slower.next){
+                faster = faster.next;
+                slower = slower.next;
+            }
+            return faster;
+        }
     }
 	
 	

@@ -36,7 +36,7 @@ public class Q295_Find_Median_from_Data_Stream {
         } else{
             int median_2 = 0;
             if(maxHeap.size() > minHeap.size()){
-                median_2 = -maxHeap.peek();
+                median_2 = -maxHeap.peek();            // 注意用 peek() !!!
             } else{
                 median_2 = minHeap.peek();
             }

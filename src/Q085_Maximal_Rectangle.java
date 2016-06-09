@@ -1,6 +1,11 @@
 import java.util.Stack;
 
 
+/**************************************************************************
+ * 注意： 最大的矩形的底部不一定出现在最后一行，因此需要每行遍历，运用O(n^2)的时间复杂度
+ * 
+ **************************************************************************/
+
 public class Q085_Maximal_Rectangle {
 	public int maximalRectangle(char[][] matrix) {
         if(matrix == null || matrix.length == 0 || matrix[0] == null || matrix[0].length == 0){
@@ -11,7 +16,6 @@ public class Q085_Maximal_Rectangle {
         int col = matrix[0].length;
         int[][] heights = new int [row][col];
         int maxArea = 0;
-        Stack<Integer> stack = new Stack<Integer>();
         
         for(int i = 0; i < row; ++i){
             for(int j = 0; j < col; ++j){
@@ -24,6 +28,7 @@ public class Q085_Maximal_Rectangle {
         }
         
         for(int i = 0; i < row; ++i){
+        	Stack<Integer> stack = new Stack<Integer>();
             for(int j = 0; j <= col; ++j){
                 int currentHeight = (j == col) ? -1 : heights[i][j];  // j取到col，用于清除最后的col-1
                 while(!stack.isEmpty() && currentHeight <= heights[i][stack.peek()]){
@@ -33,7 +38,7 @@ public class Q085_Maximal_Rectangle {
                 }
                 stack.push(j);
             }
-            stack.pop();    // 去除j = col的那次特例
+//            stack.pop();    // 去除j = col的那次特例
         }
         
         return maxArea;

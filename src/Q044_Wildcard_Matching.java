@@ -1,5 +1,10 @@
 import java.util.Arrays;
 
+/*************************************
+ * 类似的题目 10
+ * 
+ *************************************/
+
 public class Q044_Wildcard_Matching {
 	/*************************************************************/
 	// by other using DP, easily understand

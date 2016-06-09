@@ -2,7 +2,8 @@ import java.util.Stack;
 
 
 public class Q061_Rotate_List {
-	public ListNode rotateRight(ListNode head, int k) {  //by jackie
+	// by Jackie
+	public ListNode rotateRight(ListNode head, int k) { 
         if(head == null || head.next == null || k == 0) return head;
         ListNode front_loc = head, back_loc = head;
         int len = 1;

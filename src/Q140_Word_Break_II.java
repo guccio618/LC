@@ -12,12 +12,12 @@ public class Q140_Word_Break_II {
 		if (s == null || s.length() == 0 || wordDict.size() == 0){
 			return result;
 		}
-		return getBreaks(s, wordDict, 0, new List[s.length()]);
+		return getBreaks(s, wordDict, 0, new List[s.length()]);   //  new List[i]表示从i位置开始的str组合 
 	}
 
 	public List<String> getBreaks(String s, Set<String> wordDict, int start, List<String>[] memo) {
 		List<String> result = new LinkedList<String>();
-		if (start == s.length()) {
+		if (start == s.length()) {            // 必需加入“”  ！！！
 			result.add("");
 			return result;
 		}
@@ -25,7 +25,7 @@ public class Q140_Word_Break_II {
 			String curStr = s.substring(start, index + 1);
 			if (wordDict.contains(curStr)) {
 				if (memo[index] == null) {
-					memo[index] = getBreaks(s, wordDict, index + 1, memo);
+					memo[index] = getBreaks(s, wordDict, index + 1, memo);   // 需要注意的是index + 1 !!!
 				}
 				for (String str : memo[index]) {
 					if (!str.equals(""))

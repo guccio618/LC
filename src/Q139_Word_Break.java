@@ -20,11 +20,10 @@ public class Q139_Word_Break {
 
 		for (int i = 1; i <= s.length(); i++) {
 			canSplit[i] = false;
-			for (int lastWordLength = 1; lastWordLength <= maxWordLength
-					&& lastWordLength <= i; lastWordLength++) {
-				if (!canSplit[i - lastWordLength])
+			for (int lastWordLength = 1; lastWordLength <= maxWordLength && lastWordLength <= i; lastWordLength++) {
+				if (!canSplit[i - lastWordLength])                   // !!!
 					continue;
-				String word = s.substring(i - lastWordLength, i);
+				String word = s.substring(i - lastWordLength, i);    // !!!
 				if (wordDict.contains(word)) {
 					canSplit[i] = true;
 					break;

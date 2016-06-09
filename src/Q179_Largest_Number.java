@@ -9,7 +9,7 @@ import java.util.Queue;
 (1). Comparator                
 /*******************************************/
 
-public class Q179_Largest_Number {
+public class Q179_Largest_Number {    // 注意test case： 0，0，0，0
 	// by Ninechapter
 	public String largestNumber(int[] nums) {
 		if (nums == null || nums.length == 0) {
@@ -44,50 +44,42 @@ public class Q179_Largest_Number {
 		return result.substring(index);
     }
 	    
-//**************************************************************
-    
-	public String largestNumber_2(int[] nums) {  //by Jackie
-        if(nums.length == 0) return "";
-        String res = "", str1 = "", str2 = "";
-        int len = nums.length, temp_int = 0;
-        for(int i = 0; i < len; i++){
-            for(int j = i + 1; j < len; j++){
-                str1 = Integer.toString(nums[i]);
-                str2 = Integer.toString(nums[j]);
-                int k = 0;
-                while(k < str1.length() || k < str2.length()){
-                	if(k == str1.length() || k == str2.length()){
-                		String temp_str1 = str1 + str2;
-                		String temp_str2 = str2 + str1;
-                		int temp_len = temp_str1.length();
-                		for(int x = 0; x < temp_len; x++){
-                			if(temp_str1.charAt(x) - temp_str2.charAt(x) < 0){
-                				temp_int = nums[i];
-                                nums[i] = nums[j];
-                                nums[j] = temp_int;
-                                break;
-                			}
-                			else if (temp_str1.charAt(x) - temp_str2.charAt(x) > 0)
-                				break;
-                		}
-                		break;
-                	}
-                	else if(str1.charAt(k) - str2.charAt(k) < 0){
-                        temp_int = nums[i];
-                        nums[i] = nums[j];
-                        nums[j] = temp_int;
-                        break;
-                    }
-                    else if(str1.charAt(k) - str2.charAt(k) > 0)
-                        break;
-                    else k++;
-                }
-            }
+	
+	
+	/**************************************************************/
+    // by Jackie using priorityqueue
+	public String largestNumber2(int[] nums) {
+        if(nums == null || nums.length == 0){
+            return new String();
         }
-        if(nums[0] == 0) return "0";
-        for(int i = 0; i < len; i++)
-            res += Integer.toString(nums[i]);
-        return res;
+        
+        Queue<String> heap = new PriorityQueue<String>(1, new Comparator<String>(){
+            public int compare(String left, String right){
+                String str1 = left + right;
+                String str2 = right + left;
+                return str2.compareTo(str1);
+            }
+        });
+        
+        StringBuilder builder= new StringBuilder();
+        boolean zeroFlag = true;
+        
+        for(int num : nums){
+            if(num != 0){
+                zeroFlag = false;
+            }
+            heap.offer(Integer.toString(num));
+        }
+        
+        if(zeroFlag == true){
+            return "0";
+        }
+        
+        while(!heap.isEmpty()){
+            builder.append(heap.poll());
+        }
+
+        return builder.toString();
     }
 	
 	
@@ -97,6 +89,6 @@ public class Q179_Largest_Number {
 		int[] nums = {0, 0, 0};
 //		int[] nums = {999999998,999999997,999999999};
 		System.out.println(l.largestNumber(nums));
-		System.out.println(l.largestNumber_2(nums));
+		System.out.println(l.largestNumber2(nums));
 	}
 }

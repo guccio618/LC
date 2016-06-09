@@ -9,4 +9,20 @@ public class Q190_Reverse_Bits {
         }
         return rlt;
     }
+	
+	
+	
+	/***************************************************/
+	// by Jackie
+	public int reverseBits2(int n) {
+        int sum = 0;
+        
+        for(int i = 0; i < 32; i++){
+            if(((n >> i) & 1) == 1){
+                sum |= (1 << (31 - i));
+            }
+        }
+        
+        return sum;
+    }
 }

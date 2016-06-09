@@ -26,7 +26,7 @@ public class Q043_Multiply_Strings {
         }
         
         for(int num : pos){
-            if(builder.length() == 0 && num == 0){
+            if(builder.length() == 0 && num == 0){   // 防止 99 * 0 会得到 000的结果 ！！！
                 continue;
             }
             builder.append(num);

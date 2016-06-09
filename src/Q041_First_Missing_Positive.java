@@ -1,3 +1,6 @@
+import java.util.HashSet;
+import java.util.Set;
+
 
 public class Q041_First_Missing_Positive {
 	/*************************************************/
@@ -28,10 +31,48 @@ public class Q041_First_Missing_Positive {
     }
 	
 	
-		
+	
 	/*************************************************/
 	// by Jackie using hashset
 	public int firstMissingPositive2(int[] nums) {
+        if(nums == null || nums.length == 0){
+            return 1;
+        }
+        
+        Set<Integer> set = new HashSet<Integer>();
+        int n = nums.length;
+        int maxNum = Integer.MIN_VALUE;
+        int minNum = Integer.MAX_VALUE;
+        
+        for(int i = 0; i < n; i++){
+            if(nums[i] > 0){
+                set.add(nums[i]);
+                maxNum = Math.max(maxNum, nums[i]);
+                minNum = Math.min(minNum, nums[i]);
+            }
+        }
+        
+        if(maxNum == Integer.MIN_VALUE || minNum > 1){
+            return 1;
+        } 
+        if(maxNum - minNum + 1 == set.size()){
+            return maxNum + 1;
+        }
+        
+        for(int i = minNum; i <= maxNum; i++){
+            if(!set.contains(i)){
+                return i;
+            }
+        }
+        
+        return maxNum + 1;
+    }
+	
+	
+	
+	/*************************************************/
+	// by Jackie using hashset
+	public int firstMissingPositive3(int[] nums) {
         if (nums == null) {
 			return 1;
 		}

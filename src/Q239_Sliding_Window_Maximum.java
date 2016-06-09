@@ -20,7 +20,7 @@ public class Q239_Sliding_Window_Maximum {
             
             list.offer(i);
             
-            if(i - list.peekFirst() + 1 > k){
+            while(i - list.peekFirst() + 1 > k){
                 list.pollFirst();
             }
             

@@ -2,8 +2,42 @@ import java.util.Stack;
 
 
 public class Q331_Verify_Preorder_Serialization_of_a_Binary_Tree {
-	// by other
 	public boolean isValidSerialization(String preorder) {
+        if(preorder == null || preorder.length() == 0){
+            return false;
+        }
+        
+        String[] nodes = preorder.split(",");
+        if(nodes.length == 0){
+            return false;
+        }
+        
+        int n = nodes.length;
+        Stack<String> stack = new Stack<String>();
+        
+        for(int i = 0; i < n; i++){
+            if(nodes[i].equals("#")){
+                while(!stack.isEmpty() && stack.peek().equals("#")){     // 这里必须用while !!!
+                    stack.pop();
+                    if(!stack.isEmpty()){
+                        stack.pop();
+                    } else {
+                        return false;
+                    }
+                }
+            }
+            stack.push(nodes[i]);
+        }
+        
+        if(stack.size() == 1 && stack.peek().equals("#")){
+            return true;
+        } else {
+            return false;
+        }
+    }
+	
+	// by other
+	public boolean isValidSerialization2(String preorder) {
         // using a stack, scan left to right
         // case 1: we see a number, just push it to the stack
         // case 2: we see #, check if the top of stack is also #

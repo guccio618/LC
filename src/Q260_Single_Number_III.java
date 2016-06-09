@@ -11,25 +11,29 @@ public class Q260_Single_Number_III {
 	 ***************************************************************/
 	// by other using bit manipulation, faster
     public int[] singleNumber(int[] nums) {
-    	if(nums == null || nums.length <= 1) return null;
-    	int n = 0;
-    	for(int i = 0; i < nums.length; i++) {
-            n = n ^ nums[i]; 
+    	if(nums == null || nums.length <= 1){
+            return new int[0];
         }
-    	int flag = n & (~(n - 1));
-//    	System.out.println("n = " + n);
-//    	System.out.println("flag = " + flag);
-    	int a = 0, b = 0;
-        for(int i = 0; i < nums.length; i++) {
-            if((flag & nums[i]) == 0) 
-            	a ^= nums[i];
-            else 
-            	b ^= nums[i];
+        
+        int n = 0;
+        int len = nums.length;
+        int[] ans = new int[2];
+        
+        for(int i = 0; i < len; i++){
+            n ^= nums[i];
         }
-        int[] res = new int[2];
-        res[0] = a;
-        res[1] = b;
-        return res;
+        
+        int flag = n & (~(n - 1));
+        
+        for(int i = 0; i < len; i++){
+            if((flag & nums[i]) == 0){
+                ans[0] ^= nums[i];
+            } else {
+                ans[1] ^= nums[i];
+            }
+        }
+        
+        return ans;
     }
 	
 	

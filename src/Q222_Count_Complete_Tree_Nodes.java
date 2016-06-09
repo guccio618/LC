@@ -3,28 +3,38 @@ public class Q222_Count_Complete_Tree_Nodes {
 	 * 按左右子树进行划分，斜着拆分 *
 	 *********************************/
 	// by other, simple.
+	
 	public int countNodes(TreeNode root) {
-		int h = height(root);
-		int nodeCount = 0;
-		
-		while (root != null) {
-			if (height(root.right) == h - 1) { // Left is full and height of left is h - 1 and has h levels. Add left plus root, 2^h - 1 + 1.
-				nodeCount += (1 << h);         // 2^(h) - 1 + 1
-				root = root.right;				
-			} else {                           // Right is full and height of right is h - 2 and has h - 1 levels. Add right plus root 2^(h-1) - 1 + 1.
-				nodeCount += (1 << h - 1);
-				root = root.left;
-			}
-			h--;           // 需要注意每次循环里h要--
-		}
-		return nodeCount;
-	}
-
-	public int height(TreeNode root) {
-		if (root == null)
-			return -1;
-		return 1 + height(root.left);
-	}
+        if(root == null){
+            return 0;
+        }
+        
+        int count = 0;
+        int treeHeight = getHeight(root);
+        
+        while(root != null){
+            int rightHeight = getHeight(root.right);
+            
+            if(rightHeight == treeHeight - 1){       // Left is full and height of left is h - 1 and has h levels. Add left plus root, 2^h - 1 + 1.
+                count += (1 << treeHeight - 1);      // 2^(h) - 1 + 1
+                root = root.right;
+            } else {                                 // Right is full and height of right is h - 2 and has h - 1 levels. Add right plus root 2^(h-1) - 1 + 1.
+                count += (1 << rightHeight);
+                root = root.left;
+            }
+            treeHeight--;                            // 需要注意每次循环里h要--
+        }
+        
+        return count;
+    }
+	
+	public int getHeight(TreeNode node){
+        if(node == null){
+            return 0;
+        }
+        
+        return getHeight(node.left) + 1;             // 树的高度一定等于左子树的高度 ！！！
+    }
 	
 
 	/****************************************

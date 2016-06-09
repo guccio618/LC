@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -6,8 +8,48 @@ import java.util.Queue;
 
 
 public class Q057_Insert_Interval {
-	// by Jackie
+	// by Jackie, faster!
 	public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
+        if(intervals == null || newInterval == null){
+            return intervals;
+        }
+        
+        List<Interval> ans = new ArrayList<Interval>();
+        int startTime = Integer.MIN_VALUE, endTime = Integer.MIN_VALUE;
+        intervals.add(newInterval);
+        
+        Collections.sort(intervals, new Comparator<Interval>(){
+        	public int compare(Interval left, Interval right){
+        		if(left.start != right.start){
+        			return left.start - right.start;
+        		} else{
+        			return left.end - right.end;
+        		}
+        	}
+        });
+        
+        for(Interval node : intervals){
+        	if(startTime == Integer.MIN_VALUE && endTime == Integer.MIN_VALUE){
+        		startTime = node.start;
+        		endTime = node.end;
+        	} else {
+        		if(endTime < node.start){
+        			ans.add(new Interval(startTime, endTime));
+        			startTime = node.start;
+        			endTime = node.end;
+        		} else {
+        			endTime = Math.max(endTime, node.end);
+        		}
+        	}
+        }
+        
+        ans.add(new Interval(startTime, endTime));
+        return ans;
+	}
+	
+	
+	// by Jackie
+	public List<Interval> insert2(List<Interval> intervals, Interval newInterval) {
         if(intervals == null || newInterval == null){
             return intervals;
         }

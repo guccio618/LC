@@ -16,7 +16,7 @@ public class Q005_Longest_Palindromic_Substring {
         int max_len = 1;
         char[] array = s.toCharArray();
         
-        for (int i = 0; i < n;) {
+        for (int i = 0; i < n;) {    // 没有i++
             if (n - i <= max_len / 2){
             	break;
             }
@@ -24,7 +24,7 @@ public class Q005_Longest_Palindromic_Substring {
             while (back < n-1 && array[back + 1] == array[back]) {  // Skip duplicate characters. 
                 ++back; 
             }
-            i = back + 1;
+            i = back + 1;       // 注意 i 的调整
             while (back < n-1 && front > 0 && array[back + 1] == array[front - 1]) {  // Expand.
                 ++back;
                 --front;

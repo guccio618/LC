@@ -5,11 +5,54 @@ import java.util.Stack;
 
 
 public class Q155_Min_Stack {
+	long min;
+    Stack<Long> stack;
+
+    public Q155_Min_Stack(){
+        stack=new Stack<>();
+    }
+
+    public void push(int x) {
+        if (stack.isEmpty()){
+            stack.push(0L);
+            min=x;
+        }else{
+            stack.push(x-min);//Could be negative if min value needs to change
+            if (x<min) min=x;
+        }
+    }
+
+    public void pop() {
+        if (stack.isEmpty()) return;
+
+        long pop=stack.pop();
+
+        if (pop<0)  min=min-pop;//If negative, increase the min value
+
+    }
+
+    public int top() {
+        long top=stack.peek();
+        if (top>0){
+            return (int)(top+min);
+        }else{
+           return (int)(min);
+        }
+    }
+
+    public int getMin() {
+        return (int)min;
+    }
+	
+    
+    
+    
+    /*************************************************************************/
 	// by ninechapter uses stack to record the current minimum value, nice!
 	private Stack<Integer> s = new Stack<Integer>();
     private Stack<Integer> minStack = new Stack<Integer>();
     
-    public void push(int x) {
+    public void push2(int x) {
         s.push(x);
         if(minStack.isEmpty()){
             minStack.push(x);
@@ -18,7 +61,7 @@ public class Q155_Min_Stack {
         }
     }
 
-    public void pop() {
+    public void pop2() {
         if(s.isEmpty()){
             return;
         }
@@ -26,14 +69,14 @@ public class Q155_Min_Stack {
         minStack.pop();
     }
 
-    public int top() {
+    public int top2() {
         if(s.isEmpty()){
             return -1;
         } 
         return s.peek();
     }
 
-    public int getMin() {
+    public int getMin2() {
         if(minStack.isEmpty()){
             return -1;
         }

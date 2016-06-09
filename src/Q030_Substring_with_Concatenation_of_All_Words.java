@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 
 public class Q030_Substring_with_Concatenation_of_All_Words {
@@ -12,69 +13,75 @@ public class Q030_Substring_with_Concatenation_of_All_Words {
          * Let n=s.length, k=words[0].length traverse s with indices i, i+k,
          * i+2k, ... for 0<=i<k, so that the time complexity is O(n).
          */
-        List<Integer> res = new ArrayList<Integer>();
-        int strLen = s.length(), wordNum = words.length, wordLen;
-        if (strLen == 0 || wordNum == 0 || (wordLen = words[0].length()) == 0)
-            return res;
+		List<Integer> ans = new ArrayList<Integer>();
+        if (s == null || s.length() == 0 || words.length == 0 ||words[0].length() == 0){
+            return ans;
+        }
 
         HashMap<String, Integer> wordDict = new HashMap<String, Integer>();
+        HashMap<String, Integer> curDict = new HashMap<String, Integer>();
+        int wordLen = words[0].length();
+        int wordNum = words.length;
+        int wordListLen = wordLen * wordNum;
+        int start = 0;
+        int sLen = s.length();
 
         for (String word : words) {
-            if (wordDict.containsKey(word))
+            if (wordDict.containsKey(word)){
                 wordDict.put(word, wordDict.get(word) + 1);
-            else
+            } else {
                 wordDict.put(word, 1);
-        }
-
-        int i, curPos, start, x, wordsLen = wordNum * wordLen;
-        HashMap<String, Integer> curDict = new HashMap<String, Integer>();
-        String test, temp;
-        for (i = 0; i < wordLen; i++) {
-            curDict.clear();
-            start = i;
-            if (start + wordsLen > strLen)
-                return res;
-            for (curPos = i; curPos + wordLen <= strLen; curPos += wordLen) {
-                test = s.substring(curPos, curPos + wordLen);
-
-                if (wordDict.containsKey(test)) {
-                    if (!curDict.containsKey(test)) {
-                        curDict.put(test, 1);
-                        start = checkFound(res, start, wordsLen, curPos, wordLen, curDict, s);
-                        continue;
-                    }
-
-                    x = curDict.get(test);  // curDict contains test
-                    if (x < wordDict.get(test)) {  // wordDict中的重复词未出现完全
-                        curDict.put(test, x + 1);
-                        start = checkFound(res, start, wordsLen, curPos, wordLen, curDict, s);
-                        continue;
-                    }
-
-                    // curDict.get(test) == wDict.get(test), slide start to
-                    // the next word of the first same word as test
-                    while (!(temp = s.substring(start, start + wordLen)).equals(test)) {
-                        decreaseCount(curDict, temp);
-                        start += wordLen;
-                    }
-                    start += wordLen;
-                    if (start + wordsLen > strLen)
-                        break;
-                    continue;
-                }
-
-                // totally failed up to index j+k, slide start and reset all
-                start = curPos + wordLen;
-                if (start + wordsLen > strLen)
-                    break;
-                curDict.clear();
             }
         }
-        return res;
+        
+        for(int i = 0; i < wordLen; i++){
+            curDict.clear();
+            start = i;
+            
+            if(start + wordListLen > sLen){
+                return ans;
+            }
+            
+            for(int currentPos = i; currentPos + wordLen <= sLen; currentPos += wordLen){
+                String testWord = s.substring(currentPos, currentPos + wordLen);
+                String temp = "";
+                
+                if(wordDict.containsKey(testWord)){
+                    if(!curDict.containsKey(testWord)){
+                        curDict.put(testWord, 1);
+                        start = checkFound(ans, start, wordListLen, currentPos, wordLen, curDict, s);
+                    } else {    // wordDict中的重复词未出现完全
+                        int count = curDict.get(testWord);
+                        if(count < wordDict.get(testWord)){
+                            curDict.put(testWord, count + 1);
+                            start = checkFound(ans, start, wordListLen, currentPos, wordLen, curDict, s);
+                        } else {   // curDict.get(test) == wDict.get(test), slide start to the next word of the first same word as test
+                            while(!(temp = s.substring(start, start + wordLen)).equals(testWord)){
+                                decreaseCount(curDict, temp);
+                                start += wordLen;
+                            }
+                            
+                            start += wordLen;
+                            if(start + wordLen > sLen){
+                                break;
+                            }
+                        }
+                    }
+                } else{    // totally failed up, slide start and reset all
+                    start = currentPos + wordLen;
+                    if(start + wordListLen > sLen){
+                        break;
+                    }
+                    curDict.clear();
+                } 
+            }
+        }
+        
+        return ans;
     }
 
-    public int checkFound(List<Integer> res, int start, int wordsLen, int curPos, int wordLen, HashMap<String, Integer> curDict, String s) {
-        if (start + wordsLen == curPos + wordLen) {   // 检测到最后一个单词时
+    public int checkFound(List<Integer> res, int start, int wholeWordsLen, int curPos, int wordLen, HashMap<String, Integer> curDict, String s) {
+        if (start + wholeWordsLen == curPos + wordLen) {   // 检测到最后一个单词时
             res.add(start);
             // slide start to the next word
             decreaseCount(curDict, s.substring(start, start + wordLen));
@@ -134,5 +141,21 @@ public class Q030_Substring_with_Concatenation_of_All_Words {
 	        }
 	    }
 	    return true;
+	}
+	
+	
+	
+
+	
+	
+	public static void main(String[] args){
+		Q030_Substring_with_Concatenation_of_All_Words t = new Q030_Substring_with_Concatenation_of_All_Words();
+		String s = "barfoothefoobarman";
+		String[] words = {"foo", "bar"};
+		List<Integer> res = t.findSubstring(s, words);
+		
+		for(int i : res){
+			System.out.print(i + ", ");
+		}
 	}
 }

@@ -9,7 +9,7 @@ public class Q130_Surrounded_Regions {
 	private int row, col;
 	
 	public void solve(char[][] board) {
-        // Note: The Solution object is instantiated only once and is reused by each test case.
+        // 此题是典型的bfs用queue来实现
         if (board.length == 0 || board[0].length == 0){
         	return;
         }
@@ -24,7 +24,7 @@ public class Q130_Surrounded_Regions {
             enqueue(i, col - 1);
         }
 
-        for (int j = 1; j < col - 1; j++) { // **important**
+        for (int j = 1; j < col - 1; j++) { // **important**  
             enqueue(0, j);
             enqueue(row - 1, j);
         }

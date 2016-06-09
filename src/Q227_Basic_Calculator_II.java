@@ -48,43 +48,50 @@ public class Q227_Basic_Calculator_II {
 	
 	
 	/*************************************************/
-	// by jackie
+	// by Jackie
 	public int calculate2(String s) {
-        if(s.length() == 0) return 0;
-        if(s.length() == 1) return s.charAt(0) - '0';
-        String str = "";
-        Stack<Integer> stack = new Stack<>();
-        s += '+'; 
-        int len = s.length(), res = 0;
-        char pre_oper = 'n';
-       
-        for(int i = 0; i < len; i++){
-            if(s.charAt(i) == ' ') continue;
-            else if(s.charAt(i) == '+' || s.charAt(i) == '-' || s.charAt(i) == '*' || s.charAt(i) == '/'){
-            	if(pre_oper == '*')
-                	stack.push(Integer.parseInt(str) * stack.pop());
-                else if(pre_oper == '/'){
-                    int y = Integer.parseInt(str);
-                    int x = stack.pop();
-                    stack.push(x / y);
-                }
-                else if(i == 0){
-                    str += s.charAt(i);
-                    pre_oper = s.charAt(i);
-                    continue;
-                }
-                else if(pre_oper == '-')
-                	stack.push(0 - Integer.parseInt(str));
-                else
-                	stack.push(Integer.parseInt(str));
-                str = "";
-                pre_oper = s.charAt(i);
-            }
-            else str += s.charAt(i);
+        if(s == null || s.length() == 0){
+            return 0;
         }
-        while(!stack.isEmpty()) 
-        	res += stack.pop();
-        return res;
+        
+        Stack<Integer> stack = new Stack<Integer>();
+        int n = s.length();
+        int index = 0;
+        int num = 0;
+        char flag = '+';
+        int ans = 0;
+        
+        for(int i = 0; i < n; i++){
+            char c = s.charAt(i);
+            if(c >= '0' && c <= '9'){
+                num = num * 10 + c - '0';
+            }
+            if(c == '+' || c == '-' || c == '*' || c == '/' || i == n - 1){
+                if(flag == '+'){
+                    stack.push(num);
+                } else if(flag == '-'){
+                    stack.push(-num);
+                } else if(flag == '*'){
+                    if(!stack.isEmpty()){
+                        int num2 = stack.pop();
+                        stack.push(num2 * num);
+                    }
+                } else if(flag == '/'){
+                    if(!stack.isEmpty()){
+                        int num2 = stack.pop();
+                        stack.push(num2 / num);
+                    }
+                }
+                flag = c;
+                num = 0;
+            } 
+        }
+        
+        while(!stack.isEmpty()){
+            ans += stack.pop();
+        }
+        
+        return ans;
     }
 	
 	

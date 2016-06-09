@@ -21,8 +21,8 @@ public class Q086_Partition_List {
 			node = node.next;
 		}
 
-		p1.next = null;
-		p2.next = null;
+		p1.next = null;     // 注意这两个结尾处的处理！！！
+		p2.next = null;     // 注意这两个结尾处的处理！！！
 		
 		if (dummy1.next == null) {
 			return dummy2.next;

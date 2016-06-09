@@ -14,7 +14,7 @@ public class Q325_Maximum_Size_Subarray_Sum_Equals_k {
         int n = nums.length;
         int sum = 0;
         int ans = 0;
-        map.put(0, -1);
+        map.put(0, -1);     // 必需提前放入0，位置为-1     test case: [1,-1,5,-2,3]   3
         
         for(int i = 0; i < n; i++){
             sum += nums[i];
@@ -22,7 +22,7 @@ public class Q325_Maximum_Size_Subarray_Sum_Equals_k {
                 int pos = map.get(sum - k);
                 ans = Math.max(ans, i - pos);
             }
-            if(!map.containsKey(sum)){
+            if(!map.containsKey(sum)){   // 必需是map里不包含sum的情况; 原来的值不用进行替换，因为这里求的是最长距离，如果是最短距离，则需要替换，put进入
                 map.put(sum, i);
             }
         }

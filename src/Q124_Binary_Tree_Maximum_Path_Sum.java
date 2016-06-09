@@ -16,13 +16,23 @@ public class Q124_Binary_Tree_Maximum_Path_Sum {
     }
     
     public int maxPathHelper(TreeNode node){
-        if(node == null){
+//        if(node == null){
+//            return 0;
+//        }
+//        int leftPath = maxPathHelper(node.left);
+//        int rightPath = maxPathHelper(node.right);
+//        maxPath = Math.max(maxPath, leftPath + node.val + rightPath);
+//        return Math.max(0, Math.max(leftPath, rightPath) + node.val);  // 任意结点到另一结点的距离，因此可以只取root
+    	
+    	if(node == null){
             return 0;
         }
+        
         int leftPath = maxPathHelper(node.left);
         int rightPath = maxPathHelper(node.right);
-        maxPath = Math.max(maxPath, leftPath + node.val + rightPath);
-        return Math.max(0, Math.max(leftPath, rightPath) + node.val);  // 任意结点到另一结点的距离，因此可以只取root
+        int singlePath = Math.max(node.val, Math.max(leftPath, rightPath) + node.val);
+        maxPath = Math.max(maxPath, Math.max(singlePath, leftPath + rightPath + node.val));
+        return singlePath;
     }
 	
 	

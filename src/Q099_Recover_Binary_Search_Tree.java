@@ -2,7 +2,7 @@
 public class Q099_Recover_Binary_Search_Tree {
 	private TreeNode firstElement = null;
     private TreeNode secondElement = null;
-    private TreeNode lastElement = new TreeNode(Integer.MIN_VALUE); 
+    private TreeNode lastElement = new TreeNode(Integer.MIN_VALUE);     // 注意这里初始化为最小值 ！！！
     
     private void traverse(TreeNode root) {
         if (root == null) {

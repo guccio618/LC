@@ -41,9 +41,60 @@ public class Q143_Reorder_List {
 	
 
 	
+	/************************************************/
+	// by Jackie using reverse list
+	public void reorderList2(ListNode head) {
+        if(head == null || head.next == null){
+            return;
+        }
+        
+        ListNode faster = head, slower = head;
+        
+        while(faster != null && faster.next != null){
+            faster = faster.next.next;
+            slower = slower.next;
+        }
+        
+        ListNode secondHead = reverse(slower);
+        ListNode start = head;
+        
+        while(secondHead != null){
+            ListNode record = secondHead;
+            secondHead = secondHead.next;
+            record.next = start.next;
+            start.next = record;
+            start = start.next.next;
+        }
+        
+        start.next = null;
+    }
+    
+    public ListNode reverse(ListNode node){
+        if(node == null || node.next == null){
+            return node;
+        }
+        
+        ListNode currentNode = node;
+        ListNode nextNode = node.next;
+        ListNode nextNextNode = node.next.next;
+        
+        while(nextNextNode != null){
+            nextNode.next = currentNode;
+            currentNode = nextNode;
+            nextNode = nextNextNode;
+            nextNextNode = nextNextNode.next;
+        }
+        
+        nextNode.next = currentNode;
+        node.next = null;
+        return nextNode;
+    }
+	
+    
+	
 	/***********************************************/
 	// by Jackie using stack
-	public ListNode reorderList2(ListNode head) {  
+	public ListNode reorderList3(ListNode head) {  
         if(head == null || head.next == null){
         	return head;
         }

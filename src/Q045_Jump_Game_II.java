@@ -25,8 +25,43 @@ public class Q045_Jump_Game_II {
     }
 	
 	
-	//by ninechapter using DP
+	
+	/*******************************************************/
 	public int jump2(int[] nums) {
+         if(nums == null || nums.length <= 1){
+             return 0;
+         } else if(nums[0] >= nums.length - 1){
+             return 1;
+         }
+        
+         int n = nums.length;
+         int farthest = nums[0];
+         int nextFasthest = 0;
+         int step = 1;
+        
+         for(int i = 0; i < n; i++){
+             if(farthest >= n - 1){
+                 return step;
+             } 
+            
+             if(farthest < nums[i] + i){
+                 nextFasthest = Math.max(nextFasthest, nums[i] + i);
+             }
+            
+             if(i == farthest){
+                 farthest = nextFasthest;
+                 step++;
+             }
+         }
+         
+         return step;
+	}
+
+
+	
+	/*******************************************************/
+	//by ninechapter using DP
+	public int jump3(int[] nums) {
         int[] steps = new int[nums.length];
         
         steps[0] = 0;
@@ -43,7 +78,7 @@ public class Q045_Jump_Game_II {
     }
 	
 	//by ninechapter using Greedy
-	public int jump3(int[] A) {
+	public int jump4(int[] A) {
         if (A == null || A.length == 0) {
             return -1;
         }

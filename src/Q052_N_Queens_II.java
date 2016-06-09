@@ -2,32 +2,36 @@
 public class Q052_N_Queens_II {
 	/********************************************************/
 	// by Jackie using backtrack (recursive)
-	private int res;	
-	public int totalNQueens(int n) {
-        if(n <= 0) return res;
-        int[] ways = new int[n+1];
-        for(int i = 1; i <= n; ++i)
-            ways[i] = 0;
-        backtrack(ways, 1, n);
-        return res;
-    }
+	private int count = 0;
     
-    public void backtrack(int[] ways, int curRow, int len){
-        if(curRow <= len){
-            for(int i = 1; i <= len; ++i){
-                ways[curRow] = i;
-                if(valid(ways, curRow, len))
-                    backtrack(ways, curRow+1, len);
-            }
+    public int totalNQueens(int n) {
+        if(n <= 0){
+            return 0;
         }
-        else
-            res++;
+        
+        int[] position = new int[n + 1];
+        backtrack(position, 1, n);
+        return count;
     }
     
-    public boolean valid(int[] ways, int curRow, int len){
-        for(int i = 1; i < curRow; ++i){
-            if(ways[i] == ways[curRow] || Math.abs(ways[i]-ways[curRow]) == Math.abs(i-curRow))
+    public void backtrack(int[] position, int row, int n){
+        if(row > n){
+            count++;
+        } else {
+            for(int i = 1; i <= n; i++){
+                position[row] = i;
+                if(isValid(position, row) == true){
+                    backtrack(position, row + 1, n);
+                }
+            }    
+        }
+    }
+    
+    public boolean isValid(int[] position, int curRow){
+        for(int i = 1; i < curRow; i++){
+            if(position[i] == position[curRow] || (Math.abs(i - curRow) == Math.abs(position[i] - position[curRow]))){
                 return false;
+            }
         }
         return true;
     }

@@ -1,21 +1,57 @@
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
+/*************************************
+ * test case: [-2, null, -3, null] -5
+ * 
+ *************************************/
 
 public class Q113_Path_Sum_II {
-	public List<List<Integer>> pathSum(TreeNode root, int target) {
+	// by Jackie using dfs
+	public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        List<List<Integer>> ans = new ArrayList<List<Integer>>();
+        if(root == null){
+            return ans;
+        }
+        
+        List<Integer> list = new ArrayList<Integer>();
+        dfs(root, ans, list, sum);
+        return ans;
+    }
+    
+    public void dfs(TreeNode root, List<List<Integer>> ans, List<Integer> list, int sum){
+        if(root == null){
+            return;
+        } else if(root.left == null && root.right == null){
+            if(sum == root.val){
+                list.add(root.val);
+                ans.add(new ArrayList<Integer>(list));
+                list.remove(list.size() - 1);
+            }
+            return;
+        }
+        
+        list.add(root.val);
+        dfs(root.left, ans, list, sum - root.val);
+        dfs(root.right, ans, list, sum - root.val);
+        list.remove(list.size() - 1);
+    }
+	
+	
+	
+    // by other using dfs
+	public List<List<Integer>> pathSum2(TreeNode root, int target) {
         List<List<Integer>> ans = new ArrayList<List<Integer>>();
         if(root == null){
             return ans;
         }
         
         List<Integer> path = new ArrayList<Integer>(); 
-        dfs(ans, path, root, target);
+        dfs2(ans, path, root, target);
         return ans;
     }
     
-    public void dfs(List<List<Integer>> ans, List<Integer> path, TreeNode node, int target){
+    public void dfs2(List<List<Integer>> ans, List<Integer> path, TreeNode node, int target){
         if(node == null){
             return;
         }
@@ -26,8 +62,8 @@ public class Q113_Path_Sum_II {
                 ans.add(new ArrayList<Integer>(path));
             }
         } else {
-            dfs(ans, path, node.left, target - node.val);
-            dfs(ans, path, node.right, target - node.val);
+            dfs2(ans, path, node.left, target - node.val);
+            dfs2(ans, path, node.right, target - node.val);
         }
         path.remove(path.size() - 1);
     }

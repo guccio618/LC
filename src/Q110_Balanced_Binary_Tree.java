@@ -23,7 +23,7 @@ public class Q110_Balanced_Binary_Tree {
         if(left == -1 || right == -1 || Math.abs(left - right) > 1){   // 只要有一个子树不符合，即为不符合
             return -1;
         } else {
-            return Math.max(pathHelper(node.left), pathHelper(node.right)) + 1;
+            return Math.max(pathHelper(node.left), pathHelper(node.right)) + 1;     // 别忘记 +1, 计入本层的node高度
         }
     }
 }

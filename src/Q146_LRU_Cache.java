@@ -29,7 +29,7 @@ public class Q146_LRU_Cache {
 
     // @return an integer
     public int get(int key) {
-        if( !hs.containsKey(key)) {
+        if(!hs.containsKey(key)) {
             return -1;
         }
 
@@ -45,7 +45,7 @@ public class Q146_LRU_Cache {
     }
 
     public void set(int key, int value) {
-        if( get(key) != -1) {
+        if(get(key) != -1) {
             hs.get(key).value = value;
             return;
         }

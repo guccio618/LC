@@ -36,7 +36,7 @@ public class Q229_Majority_Element_II {
 				count[1] = 1;
 			} 
 			else {
-				count[0]--;
+				count[0]--;                // count--放在 count == 0之后，防止第一次进入的时候不会出错！！！
 				count[1]--;
 			}
 		}

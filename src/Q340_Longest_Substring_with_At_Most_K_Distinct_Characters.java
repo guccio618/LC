@@ -13,7 +13,7 @@ public class Q340_Longest_Substring_with_At_Most_K_Distinct_Characters {
         
         for(int faster = 0; faster < n; faster++){
             hash[s.charAt(faster)]++;
-            while(slower < faster && !isValid(hash, k)){
+            while(slower < faster && !isValid(hash, k)){   // 注意这里是slower < faster, 同时是 !isValid  ！！！
                 hash[s.charAt(slower)]--;
                 slower++;
             }

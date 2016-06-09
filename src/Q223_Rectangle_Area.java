@@ -1,7 +1,37 @@
 
 public class Q223_Rectangle_Area {
+	/***************************************************************/
 	// by Jackie
 	public int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) {
+        int left1 = Math.min(A, C);
+        int right1 = Math.max(A, C);
+        int top1 = Math.max(B, D);
+        int bottom1 = Math.min(B, D);
+        int area1 = (right1 - left1) * (top1 - bottom1);
+        
+        int left2 = Math.min(E, G);
+        int right2 = Math.max(E, G);
+        int top2 = Math.max(F, H);
+        int bottom2 = Math.min(F, H);
+        int area2 = (right2 - left2) * (top2 - bottom2);
+        
+        int left3 = Math.max(left1, left2);
+        int right3 = Math.min(right1, right2);
+        int top3 = Math.min(top1, top2);
+        int bottom3 = Math.max(bottom1, bottom2);
+        int area3 = (right3 - left3) * (top3 - bottom3);
+        if(right3 < left3 || top3 < bottom3){
+            area3 = 0;
+        }
+        
+        return area1 + area2 - area3;
+    }
+	
+	
+	
+	/***************************************************************/
+	// by Jackie
+	public int computeArea2(int A, int B, int C, int D, int E, int F, int G, int H) {
         int leftSide_A = Math.min(A, C);
         int rightSide_A = Math.max(A, C);
         int topSide_A = Math.max(B, D);

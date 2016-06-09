@@ -28,7 +28,7 @@ public class Q047_Permutations_II {
     			backtrack(nums, curPos+1, visited, path);
     			path.remove(path.size()-1);
     			visited[i] = false;
-    			while(i+1 < len && nums[i+1] == nums[i]) ++i;
+    			while(i+1 < len && nums[i+1] == nums[i]) ++i;   // 判断重复应该放在visited[i] = false的情况里 ！！！
     		}
     	}
     }

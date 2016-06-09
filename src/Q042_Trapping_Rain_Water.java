@@ -3,6 +3,8 @@ public class Q042_Trapping_Rain_Water {
 	/**************************************************************************************
 	 * (1). 每一个height[i]上的蓄水数等于其 min(left[maxHeight], right[maxHeight]) - height[i];
 	 * (2). 用memory分别记录当前结点对应的左边和右边的最大高度
+	 * 对比题目见11题
+	 * 
 	 **************************************************************************************/
 	// by ninechapter using two pointers
 	public int trap(int[] heights) {
@@ -16,16 +18,16 @@ public class Q042_Trapping_Rain_Water {
         int rightMaxHeight = heights[n - 1];
         int left = 0, right = n - 1;
         
-        while(left + 1 < right){
+        while(left + 1 < right){      // 注意这里用的是left + 1 < right!!! 判断的是中间的存水量
             if(leftMaxHeight < rightMaxHeight){
-                left++;
+                left++;               // 先++ !!!
                 if(leftMaxHeight > heights[left]){
                     ans += leftMaxHeight - heights[left];
                 } else {
                     leftMaxHeight = heights[left];
                 }
             } else {
-                right--;
+                right--;              // 先-- !!!
                 if(rightMaxHeight > heights[right]){
                     ans += rightMaxHeight - heights[right];
                 } else {

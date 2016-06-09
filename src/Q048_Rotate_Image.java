@@ -26,7 +26,7 @@ public class Q048_Rotate_Image {
 		}
 		
 		for(int row = 0; row < n; ++row){
-			for(int col = row + 1; col < n; ++col){
+			for(int col = row + 1; col < n; ++col){     // 注意 col = row + 1 !!!
 				temp = matrix[row][col];
 				matrix[row][col] = matrix[col][row];
 				matrix[col][row] = temp;

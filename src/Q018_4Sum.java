@@ -26,9 +26,9 @@ public class Q018_4Sum {
                         temp.add(nums[back]);
                         res.add(new LinkedList<Integer>(temp));
                         while(front < back && nums[front] == nums[front+1]) front++;  // reduce duplicate
-                        front++;                                               
+                        front++;                                                      // 移除重复之后，再front++一次       
                     	while(front < back && nums[back] == nums[back-1]) back--;     // reduce duplicate
-                    	back--;
+                    	back--;                                                       // 移除重复之后，再back--一次     
                     }
                 }
                 while(j+1 < len-2 && nums[j] == nums[j+1]) j++;  // reduce duplicate

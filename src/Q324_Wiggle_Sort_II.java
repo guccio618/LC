@@ -1,7 +1,7 @@
 import java.util.Arrays;
 
 
-public class Q324_Wiggle_Sort_II {
+public class Q324_Wiggle_Sort_II {	
 	/********************************************************/
 	// by other, faster, nlogn
 	public void wiggleSort(int[] nums) {
@@ -9,12 +9,15 @@ public class Q324_Wiggle_Sort_II {
 		int[] temp = new int[nums.length];
 		int mid = nums.length % 2 == 0 ? nums.length / 2 - 1 : nums.length / 2;
 		int index = 0;
+		
 		for (int i = 0; i <= mid; i++) {
 			temp[index] = nums[mid - i];
-			if (index + 1 < nums.length)
+			if (index + 1 < nums.length){
 				temp[index + 1] = nums[nums.length - i - 1];
+			}
 			index = index + 2;
 		}
+		
 		for (int i = 0; i < nums.length; i++) {
 			nums[i] = temp[i];
 		}
@@ -54,7 +57,9 @@ public class Q324_Wiggle_Sort_II {
 		t.wiggleSort(nums);
 		for(int i = 0; i < nums.length; ++i){
 			System.out.print(nums[i] + ", ");
-		}
-			
+		}		
 	}
+	
+	// 1 2 3 4 5 6 -7- 8 9 10 11 12 13
+	// 13 2 3 4 5 6 7 8 9 10 11 12 1
 }	

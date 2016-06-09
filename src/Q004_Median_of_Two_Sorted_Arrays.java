@@ -12,7 +12,7 @@ public class Q004_Median_of_Two_Sorted_Arrays {
         int m = nums2.length;
         int len = n + m;
         if(len % 2 == 1)
-            return findKth(nums1, 0, nums2, 0, len/2 + 1);
+            return findKth(nums1, 0, nums2, 0, len/2 + 1);   // 注意这里用 len/2+1
         else
             return (findKth(nums1, 0, nums2, 0, len/2) + findKth(nums1, 0, nums2, 0, len/2 + 1)) / 2.0;
     }
@@ -20,9 +20,9 @@ public class Q004_Median_of_Two_Sorted_Arrays {
     //相当于转化成查找A和B数组里第k小的数
 	//find the Kth smallest value in the array nums1 and array nums2;
     public int findKth(int[] a, int a_start, int[] b, int b_start, int k){
-        if(a_start >= a.length)
+        if(a_start >= a.length)                 // 注意有等号 ！！！
             return b[b_start + k - 1];
-        if(b_start >= b.length)
+        if(b_start >= b.length)                 // 注意有等号 ！！！
             return a[a_start + k - 1];
         if(k == 1)
             return Math.min(a[a_start], b[b_start]);

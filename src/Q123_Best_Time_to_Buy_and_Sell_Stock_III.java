@@ -31,7 +31,7 @@ public class Q123_Best_Time_to_Buy_and_Sell_Stock_III {
         }
 
         int profit = 0;
-        for (int i = 0; i < prices.length; i++){
+        for (int i = 0; i < prices.length; i++){         // left[i] 和 right[i]可以在同一天，因为不一定是2次操作，可以是1次操作
             profit = Math.max(left[i] + right[i], profit);  
         }
 

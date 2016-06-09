@@ -80,24 +80,25 @@ public class Q000_Algorithm_Sort {
 	/*********************** Random Quick Sort **************************/
 	// 时间最理想O(n*logn)，最差O(n^2)，空间O(logn)，不稳定; worse case 是整个序列倒序，此时快速排序退化成冒泡排序
 	// Divide and Conquer； 先整体有序，再局部有序； 如果不是worse case，其速度快于merge sort
-	public int partition(int[] p, int x, int y) {
-		int i = x;
+	public int partition(int[] p, int left, int right) {
+		int start = left;
 	 	int temp;
-		int pivot = p[y];
-		for (int j = x; j < y; j++) {
-			if (p[j] <= pivot) {
-				temp = p[i];
-				p[i] = p[j];
-				p[j] = temp;
-				i++;
+		int pivot = p[right];
+		
+		for (int i = left; i < right; i++) {
+			if (p[i] <= pivot) {
+				temp = p[start];
+				p[start] = p[i];
+				p[i] = temp;
+				start++;
 			}
 		}
 		
-		temp = p[i];
-		p[i] = p[y];
-		p[y] = temp;
+		temp = p[start];
+		p[start] = p[right];
+		p[right] = temp;
 		
-		return i;
+		return start;
 	}
 
 	public int randomized_partition(int[] p, int x, int y) {
@@ -112,9 +113,9 @@ public class Q000_Algorithm_Sort {
 
 	public void quickSort(int[] p, int x, int y) {
 		if (x < y) {
-			int r = randomized_partition(p, x, y); // 也可以用 random_partition
-			quickSort(p, x, r - 1);
-			quickSort(p, r + 1, y);
+			int position = randomized_partition(p, x, y); // 也可以用 random_partition
+			quickSort(p, x, position - 1);                // 注意这里是position - 1 !!!
+			quickSort(p, position + 1, y);
 		}
 	}
 	
@@ -180,59 +181,65 @@ public class Q000_Algorithm_Sort {
 	// (1). 必须知道待排序的数组的最大值range
 	// (2). 待排序数组中的元素必须为非负值
 
-	void countSort(int[] p, int range) {
+	void countSort(int[] nums, int range) {
 		int[] countArray = new int[range + 1];
-		int[] temp = new int[p.length];      // 与数组p一样长的临时数组
-		for (int i = 0; i < p.length; i++){
-			countArray[ p[i] ]++;
+		int[] tempArray = new int[nums.length];      // 与数组p一样长的临时数组
+		
+		for (int i = 0; i < nums.length; i++){
+			countArray[ nums[i] ]++;
 		}
+		
 		for (int i = 1; i < countArray.length; i++){
 			countArray[i] += countArray[i-1];
 		}
-		for (int i = p.length-1; i >= 0; i--) {
-			int value = p[i];
+		
+		for (int i = nums.length-1; i >= 0; i--) {     // 必需要从 n - 1开始，从后往前
+			int value = nums[i];
 			int position = countArray[value]-1;
-			temp[position] = value;
+			tempArray[position] = value;
 			countArray[value] -= 1;
 		}
-		for (int i = 0; i < p.length; i++)
-			p[i] = temp[i];
+		
+		for (int i = 0; i < nums.length; i++){
+			nums[i] = tempArray[i];
+		}
 	}
 
 	
 	
 
     /***********************   radix sort   **************************/	
-	
     // 基于count_sort的radix sort
-	private void radixSort(int[] array,int radix, int bit_num) {  // array为待排序数; radix代表基数，如10进制radix就为10;          
-        int length = array.length;  		                      // bit_num代表排序元素的最大位数;
-        int[] temp = new int[length];       //用于暂存元素  
-        int[] count = new int[radix];       //用于计数排序  
-        int divide = 1;  
-          
-        for (int i = 0; i < bit_num; i++) {  	              
-            System.arraycopy(array, 0, temp, 0, length);  
-            Arrays.fill(count, 0);  
-              
-            for (int j = 0; j < length; j++) {  
-                int tempKey = (temp[j] / divide) % radix;  // 按位排序，从第1位开始
-                count[tempKey]++;  
-            }  
-              
-            for (int j = 1; j < radix; j++) {  
-                count [j] = count[j] + count[j-1];         // 统计每个位上的数应该排的位置，例如比7大的有多少个
-            }  
-                       
-            for (int j = length - 1; j >= 0; j--) {  
-                int tempKey = (temp[j] / divide) % radix;  
-                count[tempKey]--;  
-                array[count[tempKey]] = temp[j];           // 排在array里的第几位
-            }                
-            divide = divide * radix;                  
-        }  
-  
-    }  	
+	public void radixSort(int[] nums, int radix, int bit_num){    // array为待排序数; radix代表基数，如10进制radix就为10;
+        int len = nums.length;                                    // bit_num代表排序元素的最大位数;
+        int[] tempArray = new int[len];                           // 用于暂存元素 
+        int divide = 1;
+        
+        for(int i = 0; i < bit_num; i++){
+            int[] count = new int[radix];                         // 用于计数排序
+            
+            for(int j = 0; j < len; j++){
+                int value = (nums[j] / divide) % radix;
+                count[value]++;
+            }
+            
+            for(int j = 1; j < radix; j++){
+                count[j] += count[j - 1];
+            }
+            
+            for(int j = len - 1; j >= 0; j--){
+                int value = (nums[j] / divide) % radix;
+                int position = count[value] - 1;
+                tempArray[position] = nums[j];
+                count[value]--;
+            }
+            
+            divide = divide * radix;
+            System.arraycopy(tempArray, 0, nums, 0, len);
+        }
+    }
+	
+	
 	
 	public void swap(int[] x, int i, int j){
 		int temp = x[i];

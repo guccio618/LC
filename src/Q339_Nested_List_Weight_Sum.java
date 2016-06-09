@@ -2,7 +2,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-
+/****************************************************
+ * 这里有level的概念，因此考虑用层序遍历
+ * 
+ ****************************************************/
 
 public class Q339_Nested_List_Weight_Sum {
 	public int depthSum(List<NestedInteger> nestedList) {
