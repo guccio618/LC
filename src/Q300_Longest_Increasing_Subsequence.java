@@ -20,9 +20,9 @@ public class Q300_Longest_Increasing_Subsequence {
     }
     
     public void updateList(ArrayList<Integer> list, int target){
-        if(list.size() == 0 || target > list.get(list.size() - 1)){
+        if(list.size() == 0 || target > list.get(list.size() - 1)){   
             list.add(target);
-        } else {
+        } else {                                     // target < list.get(0) 考虑在这里 ！！！
             int pos = findPos(list, target);
             list.set(pos, target);
         }

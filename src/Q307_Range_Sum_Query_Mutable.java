@@ -52,7 +52,7 @@ public class Q307_Range_Sum_Query_Mutable {
     }
 
     public int sumRange(int i, int j) {
-        SegmentTreeNode node = root;
+        SegmentTreeNode node = root;     // 注意这里用一个临时变量 node 来作为参数 ！！！
         return query(node, i, j);
     }
     
