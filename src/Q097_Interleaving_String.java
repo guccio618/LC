@@ -48,7 +48,7 @@ public class Q097_Interleaving_String {
                 int k = i + j;
                 if(s3.charAt(k - 1) == s1.charAt(i - 1)){
                     dp[i][j] |= dp[i - 1][j];
-                }          // 此处不可以用else, 因为有上下两种可能使得dp[i][j]＝true, 但因为
+                }          // 此处不可以用else, 因为有上下两种可能使得dp[i][j]＝true !!!
                 if(s3.charAt(k - 1) == s2.charAt(j - 1)){
                     dp[i][j] |= dp[i][j - 1];
                 }

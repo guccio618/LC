@@ -3,8 +3,8 @@ public class Q343_Integer_Break {
 	/**************************************/
 	// by Jackie use dp
 	public int integerBreak(int n) {
-        if(n == 2 || n == 3) {  // 2和3必须单独处理
-            return n - 1;
+        if(n == 2 || n == 3) {  // 2和3必须单独处理, 因为只有2，3时，其分割后相乘值会小于它本身，而当2，3用作其他数的拆分因子时，又要用作因子2，3相乘
+            return n - 1;       // 如： memo[2] = 2, memo[3] = 3, 实际2, 3拆分后最大乘积为 1, 2 !!!
         }
         
         int[] memo = new int[n + 1];

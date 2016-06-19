@@ -2,8 +2,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 
-public class Q000_Java_HashMap {
+public class Q000_Java_hashCode {
 	/**************** Hash Function ******************/
+	// 作用类似于Arrays.hashCode();
 	public int HashCode(char[] arrays, int HASH_SIZE){
 		long sum = (int)arrays[0];
 		for(int i = 1; i < arrays.length; ++i){
