@@ -41,12 +41,13 @@ public class Q310_Minimum_Height_Trees {
 
 		// Remove leaves level by level
 		while (n > 2) {
-			ArrayList<Integer> newLeaves = new ArrayList<Integer>();
+			ArrayList<Integer> newLeaves = new ArrayList<Integer>();  // 这里的这种用法比较nice ！！！
 			for (int leaf : leaves) {
 				for (int nb : graph[leaf]) {					
 					graph[leaf].remove(nb);     // Remove connection
 					graph[nb].remove(leaf);
 					n--;                        // 注意 n--在这里
+					
 					if (graph[nb].size() == 1) {
 						newLeaves.add(nb);
 					}
