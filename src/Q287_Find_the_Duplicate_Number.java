@@ -28,16 +28,52 @@ public class Q287_Find_the_Duplicate_Number {
 	
 	
 	/***********************************************************/
-	//by jackie
+	//by jackie using count sort
 	public int findDuplicate2(int[] nums) {
-        if(nums == null || nums.length == 0) return 0;
-        int n = nums.length;
-        for(int i = 0; i < n-1; i++){
-            for(int j = i+1; j < n; j++){
-                if(nums[i] == nums[j])
-                    return nums[i];
+		if(nums == null || nums.length == 0){
+            return -1;
+        }
+        
+        int len = nums.length;
+        countSort(nums);
+        
+        for(int i = 0; i < len - 1; i++){
+            if(nums[i] == nums[i + 1]){
+                return nums[i];
             }
         }
-        return 0;
+        
+        return -1;
     }
+	
+	public void countSort(int[] nums){
+		int len = nums.length;
+        int[] count = new int[len + 1];
+        int[] tempNums = new int[len];
+        
+        for(int num : nums){
+            count[num]++;
+        }
+        
+        for(int i = 2; i <= len; i++){
+            count[i] += count[i - 1];  
+        }
+        
+        for(int i = len - 1; i >= 0; i--){
+            int value = nums[i];
+            int position = count[value] - 1;
+            tempNums[position] = value;
+            count[value]--;
+        }
+        
+        System.arraycopy(tempNums, 0, nums, 0, len);
+	}
+	
+	
+	public static void main(String[] args){
+		Q287_Find_the_Duplicate_Number t = new Q287_Find_the_Duplicate_Number();
+		int[] nums = {2, 1, 2};
+		System.out.println(t.findDuplicate2(nums));
+		
+	}
 }

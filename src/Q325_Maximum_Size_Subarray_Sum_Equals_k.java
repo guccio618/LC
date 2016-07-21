@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class Q325_Maximum_Size_Subarray_Sum_Equals_k {
 	/********************************************************************/
-	// by Jackie using HashMap, time complexity is O(n), space is O(1)
+	// by Jackie using HashMap, time complexity is O(n), space is O(n)
 	public int maxSubArrayLen(int[] nums, int k) {
         if(nums == null || nums.length == 0){
             return 0;
@@ -14,7 +14,7 @@ public class Q325_Maximum_Size_Subarray_Sum_Equals_k {
         int n = nums.length;
         int sum = 0;
         int ans = 0;
-        map.put(0, -1);     // 必需提前放入0，位置为-1     test case: [1,-1,5,-2,3]   3
+        map.put(0, -1);     // 必需提前放入0，位置为-1 !!!     test case: [1,-1,5,-2,3]   3
         
         for(int i = 0; i < n; i++){
             sum += nums[i];

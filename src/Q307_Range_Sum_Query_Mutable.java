@@ -82,6 +82,7 @@ public class Q307_Range_Sum_Query_Mutable {
         int mid = (node.start + node.end) / 2;
         int leftSum = 0;
         int rightSum = 0;
+        
         if(start <= mid){
             if(end > mid){
                 leftSum = query(node.left, start, mid);

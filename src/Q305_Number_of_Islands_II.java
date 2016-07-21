@@ -63,6 +63,7 @@ public class Q305_Number_of_Islands_II {
         
         public int compress_find(int x){
             int parent = father.get(x);
+            
             while(parent != father.get(parent)){
                 parent = father.get(parent);
             }

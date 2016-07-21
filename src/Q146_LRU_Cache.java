@@ -45,7 +45,7 @@ public class Q146_LRU_Cache {
     }
 
     public void set(int key, int value) {
-        if(get(key) != -1) {
+        if(get(key) != -1) {             // 这里必须用get(key)而不是map.containsKey(key)， 因为相当于访问过了，需要做move_to_tail操作
             hs.get(key).value = value;
             return;
         }

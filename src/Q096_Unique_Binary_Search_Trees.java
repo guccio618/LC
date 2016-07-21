@@ -3,29 +3,41 @@ public class Q096_Unique_Binary_Search_Trees {
 	/***********************   recursive + DP   ****************************/
 	// by jackie
 	public int numTrees(int n) {
-        if(n <= 0) return 0;
-        int[] f = new int[n+1];
-        f[1] = 1;                 // 只有一个node时
-        return countNum(1, n, n, f);
+        if(n <= 0){
+            return 0;
+        }
+        
+        int[] memo = new int[n + 1];     // 因为是从 1 到 n，因此这里需要定义到 n + 1 !!!
+        memo[0] = 0;
+        memo[1] = 1;
+        
+        return helper(memo, 1, n);
+    }
+    
+    public int helper(int[] memo, int start, int end){
+        if(start > end){
+            return 0;
+        } else if(memo[end - start + 1] > 0){
+            return memo[end - start + 1];
+        }
+        
+        int count = 0;
+        
+        for(int i = start; i <= end; i++){
+            int left = helper(memo, start, i - 1);
+            int right = helper(memo, i + 1, end);
+            
+            if(left == 0 || right == 0){
+                count += left + right;
+            } else {
+                count += left * right;
+            }
+        }
+        
+        memo[end - start + 1] = count;
+        return count;
     }
 	
-	public int countNum(int startNode, int endNode, int max, int[] f){
-		if(startNode > endNode) return 0;
-		if(f[endNode - startNode + 1] > 0) {
-			return f[endNode - startNode + 1];
-		}
-		int count = 0;
-		
-		for (int i = startNode; i <= endNode; ++i) {			
-			int left = countNum(startNode, i - 1, max, f);
-			int right = countNum(i + 1, endNode, max, f);
-			if(left == 0) count += right;
-			else if(right == 0) count += left;
-			else count += (left * right);
-		}
-		f[endNode - startNode + 1] = count;
-		return count;
-	}
 	
 	// by other
 	public int numTrees_2(int n) {

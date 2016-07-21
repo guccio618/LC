@@ -4,6 +4,46 @@ import java.util.ArrayList;
 
 public class Q095_Unique_Binary_Search_Trees_II {
 	public List<TreeNode> generateTrees(int n) {
+        List<TreeNode> ans = new ArrayList<TreeNode>();
+        if(n <= 0){
+            return ans;
+        }
+        
+        List<TreeNode>[][] memo = new List[n + 1][n + 1];  // 因为是从 1 到 n，因此这里需要定义到 n + 1 !!!
+        return helper(memo, 1, n);
+    }
+    
+    public List<TreeNode> helper(List<TreeNode>[][] memo, int start, int end){
+        List<TreeNode> list = new ArrayList<TreeNode>();
+        if(start > end){
+            list.add(null);
+            return list;
+        } else if(memo[start][end] != null){
+            return memo[start][end];
+        }
+        
+        for(int i = start; i <= end; i++){
+            List<TreeNode> left = helper(memo, start, i - 1);
+            List<TreeNode> right = helper(memo, i + 1, end);
+            
+            for(TreeNode leftNode : left){
+                for(TreeNode rightNode : right){
+                    TreeNode root = new TreeNode(i);
+                    root.left = leftNode;
+                    root.right = rightNode;
+                    list.add(root);
+                }
+            }
+        }
+        
+        memo[start][end] = list;
+        return list;
+    }
+    
+    
+    
+    /*******************************   recursive   ***********************************/
+	public List<TreeNode> generateTrees2(int n) {
         if(n <= 0){
             return new ArrayList<TreeNode>();
         }
@@ -39,7 +79,7 @@ public class Q095_Unique_Binary_Search_Trees_II {
 	// by other, Recursive with memoization
 	// treesForRange used for store the sub-tree, 其为一个ArrayList的二维数组,
 	// 存放从node i到j的所有可能的子树组合的ArrayList
-	public ArrayList<TreeNode> generateTrees2(int n) {  
+	public ArrayList<TreeNode> generateTrees3(int n) {  
 		ArrayList<TreeNode>[][] treesForRange = (ArrayList<TreeNode>[][]) new ArrayList[n+2][n+1];
         helper(1, n, treesForRange);
         return treesForRange[1][n];
@@ -73,7 +113,7 @@ public class Q095_Unique_Binary_Search_Trees_II {
     // DP, compute and store trees for intermediate ranges from 1 to n
     // time: exponential, since for each range the number of trees is combinatorial
     // space: O(n^2)
-    public ArrayList<TreeNode> generateTrees3(int n) {
+    public ArrayList<TreeNode> generateTrees4(int n) {
         if (n == 0) {
         	ArrayList<TreeNode> result = new ArrayList<TreeNode>();
             result.add(null);

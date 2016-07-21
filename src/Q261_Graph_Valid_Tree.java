@@ -5,7 +5,53 @@ import java.util.Set;
 
 
 public class Q261_Graph_Valid_Tree {
+	// by other using BFS
 	public boolean validTree(int n, int[][] edges) {
+        if(n <= 0){
+            return false;
+        }
+        
+        Set<Integer>[] graph = new Set[n];
+        Set<Integer> visited = new HashSet<Integer>();
+        Queue<Integer> queue = new LinkedList<Integer>();
+        
+        for(int i = 0; i < n; i++){
+            graph[i] = new HashSet<Integer>();
+        }
+        
+        for(int i = 0; i < edges.length; i++){
+            graph[edges[i][0]].add(edges[i][1]);
+            graph[edges[i][1]].add(edges[i][0]);
+        }
+        
+        queue.offer(0);
+        visited.add(0);
+        
+        while(!queue.isEmpty()){
+            int node = queue.poll();
+
+            if(graph[node].size() == 0){
+                continue;
+            }
+            
+            for(int nextNode : graph[node]){
+                if(visited.contains(nextNode)){
+                    return false;
+                }
+                
+                visited.add(nextNode);
+                queue.offer(nextNode);
+                graph[nextNode].remove(node);
+            }
+        }
+        
+        return visited.size() == n;
+    }
+	
+	
+	
+	// by Jackie using BFS
+	public boolean validTree2(int n, int[][] edges) {
         if(n <= 0){
             return true;
         }

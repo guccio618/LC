@@ -175,6 +175,14 @@ public class Q000_Algorithm_Sort {
 	}
 	
 	
+	public void swap(int[] x, int i, int j){
+		int temp = x[i];
+		x[i] = x[j];
+		x[j] = temp;
+	}
+	
+	
+	
 	/***********************   count sort   **************************/	
 	// 时间复杂度为O(n+k), 其中k为排序数的范围； 空间复杂度为O(n+k)
 	// 限制:
@@ -240,12 +248,6 @@ public class Q000_Algorithm_Sort {
     }
 	
 	
-	
-	public void swap(int[] x, int i, int j){
-		int temp = x[i];
-		x[i] = x[j];
-		x[j] = temp;
-	}
 	
 	/***********************   main   **************************/
 	

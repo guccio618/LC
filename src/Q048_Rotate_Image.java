@@ -12,7 +12,7 @@ public class Q048_Rotate_Image {
 		}
 		
 		int n = matrix.length;
-		int up = 0, down = n -1;
+		int up = 0, down = n - 1;
 		int temp = 0;
 		
 		while (up < down) {

@@ -10,7 +10,8 @@ public class Q142_Linked_List_Cycle_II {
             return null;
         }
         
-        ListNode faster = head.next, slower = head;
+        ListNode faster = head.next;
+        ListNode slower = head;
         
         while(faster != null && faster.next != null && faster != slower){
             faster = faster.next.next;
@@ -19,14 +20,17 @@ public class Q142_Linked_List_Cycle_II {
         
         if(faster != slower){
             return null;
-        } else {
-            faster = head;
-            while(faster != slower.next){
-                faster = faster.next;
-                slower = slower.next;
-            }
-            return faster;
         }
+        
+        faster = head;
+        slower = slower.next;
+        
+        while(faster != slower){
+            faster = faster.next;
+            slower = slower.next;
+        }
+        
+        return faster;
     }
 	
 	

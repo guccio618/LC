@@ -18,15 +18,18 @@ public class Q013_Roman_to_Integer {
 	    hash[(int)('C')] = 100;
 	    hash[(int)('D')] = 500;
 	    hash[(int)('M')] = 1000;
-	    int n = s.length();
-	    char[] letters = s.toCharArray();
-	    int ans = hash[(int)letters[n - 1]];
 	    
-	    for(int i = n - 2; i >= 0; --i){
-	        if(hash[(int)letters[i + 1]] <= hash[(int)letters[i]]){
-	            ans += hash[(int)letters[i]];
+	    int len = s.length();
+	    int ans = hash[s.charAt(len - 1)];
+	    
+	    for(int i = len - 2; i >= 0; i--){
+	        char c1 = s.charAt(i);
+	        char c2 = s.charAt(i + 1);
+	        
+	        if(hash[c1] >= hash[c2]){
+	            ans += hash[c1];     // 注意这里加的是c1 ！！！
 	        } else {
-	            ans -= hash[(int)letters[i]];
+	            ans -= hash[c1];
 	        }
 	    }
 	    

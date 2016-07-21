@@ -4,40 +4,41 @@ public class Q005_Longest_Palindromic_Substring {
 	Given a string S, find the longest palindromic substring in S. 
 	You may assume that the maximum length of S is 1000, 
 	and there exists one unique longest palindromic substring.
+	
 	******************************************************************/
 	
-	//by other using string operation
+	//by other using string operation, faster !!!
+	private int maxLen = 0;
+	private int startIndex = 0;
+
 	public String longestPalindrome(String s) {
-        if(s == null || s.length() == 0){ 
-        	return s;
-        }
-        int n = s.length();
-        int min_start = 0;
-        int max_len = 1;
-        char[] array = s.toCharArray();
-        
-        for (int i = 0; i < n;) {    // 没有i++
-            if (n - i <= max_len / 2){
-            	break;
-            }
-            int front = i, back = i;
-            while (back < n-1 && array[back + 1] == array[back]) {  // Skip duplicate characters. 
-                ++back; 
-            }
-            i = back + 1;       // 注意 i 的调整
-            while (back < n-1 && front > 0 && array[back + 1] == array[front - 1]) {  // Expand.
-                ++back;
-                --front;
-            } 
-            if ( (back-front+1) > max_len ){
-                min_start = front;
-                max_len = (back-front+1);
-            }
-        }
-        
-        return s.substring(min_start, min_start + max_len);
-    }
-		
+		if (s == null || s.length() <= 1) {
+			return s;
+		}
+
+		int len = s.length();
+
+		for (int i = 0; i < len - 1; i++) {
+			getPalindromic(s, i, i);
+			getPalindromic(s, i, i + 1);
+		}
+
+		return s.substring(startIndex, startIndex + maxLen);
+	}
+
+	public void getPalindromic(String s, int start, int end) {
+		while (start >= 0 && end < s.length() && s.charAt(start) == s.charAt(end)) {
+			start--;
+			end++;
+		}
+
+		if (maxLen < end - start - 1) {
+			maxLen = end - start - 1;
+			startIndex = start + 1;
+		}
+	}
+	
+	
 	
 	//by Jackie using DP
 	public String longestPalindrome2(String s) {

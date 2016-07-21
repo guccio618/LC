@@ -7,27 +7,27 @@ public class Q243_Shortest_Word_Distance {
 	/****************************************************************/
 	// by Jackie, time complexity is O(n)
 	public int shortestDistance(String[] words, String word1, String word2) {
-        int n = words.length;
-        int flag = 0;
-        int position1 = 0, position2 = 0;
-        int ans = Integer.MAX_VALUE;
-        
-        for(int i = 0; i < n; i++){
-            if(words[i].equals(word1)){
-                position1 = i;
-                if(flag == 2){
-                    ans = Math.min(ans, position1 - position2);
-                }
-                flag = 1;
-            }
-            if(words[i].equals(word2)){
-                position2 = i;
-                if(flag == 1){
-                    ans = Math.min(ans, position2 - position1);
-                }
-                flag = 2;
-            }
+		if(words == null || words.length == 0){
+            return 0;
         }
+        
+        int len = words.length;
+        int ans = Integer.MAX_VALUE;
+        int pos1 = -1, pos2 = -1;
+
+        for(int i = 0; i < len; i++){
+            if(words[i].equals(word1)){
+                if(pos2 > -1){
+                    ans = Math.min(ans, i - pos2);    
+                }
+                pos1 = i;
+            } else if(words[i].equals(word2)){
+                if(pos1 > -1){
+                    ans = Math.min(ans, i - pos1);
+                }
+                pos2 = i;
+            }
+        }        
         
         return ans;
     }

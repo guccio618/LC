@@ -27,4 +27,37 @@ public class Q069_Sqrt_x {
             return (int) left;
         }
     }
+	
+	public int mySqrt2(int x) {
+        if(x <= 0){
+            return 0;
+        }
+        
+        long left = 1, right = x;
+        
+        while(left + 1 < right){
+            long mid = left + (right - left) / 2;
+            long result = mid * mid;
+            
+            if(result < x){
+                left = mid;
+            } else if(result > x){
+                right = mid;
+            } else {
+                return (int) mid;
+            }
+        }
+        
+        if((long) (left * left) <= x){
+            return (int) left;
+        } else {
+            return (int) right;
+        }
+    }
+	
+	
+	public static void main(String[] args){
+		Q069_Sqrt_x t = new Q069_Sqrt_x();
+		System.out.println(t.mySqrt2(2147395599));
+	}
 }

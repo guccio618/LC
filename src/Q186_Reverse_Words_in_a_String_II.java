@@ -1,40 +1,37 @@
 
 public class Q186_Reverse_Words_in_a_String_II {
 	public void reverseWords(char[] s) {
-        if(s == null || s.length == 0){
+        if(s == null || s.length <= 1){
             return;
         }
         
-        int n = s.length;
-        reverse(s, 0, n - 1);
-        int index = 0;
+        int len = s.length;
+        reverseStr(s, 0, len - 1);
+        int front = 0, back = 0;
         
-        while(index < n){
-            if(s[index] != ' '){
-                int front = index;
-                while(front < n && s[front] != ' '){
+        while(front < len){
+            if(s[front] == ' '){
+                front++;
+                back++;
+            } else {
+                while(front < len && s[front] != ' '){
                     front++;
                 }
-                reverse(s, index, front - 1);
-                index = front;
-            } else {
-                index++;
+                reverseStr(s, back, front - 1);
+                back = front;
             }
         }
     }
     
-    public void reverse(char[] s, int start, int end){
-        if(start == end){
-            return;
-        }
+    public void reverseStr(char[] s, int start, int end){
+        char temp = ' ';
         
-        int left = start, right = end;
-        while(left < right){
-            char temp = s[left];
-            s[left] = s[right];
-            s[right] = temp;
-            left++;
-            right--;
+        while(start < end){
+            temp = s[start];
+            s[start] = s[end];
+            s[end] = temp;
+            start++;
+            end--;
         }
     }
     

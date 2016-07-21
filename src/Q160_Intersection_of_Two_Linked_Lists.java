@@ -1,33 +1,46 @@
 
 public class Q160_Intersection_of_Two_Linked_Lists {
-	public ListNode getIntersectionNode(ListNode headA, ListNode headB) {   //by other
-        if(headA == null || headB == null) return null;
-        ListNode pos1 = headA, pos2 = headB;
-        int len1 = 1, len2 = 1, distent = 0;
-        while(pos1 != null){
-            pos1 = pos1.next;
+	public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if(headA == null || headB == null){
+            return null;
+        }
+        
+        ListNode traver1 = headA;
+        ListNode traver2 = headB;
+        int len1 = 0, len2 = 0;
+        
+        while(traver1 != null){
             len1++;
+            traver1 = traver1.next;
         }
-        while(pos2 != null){
-            pos2 = pos2.next;
+        
+        while(traver2 != null){
             len2++;
+            traver2 = traver2.next;
         }
-        distent = len1 - len2;
-        pos1 = headA; 
-        pos2 = headB;
-        if(distent > 0)
-        	while(distent-- > 0)
-        		pos1 = pos1.next;
-        else
-        	while(distent++ < 0)
-        		pos2 = pos2.next;
-        while(pos1 != null){
-            if(pos1 == pos2)
-                return pos1;
-            pos1 = pos1.next;
-            pos2 = pos2.next;
+        
+        int diff = Math.abs(len1 - len2);
+        traver1 = headA;
+        traver2 = headB;
+        
+        for(int i = 0; i < diff; i++){
+            if(len1 > len2){
+                traver1 = traver1.next;
+            } else {
+                traver2 = traver2.next;
+            }
         }
-        return pos1;
+        
+        while(traver1 != null && traver2 != null && traver1 != traver2){
+            traver1 = traver1.next;
+            traver2 = traver2.next;
+        }
+        
+        if(traver1 != null && traver2 != null){
+            return traver1;
+        } else {
+            return null;
+        }
     }
 	
 	public static void main(String[] args){

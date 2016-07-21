@@ -3,25 +3,27 @@ public class Q309_Best_Time_to_Buy_and_Sell_Stock_with_Cooldown {
 	/******************************************************/
 	// by other using DP, space O(1)
 	public int maxProfit(int[] prices) {
-        if(prices == null || prices.length <= 1){
+		if(prices == null || prices.length <= 1){
             return 0;
-        } 
-        
-        int n = prices.length;
-        int s0 = 0;
-        int s1 = Math.max(0, prices[1] - prices[0]);
-        int b1 = Math.max(-prices[0], -prices[1]);
-        int s2 = s1, b2 = b1;
-      
-        for(int i = 2; i < n; ++i){
-            s2 = Math.max(s1, b1 + prices[i]);
-            b2 = Math.max(b1, s0 - prices[i]);
-            s0 = s1;
-            s1 = s2;
-            b1 = b2;
         }
         
-        return s2;
+        int len = prices.length;
+        int buy2 = -prices[0];
+        int buy1 = Math.max(-prices[0], -prices[1]);
+        int buy = buy1;
+        int sell2 = 0;
+        int sell1 = Math.max(0, prices[1] - prices[0]);
+        int sell = sell1;
+        
+        for(int i = 2; i < len; i++){
+            buy = Math.max(buy1, sell2 - prices[i]);
+            sell = Math.max(sell1, buy1 + prices[i]);
+            sell2 = sell1;
+            sell1 = sell;
+            buy1 = buy;
+        }
+        
+        return sell;
     }
 	
 	

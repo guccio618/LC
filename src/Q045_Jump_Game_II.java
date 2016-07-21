@@ -10,18 +10,18 @@ public class Q045_Jump_Game_II {
         int nextFast = nums[0];
         int n = nums.length;
         int index = 0;
-        int count = 1;
+        int step = 1;              // step = 1 !!!
         
-        while(curFast < n - 1){
-            count++;
-            while(index <= curFast){
+        while(curFast < n - 1){    // 只需要到达n - 1, 一旦curFast == n - 1, 表示到达目的地，则停止，否则如果是curFast == n，step就会多加一次 !!!
+            step++;
+            while(index <= curFast){    // 注意有等号 !!!
                 nextFast = Math.max(nextFast, index + nums[index]);
                 index++;
             }
             curFast = nextFast;
         }
         
-        return count;
+        return step;
     }
 	
 	

@@ -33,8 +33,29 @@ public class Q280_Wiggle_Sort {
     
     
     /**************************************************/
-    // by Jackie, space O(n)
+    // by Jackie, time complexity O(nlogn), space O(1)
     public void wiggleSort2(int[] nums) {
+        if(nums == null || nums.length <= 1){
+            return ;
+        }
+        
+        int len = nums.length;
+        Arrays.sort(nums);
+        int index = 1;
+        
+        while(index + 1 < len){
+            int temp = nums[index];
+            nums[index] = nums[index + 1];
+            nums[index + 1] = temp;
+            index += 2;
+        }
+    }
+    
+    
+    
+    /**************************************************/
+    // by Jackie, space O(n)
+    public void wiggleSort3(int[] nums) {
         if(nums == null || nums.length == 0){
             return ;
         }

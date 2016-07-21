@@ -1,5 +1,6 @@
 
 public class Q215_Kth_Largest_Element_in_an_Array {
+	// by ninechapter using quickselect, time complexity is O(n)
 	public int findKthLargest(int[] nums, int k) {
         if(nums == null || nums.length == 0){
             return 0;
@@ -7,13 +8,14 @@ public class Q215_Kth_Largest_Element_in_an_Array {
         int n = nums.length;
         int left = 0, right = n - 1;
         
-        while(left < right){       	
+        while(left < right){       	      // 注意这里用的是 left < right
             int index = partition(nums, left, right);
             int count = index + 1;
+            
             if(k > count){
-                left = index + 1;
+                left = index + 1;         // 注意这里用的是left = index + 1，有偏移，防止死循环 ！！！
             } else if(k < count){
-                right = index - 1;
+                right = index - 1;        // 注意这里用的是right = index - 1 ！！！
             } else {
                 return nums[index];
             }
@@ -49,7 +51,7 @@ public class Q215_Kth_Largest_Element_in_an_Array {
     public static void main(String[] args){
     	Q215_Kth_Largest_Element_in_an_Array t = new Q215_Kth_Largest_Element_in_an_Array();
 //    	int[] nums = {2,1};
-    	int[] nums = {3,2,1,5,6,4};
+    	int[] nums = {3,2,1,5,6,12,4};
     	System.out.println(t.findKthLargest(nums, 2));
     }
 }

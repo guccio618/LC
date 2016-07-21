@@ -8,25 +8,31 @@ public class Q154_Find_Minimum_in_Rotated_Sorted_Array_II {
 	 *********************************************************/
 	// by Jackie using binary search
 	public int findMin(int[] nums) {
-        if(nums == null || nums.length == 0){
+		if(nums == null || nums.length == 0){
             return -1;
         }
-        int left = 0, right = nums.length-1, mid = -1, minValue = Integer.MAX_VALUE;
         
-        while(left <= right){
-            mid = (left + right) / 2;
+        int left = 0, right = nums.length - 1;
+        int minValue = Integer.MAX_VALUE;
+        
+        while(left + 1 < right){
+            int mid = left + (right - left) / 2;
             minValue = Math.min(minValue, nums[left]);
             minValue = Math.min(minValue, nums[right]);
             minValue = Math.min(minValue, nums[mid]);
-            if(nums[mid] > nums[left] || nums[mid] > nums[right]){
-                left = mid + 1;
-            } else if(nums[mid] < nums[right] || nums[mid] < nums[left]){
-                right = mid - 1;
-            } else{
+            
+            if(nums[mid] > nums[left] || nums[mid] > nums[right]){           // 这里没等号 ！！！
+                left = mid;
+            } else if(nums[mid] < nums[left] || nums[mid] < nums[right]){    // 这里没等号 ！！！
+                right = mid;
+            } else {
                 right--;
             }
         }
-        return minValue;
+        
+        minValue = Math.min(minValue, nums[left]);
+        minValue = Math.min(minValue, nums[right]);
+        return minValue;  
     }
 	
 	

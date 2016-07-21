@@ -16,9 +16,9 @@ public class Q032_Longest_Valid_Parentheses {
 				} else {
 					stack.pop();
 					if (stack.isEmpty()) {
-						max = Math.max(max, i - left);
+						max = Math.max(max, i - left);             // 注意这两步 ！！！
 					} else {
-						max = Math.max(max, i - stack.peek());
+						max = Math.max(max, i - stack.peek());     // 注意这两步 ！！！
 					}
 				}
 			}

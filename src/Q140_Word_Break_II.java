@@ -21,6 +21,7 @@ public class Q140_Word_Break_II {
 			result.add("");
 			return result;
 		}
+		
 		for (int index = start, len = s.length(); index < len; ++index) {
 			String curStr = s.substring(start, index + 1);
 			if (wordDict.contains(curStr)) {

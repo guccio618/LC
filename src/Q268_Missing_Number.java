@@ -2,14 +2,18 @@
 public class Q268_Missing_Number {
 	//by other using math
 	public int missingNumber(int[] nums) {  //1～n求和，然后按个减去数组里的元素，剩下的即为所要求的数
-        if(nums == null || nums.length == 0) return 0;
-        int n = nums.length;
-        int sum = 0;
-        if(n % 2 == 0) sum = (n+1)*n/2;
-        else sum = n*(n-1)/2 + n;
-        for(int i : nums)
-            sum -= i;
-        return sum;
+		if(nums == null || nums.length == 0){
+            return 0;
+        }
+        
+        int len = nums.length;
+        long sum = len * (len + 1) / 2;
+        
+        for(int num : nums){
+            sum -= num;
+        }
+        
+        return (int) sum;
     }
 	
 	//by other using bit calculation

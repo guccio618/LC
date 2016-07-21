@@ -5,6 +5,7 @@ import java.util.Map;
  * 两点斜率相同：  slope = (y2 - y1) / (x2 - x1);
  * 考虑到三种情况： slope = 0, slope = Infinite, slope = other
  * 同时还要注意全是same point的情况，如：[1, 1], [1, 1], [1, 1]的情况
+ * test case: [0, 0].
  * 
  **************************************************************/
 

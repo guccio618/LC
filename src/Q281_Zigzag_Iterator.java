@@ -9,6 +9,7 @@ public class Q281_Zigzag_Iterator {
 
     public Q281_Zigzag_Iterator(List<Integer> v1, List<Integer> v2) {
         queue = new LinkedList<Iterator>();
+        
         if(!v1.isEmpty()){
             queue.offer(v1.iterator());
         }

@@ -5,22 +5,25 @@ public class Q324_Wiggle_Sort_II {
 	/********************************************************/
 	// by other, faster, nlogn
 	public void wiggleSort(int[] nums) {
-		Arrays.sort(nums);
-		int[] temp = new int[nums.length];
-		int mid = nums.length % 2 == 0 ? nums.length / 2 - 1 : nums.length / 2;
-		int index = 0;
-		
-		for (int i = 0; i <= mid; i++) {
-			temp[index] = nums[mid - i];
-			if (index + 1 < nums.length){
-				temp[index + 1] = nums[nums.length - i - 1];
-			}
-			index = index + 2;
-		}
-		
-		for (int i = 0; i < nums.length; i++) {
-			nums[i] = temp[i];
-		}
+		if(nums == null || nums.length == 0){
+            return ;
+        }
+        
+        int len = nums.length;
+        Arrays.sort(nums);
+        int mid = (len % 2 == 0) ? len / 2 - 1 : len / 2;
+        int index = 0;
+        int[] temp = new int[len];
+        
+        for(int i = 0; i <= mid; i++){
+            temp[index] = nums[mid - i];
+            if(index + 1 < len){
+                temp[index + 1] = nums[len - 1 - i];
+            }
+            index += 2;
+        }
+        
+        System.arraycopy(temp, 0, nums, 0, len);
 	}
 	
 	/********************************************************/

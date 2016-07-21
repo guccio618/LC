@@ -43,9 +43,11 @@ public class Q260_Single_Number_III {
         int[] res = new int[2];
         int pos = 0;
         Arrays.sort(nums);
+        
         for(int i = 0, len = nums.length; i+1 < len; i += 2){
-        	if(nums[i] != nums[i+1])
+        	if(nums[i] != nums[i+1]){
         		res[pos++] = nums[i--];
+        	}
         }
         if(pos == 1) res[pos] = nums[nums.length-1];
         return res;

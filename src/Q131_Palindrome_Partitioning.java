@@ -14,7 +14,6 @@ public class Q131_Palindrome_Partitioning {
             return ans;
         }
         
-        int n = s.length();
         boolean[][] canSplit = getMemo(s);
         List<String> list = new ArrayList<String>();
         

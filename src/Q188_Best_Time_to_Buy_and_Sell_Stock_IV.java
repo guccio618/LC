@@ -16,17 +16,17 @@ public class Q188_Best_Time_to_Buy_and_Sell_Stock_IV {
 			return profit;
 		}
 		int n = prices.length;
-		int[][] mustsell = new int[n + 1][k + 1];   // mustSell[i][j]: 表示总交易次数为i截止到第j天并且在最后一天要做交易的情况下的最大获益
-		int[][] globalbest = new int[n + 1][k + 1]; // globalbest[i][j]: 表示总交易次数为i截止到第j天的最大获益;可以不sell
+		int[][] mustsell = new int[n][k + 1];   // mustSell[i][j]: 表示总交易次数为j截止到第i天并且在最后一天要做交易的情况下的最大获益
+		int[][] globalbest = new int[n][k + 1]; // globalbest[i][j]: 表示总交易次数为j截止到第i天的最大获益;可以不sell
 
-		mustsell[0][0] = globalbest[0][0] = 0;  
-		for (int i = 1; i <= k; i++) {
+		for (int i = 0; i <= k; i++) {
 			mustsell[0][i] = globalbest[0][i] = 0;
 		}
 
 		for (int i = 1; i < n; i++) {
 			int gainorlose = prices[i] - prices[i-1];
 			mustsell[i][0] = 0;
+			
 			for (int j = 1; j <= k; j++) {
 				mustsell[i][j] = Math.max(globalbest[(i-1)][(j-1)] + gainorlose, mustsell[(i-1)][j] + gainorlose);
 				globalbest[i][j] = Math.max(globalbest[(i-1)][j], mustsell[i][j]);

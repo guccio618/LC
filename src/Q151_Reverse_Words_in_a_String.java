@@ -13,7 +13,6 @@ public class Q151_Reverse_Words_in_a_String {
         int n = strs.length;
         
         for(int i = n - 1; i > 0; --i){
-//        	System.out.println("in here");
             sb.append(strs[i]).append(" ");
         }
         
@@ -44,15 +43,52 @@ public class Q151_Reverse_Words_in_a_String {
 	/******************************************************/
 	// by Jackie
 	public String reverseWords3(String s) {
-        if(s == null || s.length() == 0) return s;  
-        StringBuffer sb = new StringBuffer();
-        String[] strArray = s.split("\\s{1,}");
-        if(strArray.length != 0){
-        	for(int len = strArray.length-1, i = len; i >= 0; --i){
-        		sb.append(strArray[i]).append(" ");
-        	}
+		if(s == null || s.length() == 0){
+            return s;
         }
-        return sb.toString().trim();
+        
+        s = s.trim();
+        int len = s.length();
+        char[] letters = s.toCharArray();
+        int front = 0, back = 0;
+        StringBuilder builder = new StringBuilder();
+        
+        reverseStr(letters, 0, len - 1);
+        
+        while(front < len){
+            if(letters[front] == ' '){
+                front++;
+                continue;
+            } else {
+                back = front;
+                
+                while(front < len && letters[front] != ' '){
+                    front++;
+                }
+
+                if(builder.length() != 0){
+                    builder.append(" ");
+                }
+                
+                for(int i = front - 1; i >= back; i--){
+                    builder.append(letters[i]);
+                }
+            }
+        }
+        
+        return builder.toString();
+    }
+    
+    public void reverseStr(char[] letters, int start, int end){
+        char temp = ' ';
+        
+        while(start < end){
+            temp = letters[start];
+            letters[start] = letters[end];
+            letters[end] = temp;
+            start++;
+            end--;
+        }
     }
 	
 	
@@ -60,7 +96,7 @@ public class Q151_Reverse_Words_in_a_String {
 		Q151_Reverse_Words_in_a_String t = new Q151_Reverse_Words_in_a_String();
 		System.out.print("*");
 //		System.out.println(t.reverseWords(" a b "));
-		System.out.print(t.reverseWords("   a   b "));    // test case: {" 1"}, {   a   b }
+		System.out.print(t.reverseWords3("   a   b "));    // test case: {" 1"}, {   a   b }
 		System.out.print("*");
 	}
 }

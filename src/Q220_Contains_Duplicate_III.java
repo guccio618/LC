@@ -8,6 +8,7 @@ public class Q220_Contains_Duplicate_III {
 	class Pair {
         int val;
         int index;
+        
         Pair(int v, int i) {
             this.val = v;
             this.index = i;

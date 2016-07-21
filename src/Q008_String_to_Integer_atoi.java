@@ -3,38 +3,45 @@ public class Q008_String_to_Integer_atoi {
 	/********************************************************/
 	// by Jackie
 	public int myAtoi(String str) {
-        if(str == null || str.length() == 0){
+		if(str == null || str.length() == 0){
             return 0;
         }
         
         str = str.trim();
+        int len = str.length();
         int flag = 1;
-        if(str.charAt(0) == '-'){
-            flag = -1;
-            str = str.substring(1, str.length());
-        } else if(str.charAt(0) == '+'){
-            str = str.substring(1, str.length());
-        }
-        
-        int n = str.length();
         long sum = 0;
         
-        for(int i = 0; i < n; ++i){
+        for(int i = 0; i < len; i++){
             char c = str.charAt(i);
-            if(c >= '0' && c <= '9'){
-                sum = sum * 10 + str.charAt(i) - '0';
+                
+            if(Character.isDigit(c) == true){
+                sum = sum * 10 + (int)(c - '0');
+                if(sum > Integer.MAX_VALUE){     // 防止越界
+                    break;
+                }
+            } else if(i == 0){
+                if(c == '+'){
+                    flag = 1;
+                } else if(c == '-'){
+                    flag = -1;
+                } else {
+                    break;
+                }
             } else {
                 break;
             }
-            
-            if(sum * flag > Integer.MAX_VALUE){   // 防止sum越界，超过long的范围
-            	return Integer.MAX_VALUE;
-            } else if (sum * flag < Integer.MIN_VALUE){
-            	return Integer.MIN_VALUE;
-            }
         }
         
-        return (int) sum * flag;
+        sum = sum * flag;
+        
+        if(sum > Integer.MAX_VALUE){
+            return Integer.MAX_VALUE;
+        } else if(sum < Integer.MIN_VALUE){
+            return Integer.MIN_VALUE;
+        } else {
+            return (int) sum;    
+        }
     }  
 	
 	

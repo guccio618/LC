@@ -30,36 +30,83 @@ public class Q079_Word_Search {
 	/*************************************************************/
 	// by Jackie using backtrack;
 	public boolean exist2(char[][] board, String word) {
-        if(board == null || word == null) return false;
+        if(board == null || board.length == 0 || board[0].length == 0){
+            return false;
+        }
         
         int row = board.length;
-        int column = board[0].length;
-        boolean[][] visited = new boolean[row][column];
-        char[] letters = word.toCharArray();
-        int len = word.length();
+        int col = board[0].length;
+        boolean[][] visited = new boolean[row][col];
         
-        for(int i = 0; i < row; ++i)
-            for(int j = 0; j < column; ++j)
-                if(backtrack(letters, 0, board, i, j, row, column, visited) == true){
+        for(int i = 0; i < row; i++){
+            for(int j = 0; j < col; j++){
+                if(backtrack(board, i, j, visited, word, 0) == true){
                     return true;
                 }
+            }
+        }
         
         return false;
     }
     
-    public boolean backtrack(char[] letters, int pos, char[][] board, int rowPos, int columnPos, int row, int column, boolean[][] visited){
-        if(pos >= letters.length) return true;
-        if(rowPos < 0 || rowPos >= row) return false;
-        if(columnPos < 0 || columnPos >= column) return false;
-        if(visited[rowPos][columnPos] == true) return false;
-        if(letters[pos] != board[rowPos][columnPos]) return false;
+    public boolean backtrack(char[][] board, int x, int y, boolean[][] visited, String word, int start){
+        if(visited[x][y] == true){
+            return false;
+        } else if(start == word.length() - 1 && board[x][y] == word.charAt(start)){
+            return true;
+        } else if(board[x][y] != word.charAt(start)){
+            return false;
+        }
         
-        visited[rowPos][columnPos] = true;
-        if(backtrack(letters, pos+1, board, rowPos+1, columnPos, row, column, visited)) return true;
-        if(backtrack(letters, pos+1, board, rowPos-1, columnPos, row, column, visited)) return true;
-        if(backtrack(letters, pos+1, board, rowPos, columnPos+1, row, column, visited)) return true;
-        if(backtrack(letters, pos+1, board, rowPos, columnPos-1, row, column, visited)) return true;
-        visited[rowPos][columnPos] = false;
+        int[] dx = {1, -1, 0, 0};
+        int[] dy = {0, 0, 1, -1};
+        visited[x][y] = true;
+        
+        for(int i = 0; i < 4; i++){
+            int newX = x + dx[i];
+            int newY = y + dy[i];
+            
+            if(newX >= 0 && newX < board.length && newY >= 0 && newY < board[0].length){
+                if(backtrack(board, newX, newY, visited, word, start + 1) == true){
+                    return true;
+                }
+            }
+        }
+        
+        visited[x][y] = false;
+        return false;
+    } 
+    
+    
+ // 此方法不行，因为test case["a", a]无法通过，需要用if(index == word.length() - 1 && board[x][y] == word.charAt(index))
+    // 判断，不能到index == word.length() 判断
+    public boolean backtrack2(char[][] board, boolean[][] visited, int x, int y, String word, int index){
+        if(index == word.length()){
+            return true;
+        } 
+        if(visited[x][y] == true){
+            return false;
+        } 
+        if(board[x][y] != word.charAt(index)){
+            return false;
+        }
+        
+        int[] dx = {1, -1, 0, 0};
+        int[] dy = {0, 0, 1, -1};
+        visited[x][y] = true;
+        
+        for(int i = 0; i < 4; i++){
+            int newX = x + dx[i];
+            int newY = y + dy[i];
+            
+            if(newX >= 0 && newX < board.length && newY >= 0 && newY < board[0].length){
+                if(backtrack2(board, visited, newX, newY, word, index + 1) == true){
+                    return true;
+                }
+            }
+        }
+        
+        visited[x][y] = false;
         return false;
     }
     
