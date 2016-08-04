@@ -42,8 +42,8 @@ public class Q264_Ugly_Number_II {
             if(dp[index2] * 2 == currentValue){
                 index2++;
             }
-            if(dp[index3] * 3 == currentValue){
-                index3++;
+            if(dp[index3] * 3 == currentValue){   // 这里不能用else， 因为ugly[index2 = 3] * 2和 ugly[index3 = 2] * 3时，
+                index3++;                         // index2和index3两个都需要移动
             }
             if(dp[index5] * 5 == currentValue){
                 index5++;

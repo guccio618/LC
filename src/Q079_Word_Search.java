@@ -52,7 +52,7 @@ public class Q079_Word_Search {
     public boolean backtrack(char[][] board, int x, int y, boolean[][] visited, String word, int start){
         if(visited[x][y] == true){
             return false;
-        } else if(start == word.length() - 1 && board[x][y] == word.charAt(start)){
+        } else if(start == word.length() - 1 && board[x][y] == word.charAt(start)){  // 必须在这里判断，防止test case: [a], a  ！！！
             return true;
         } else if(board[x][y] != word.charAt(start)){
             return false;
@@ -79,7 +79,7 @@ public class Q079_Word_Search {
     
     
  // 此方法不行，因为test case["a", a]无法通过，需要用if(index == word.length() - 1 && board[x][y] == word.charAt(index))
-    // 判断，不能到index == word.length() 判断
+    // 判断，不能到index == word.length() 判断 !!!
     public boolean backtrack2(char[][] board, boolean[][] visited, int x, int y, String word, int index){
         if(index == word.length()){
             return true;

@@ -6,14 +6,65 @@ import java.util.Queue;
 
 
 public class Q373_Find_K_Pairs_with_Smallest_Sums {
+	// by other, time complexity O(n * k * logn)
 	public List<int[]> kSmallestPairs(int[] nums1, int[] nums2, int k) {
         List<int[]> ans = new ArrayList<int[]>();
+        
         if(nums1 == null || nums1.length == 0 || nums2 == null || nums2.length == 0 || k <= 0){
             return ans;
         }
         
         Queue<Node> heap = new PriorityQueue<Node>(1, new Comparator<Node>(){
             public int compare(Node left, Node right){
+                return left.val - right.val;
+            }
+        });
+        
+        int len1 = nums1.length, len2 = nums2.length;
+        
+        for(int i = 0; i < len2; i++){
+            heap.offer(new Node(0, i, nums1[0] + nums2[i]));
+        }
+        
+        for(int i = 0; i < k && i < len1 * len2; i++){
+            Node node = heap.poll();
+            
+            ans.add(new int[]{nums1[node.x], nums2[node.y]});
+            
+            if(node.x == len1 - 1){
+                continue;
+            }
+            
+            heap.offer(new Node(node.x + 1, node.y, nums1[node.x + 1] + nums2[node.y]));
+        }
+        
+        return ans;
+    }
+    
+    class Node{
+        int x;
+        int y;
+        int val;
+        
+        public Node(int x, int y, int val){
+            this.x = x;
+            this.y = y;
+            this.val = val;
+        }
+    }
+	
+    
+    
+    /**********************************************************************************/
+    // by Jackie, time complexity O(n * n * logn)
+	public List<int[]> kSmallestPairs2(int[] nums1, int[] nums2, int k) {
+        List<int[]> ans = new ArrayList<int[]>();
+        if(nums1 == null || nums1.length == 0 || nums2 == null || nums2.length == 0 || k <= 0){
+            return ans;
+        }
+        
+        Queue<Node2> heap = new PriorityQueue<Node2>(1, new Comparator<Node2>(){
+            public int compare(Node2 left, Node2 right){
                 return (left.x + left.y) - (right.x + right.y);
             }
         });
@@ -27,23 +78,23 @@ public class Q373_Find_K_Pairs_with_Smallest_Sums {
             
             for(int j = 0; j < nums2.length; j++){
             	curMaxValue = Math.max(curMaxValue, nums1[i] + nums2[j]);
-                heap.offer(new Node(nums1[i], nums2[j]));
+                heap.offer(new Node2(nums1[i], nums2[j]));
             }
         }
         
         for(int i = 0; i < k && !heap.isEmpty(); i++){
-            Node node = heap.poll();
+            Node2 node = heap.poll();
             ans.add(new int[]{node.x, node.y});
         }
         
         return ans;
     }
     
-    class Node{
+    class Node2{
         int x;
         int y; 
         
-        public Node(int x, int y){
+        public Node2(int x, int y){
             this.x = x;
             this.y = y;
         }

@@ -3,32 +3,43 @@ import java.util.Stack;
 
 public class Q061_Rotate_List {
 	// by Jackie
-	public ListNode rotateRight(ListNode head, int k) { 
-        if(head == null || head.next == null || k == 0) return head;
-        ListNode front_loc = head, back_loc = head;
-        int len = 1;
-        for(int i = 0; i < k; i++){
-            if(front_loc.next == null){
-                front_loc = head;
-                if(k == len) return head;
-                k %= len;
-                for(int j = 0; j < k; j++)
-                    front_loc = front_loc.next;
-                break;    
-            } 
+	public ListNode rotateRight(ListNode head, int k) {
+        if(head == null || head.next == null || k == 0){
+            return head;
+        }
+        
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode node = dummy;
+        ListNode faster = head;
+        int len = 0;
+        
+        while(faster != null){
             len++;
-            front_loc = front_loc.next;
+            faster = faster.next;
         }
-        while(front_loc.next != null){
-            front_loc = front_loc.next;
-            back_loc = back_loc.next;
+        
+        k %= len;
+        faster = dummy;
+        
+        for(int i = 0; i < len - k; i++){
+            faster = faster.next;
         }
-        front_loc.next = head;
-        head = back_loc.next;
-        back_loc.next = null; 
-        return head;
+        
+        node.next = faster.next;
+        faster.next = null;
+        
+        while(node.next != null){
+            node = node.next;
+        }
+        
+        node.next = head;
+        return dummy.next;
     }
 
+	
+	
+	
 	public ListNode rotateRight_2(ListNode head, int k) { // by other
 		Stack<ListNode> stack = new Stack<ListNode>();
 		ListNode current = head;

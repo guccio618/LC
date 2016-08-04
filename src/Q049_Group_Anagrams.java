@@ -3,46 +3,44 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 
 public class Q049_Group_Anagrams {
 	// by Jackie
 	public List<List<String>> groupAnagrams(String[] strs) {
-        List<List<String>> ans = new ArrayList<List<String>>();
-        if(strs == null || strs.length == 0){
-            return ans;
-        }
-        
-        HashMap<String, ArrayList> map = new HashMap<String, ArrayList>();
-        int n = strs.length;
-        Arrays.sort(strs);
-        
-        for(int i = 0; i < n; ++i){
-            String newStr = sort(strs[i]);
-            if(map.containsKey(newStr)){
-                map.get(newStr).add(strs[i]);
-            } else {
-                ArrayList<String> list = new ArrayList<String>();
-                list.add(strs[i]);
-                map.put(newStr, list);
-            }
-        }
-        
-        Iterator iter = map.entrySet().iterator();
-        
-        while(iter.hasNext()){
-        	HashMap.Entry entry = (HashMap.Entry) iter.next(); 
-        	ans.add((ArrayList<String>) entry.getValue());
-        }
-        
-        return ans;
+		List<List<String>> ans = new ArrayList<List<String>>();
+	    
+	    if(strs == null || strs.length == 0){
+	        return ans; 
+	    }
+	    
+	    Map<String, List<String>> map = new HashMap<String, List<String>>();
+	    
+	    for(String str : strs){
+	        String orderStr = getOrderStr(str);
+	        
+	        if(map.containsKey(orderStr)){
+	            map.get(orderStr).add(str);
+	        } else {
+	            List<String> list = new ArrayList<String>();
+	            list.add(str);
+	            map.put(orderStr, list);
+	        }
+	    }
+	    
+	    for(Map.Entry<String, List<String>> entry : map.entrySet()){
+	        ans.add(entry.getValue());
+	    }
+	    
+	    return ans;
     }
     
-    public String sort(String target){
-        char[] letters = target.toCharArray();
-        Arrays.sort(letters);
-        return new String(letters);
-    }
+	public String getOrderStr(String str){
+	    char[] letters = str.toCharArray();
+	    Arrays.sort(letters);
+	    return new String(letters);
+	}
     
     
     

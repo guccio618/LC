@@ -11,6 +11,7 @@ public class Q124_Binary_Tree_Maximum_Path_Sum {
         if(root == null){
             return 0;
         }
+        
         maxPathHelper(root);
         return maxPath;
     }
@@ -30,9 +31,9 @@ public class Q124_Binary_Tree_Maximum_Path_Sum {
         
         int leftPath = maxPathHelper(node.left);
         int rightPath = maxPathHelper(node.right);
-        int singlePath = Math.max(node.val, Math.max(leftPath, rightPath) + node.val);
-        maxPath = Math.max(maxPath, Math.max(singlePath, leftPath + rightPath + node.val));
-        return singlePath;
+        int currentPath = Math.max(0, Math.max(leftPath, rightPath)) + node.val;
+        maxPath = Math.max(maxPath, Math.max(currentPath, leftPath + rightPath + node.val));
+        return currentPath;
     }
 	
 	

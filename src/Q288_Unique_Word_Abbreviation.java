@@ -1,47 +1,51 @@
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 
 public class Q288_Unique_Word_Abbreviation {
-	private Map<String, String> map;
+	private Map<String, Set<String>> map = new HashMap<String, Set<String>>();
     
     public Q288_Unique_Word_Abbreviation(String[] dictionary) {
-        map = new HashMap<String, String>();
-        if(dictionary == null || dictionary.length == 0){
-            return ;
-        }
-        
-        int n = dictionary.length;
-        
-        for(int i = 0; i < n; i++){
-            String abbreStr = getAbbreviation(dictionary[i]);
-            if(!map.containsKey(abbreStr)){
-                map.put(abbreStr, dictionary[i]);
+        for(String word : dictionary){
+            String abbrStr = getAbbreviation(word);
+            
+            if(map.containsKey(abbrStr)){
+                map.get(abbrStr).add(word);
             } else {
-                if(!map.get(abbreStr).equals(dictionary[i])){
-                    map.put(abbreStr, "2");
-                }
+                Set<String> set = new HashSet<String>();
+                set.add(word);
+                map.put(abbrStr, set);
             }
         }
     }
 
     public boolean isUnique(String word) {
-        String abbreStr = getAbbreviation(word);
-        if(!map.containsKey(abbreStr)){
+        String abbrStr = getAbbreviation(word);
+        
+        if(!map.containsKey(abbrStr)){
             return true;
         } else {
-            return map.get(abbreStr).equals(word);
+            Set<String> set = map.get(abbrStr);
+            
+            if(set.size() > 1){
+                return false;
+            } else if(set.contains(word)){
+                return true;
+            } else {
+                return false;
+            }
         }
     }
     
-    public String getAbbreviation(String target){
-        if(target == null || target.length() <= 2){
-            return target;
+    public String getAbbreviation(String word){
+        if(word.length() <= 2){
+            return word;
+        } else {
+            StringBuilder builder = new StringBuilder();
+            builder.append(word.charAt(0)).append(word.length() - 2).append(word.charAt(word.length() - 1));
+            return builder.toString();
         }
-        
-        StringBuffer builder = new StringBuffer();
-        int len = target.length();
-        builder.append(target.charAt(0)).append(len - 2).append(target.charAt(len - 1));
-        return builder.toString();
     }
 }

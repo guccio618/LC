@@ -2,23 +2,47 @@
 public class Q074_Searcha_2D_Matrix {
 	// by Jackie
 	public boolean searchMatrix(int[][] matrix, int target) {
-        if(matrix == null || matrix[0][0] > target || matrix[matrix.length-1][matrix[0].length-1] < target)
+		if(matrix == null || matrix.length == 0 || matrix[0].length == 0){
             return false;
-        int row = matrix.length;
-        int column = matrix[0].length;
-        int left = 0, right = row*column-1;
-        
-        while(left <= right){
-            int pivot = (left+right) / 2;
-            if(matrix[pivot/column][pivot%column] > target)
-                right = pivot-1;
-            else if(matrix[pivot/column][pivot%column] < target)
-                left = pivot+1;
-            else
-                return true;
         }
-        return false;
+        
+        int row = matrix.length;
+        int col = matrix[0].length;
+        
+        int left = 0, right = getId(row - 1, col - 1, col);
+        
+        while(left + 1 < right){
+            int mid = left + (right - left)/2;
+            
+            int x = mid / col;
+            int y = mid % col;
+            
+            if(matrix[x][y] > target){
+                right = mid;
+            } else if(matrix[x][y] < target){
+                left = mid;
+            } else {
+                return true;
+            }
+        }
+        
+        int x1 = left / col;
+        int y1 = left % col;
+        int x2 = right / col;
+        int y2 = right % col;
+        
+        if(matrix[x1][y1] == target || matrix[x2][y2] == target){
+            return true; 
+        } else {
+            return false;
+        }
     }
+	
+	public int getId(int x, int y, int col){
+        return x * col + y;
+    }
+	
+	
 	
 	public static void main(String[] args){
 		Q074_Searcha_2D_Matrix t = new Q074_Searcha_2D_Matrix();

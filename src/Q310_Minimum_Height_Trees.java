@@ -46,7 +46,7 @@ public class Q310_Minimum_Height_Trees {
 				for (int nb : graph[leaf]) {					
 					graph[leaf].remove(nb);     // Remove connection
 					graph[nb].remove(leaf);
-					n--;                        // 注意 n--在这里
+					n--;                        // 注意 n--在这里，表示删除掉leaf这个节点 ！！！
 					
 					if (graph[nb].size() == 1) {
 						newLeaves.add(nb);

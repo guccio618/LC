@@ -5,10 +5,25 @@ import java.util.Stack;
 
 
 public class Q114_Flatten_Binary_Tree_to_Linked_List {
+	// by other faster, in place	
+	private TreeNode prev = null;
+
+	public void flatten(TreeNode root) {
+        if(root == null){
+            return ;
+        }
+        
+        flatten(root.right);
+        flatten(root.left);
+        root.right = prev;
+        root.left = null;
+        prev = root;
+    }
+	
 	// by ninechapter
 	private TreeNode preNode = null;
-
-    public void flatten(TreeNode root) {
+	
+    public void flatten2(TreeNode root) {
         if (root == null) {
             return;
         }
@@ -20,14 +35,14 @@ public class Q114_Flatten_Binary_Tree_to_Linked_List {
 
         preNode = root;
         TreeNode right = root.right;
-        flatten(root.left);
-        flatten(right);
+        flatten2(root.left);
+        flatten2(right);
     }
 	
 	
 	
 	// by Jackie
-	public void flatten2(TreeNode root) {   
+	public void flatten3(TreeNode root) {   
 		if(root == null) {
         	return;
         }

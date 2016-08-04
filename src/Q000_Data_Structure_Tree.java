@@ -81,36 +81,44 @@ public class Q000_Data_Structure_Tree {
 	// 所以需要一个记录哪些节点已经被访问的结构(可以在树结构里面加一个标记)，
 	// 这里可以用map实现
 	public static void postOrder(Q000_Data_Structure_Tree root) {
-		if (root == null)
+		if (root == null){
 			return;
+		}
+		
 		Stack s = new Stack<Integer>();
-		HashSet mySet = new HashSet<Integer>();
+		HashSet visited = new HashSet<Integer>();
 		s.push(root);
 
 		while (!s.isEmpty()) {
-			Q000_Data_Structure_Tree temp = (Q000_Data_Structure_Tree) s.peek();
-			if (temp.left != null && !mySet.contains(temp.left)) {
-				temp = temp.left;
-				while (temp != null && !mySet.contains(temp)) {
-					s.push(temp);
-					temp = temp.left;
+			Q000_Data_Structure_Tree node = (Q000_Data_Structure_Tree) s.peek();
+			
+			if (node.left != null && !visited.contains(node.left)) {
+				node = node.left;
+				
+				while (node != null && !visited.contains(node)) {
+					s.push(node);
+					node = node.left;
 				}
 				continue;
 			}
-			if (temp.right != null && !mySet.contains(temp.right)) {
-				s.push(temp.right);
+			
+			if (node.right != null && !visited.contains(node.right)) {
+				s.push(node.right);
 				continue;
 			}
+			
 			Q000_Data_Structure_Tree t = (Q000_Data_Structure_Tree) s.pop();
-			mySet.add(t);
+			visited.add(t);
 			System.out.print(t.value + ", ");
 		}
 	}
 
 	// 双栈实现的后序遍历
 	public static void postOrder2(Q000_Data_Structure_Tree root) {
-		if (root == null)
+		if (root == null){
 			return;
+		}
+		
 		Stack s1 = new Stack<Q000_Data_Structure_Tree>();
 		Stack s2 = new Stack<Q000_Data_Structure_Tree>();
 		s1.push(root);
@@ -118,10 +126,13 @@ public class Q000_Data_Structure_Tree {
 		while (!s1.isEmpty()) {
 			Q000_Data_Structure_Tree temp = (Q000_Data_Structure_Tree) s1.pop();
 			s2.push(temp); // 而s2先放入最后遍历的根节点，之后再按右，然后左的顺序存入节点; 这里可以控制s2打印的先后顺序
-			if (temp.left != null) // s1中按先左后右的顺序存入
+			if (temp.left != null) { // s1中按先左后右的顺序存入
 				s1.push(temp.left);
-			if (temp.right != null)
+			}
+			
+			if (temp.right != null){
 				s1.push(temp.right);
+			}
 		}
 
 		while (!s2.isEmpty()) {

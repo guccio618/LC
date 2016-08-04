@@ -1,7 +1,51 @@
 
 public class Q161_One_Edit_Distance {
-	// by Jackie
+	/*******************************************************/
+	// by jackie
 	public boolean isOneEditDistance(String s, String t) {
+        if(s == null || t == null){
+            if(s == null && t == null){
+                return false;
+            } else if(s == null && t.length() == 1){
+                return true;
+            } else if(t == null && s.length() == 1){
+                return true;
+            } else {
+                return false;
+            }
+        } else if(Math.abs(s.length() - t.length()) > 1){
+            return false;
+        } else if(s.equals(t)){
+            return false;
+        }
+        
+        int len = Math.min(s.length(), t.length());
+        int index = 0;
+        
+        while(index < len){
+            if(s.charAt(index) != t.charAt(index)){
+                break;
+            } else {
+                index++;
+            }
+        }
+
+        if(s.length() != t.length()){
+            if(s.length() > t.length()){
+                return s.substring(index + 1).equals(t.substring(index));
+            } else {
+                return s.substring(index).equals(t.substring(index + 1));
+            }    
+        } else {
+            return s.substring(index + 1).equals(t.substring(index + 1));
+        }
+    }
+	
+	
+	
+	/*******************************************************/
+	// by Jackie
+	public boolean isOneEditDistance2(String s, String t) {
         if(s == null || t == null){
             if(s == null && t == null){
                 return false;
@@ -48,7 +92,9 @@ public class Q161_One_Edit_Distance {
 	
 	
 	
-	public boolean isOneEditDistance2(String s, String t) {
+    /*******************************************************/
+    // by other
+	public boolean isOneEditDistance3(String s, String t) {
         if(s == null){
             if(t == null || t.length() == 1){
                 return true;

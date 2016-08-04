@@ -16,7 +16,7 @@ public class Q331_Verify_Preorder_Serialization_of_a_Binary_Tree {
         Stack<String> stack = new Stack<String>();
         
         for(int i = 0; i < n; i++){
-            if(nodes[i].equals("#")){
+            if(nodes[i].equals("#")){                                    // 不可以做stack.isEmpty()的check，防止test case "#"
                 while(!stack.isEmpty() && stack.peek().equals("#")){     // 这里必须用while !!!
                     stack.pop();
                     if(!stack.isEmpty()){

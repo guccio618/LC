@@ -1,17 +1,59 @@
 
 public class Q014_Longest_Common_Prefix {
-	// by Jackie using Divide and Conquer
+	/*******************************************************/
+	// by Jackie
 	public String longestCommonPrefix(String[] strs) {
+	    if(strs == null || strs.length == 0){
+	        return new String();
+	    }
+	    
+	    return helper(strs, 0, strs.length - 1);   
+	} 
+
+	public String helper(String[] strs, int start, int end){
+	    if(start > end){
+	        return new String();
+	    } else if(start == end){
+	        return strs[start];
+	    }
+	    
+	    int mid = start + (end - start)/2;
+	    String left = helper(strs, start, mid);
+	    String right = helper(strs, mid + 1, end);
+	    
+	    if(left.equals("") || right.equals("")){
+	        return new String();
+	    }
+	    
+	    int len = Math.min(left.length(), right.length());
+	    int index = 0;
+	    
+	    while(index < len){
+	        if(left.charAt(index) != right.charAt(index)){
+	            break;
+	        }
+	        
+	        index++;
+	    }
+	    
+	    return left.substring(0, index);
+	}
+	
+	
+	
+	/*******************************************************/
+	// by Jackie using Divide and Conquer
+	public String longestCommonPrefix2(String[] strs) {
         if(strs == null || strs.length == 0){
             return new String();
         } else if(strs.length == 1){
             return strs[0];
         }
         
-        return helper(strs, 0, strs.length - 1);
+        return helper2(strs, 0, strs.length - 1);
     }
     
-    public String helper(String[] strs, int start, int end){
+    public String helper2(String[] strs, int start, int end){
         if(start > end){
             return null;
         } else if(start == end){
@@ -43,8 +85,9 @@ public class Q014_Longest_Common_Prefix {
 	
     
     
+    /*******************************************************/
     // by other
-	public String longestCommonPrefix2(String[] strs) {
+	public String longestCommonPrefix3(String[] strs) {
         if(strs.length == 0) return "";
         if(strs.length == 1) return strs[0];
         String temp_str = strs[0], res = "";

@@ -11,11 +11,8 @@ public class Q041_First_Missing_Positive {
 		}
 
 		for (int i = 0; i < nums.length; i++) {
-			while (nums[i] > 0 && nums[i] <= nums.length && nums[i] != (i + 1)) {
-				int tmp = nums[nums[i] - 1]; // 3,4,-1,1
-				if (tmp == nums[i]) {
-					break;
-				}
+			while (nums[i] > 0 && nums[i] <= nums.length && nums[i] != (i + 1) && nums[i] != nums[nums[i] - 1]) {
+				int tmp = nums[nums[i] - 1];   // 3,4,-1,1
 				nums[nums[i] - 1] = nums[i];
 				nums[i] = tmp;
 			}
@@ -35,37 +32,25 @@ public class Q041_First_Missing_Positive {
 	/*************************************************/
 	// by Jackie using hashset
 	public int firstMissingPositive2(int[] nums) {
-        if(nums == null || nums.length == 0){
+		if(nums == null || nums.length == 0){
             return 1;
         }
         
         Set<Integer> set = new HashSet<Integer>();
-        int n = nums.length;
-        int maxNum = Integer.MIN_VALUE;
-        int minNum = Integer.MAX_VALUE;
+        int maxBound = 1;
         
-        for(int i = 0; i < n; i++){
-            if(nums[i] > 0){
-                set.add(nums[i]);
-                maxNum = Math.max(maxNum, nums[i]);
-                minNum = Math.min(minNum, nums[i]);
-            }
+        for(int num : nums){
+            set.add(num);
+            maxBound = Math.max(maxBound, num);
         }
         
-        if(maxNum == Integer.MIN_VALUE || minNum > 1){
-            return 1;
-        } 
-        if(maxNum - minNum + 1 == set.size()){
-            return maxNum + 1;
-        }
-        
-        for(int i = minNum; i <= maxNum; i++){
+        for(int i = 1; i <= maxBound; i++){
             if(!set.contains(i)){
                 return i;
             }
         }
         
-        return maxNum + 1;
+        return maxBound + 1;
     }
 	
 	

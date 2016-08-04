@@ -20,6 +20,7 @@ public class Q223_Rectangle_Area {
         int top3 = Math.min(top1, top2);
         int bottom3 = Math.max(bottom1, bottom2);
         int area3 = (right3 - left3) * (top3 - bottom3);
+        
         if(right3 < left3 || top3 < bottom3){
             area3 = 0;
         }

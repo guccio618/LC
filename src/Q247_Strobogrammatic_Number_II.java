@@ -5,7 +5,46 @@ import java.util.Map;
 
 
 public class Q247_Strobogrammatic_Number_II {
-	public List<String> findStrobogrammatic(int n) {
+	private char[] array1 = {'0', '1', '6', '8', '9'};
+    private char[] array2 = {'0', '1', '9', '8', '6'};
+    private char[] array3 = {'0', '1', '8'};
+    
+    public List<String> findStrobogrammatic(int n) {
+        List<String> ans = new ArrayList<String>();
+        
+        if(n <= 0){
+            return ans;
+        }
+
+        recursive(ans, "", n);
+        return ans;
+    }
+    
+    public void recursive(List<String> ans, String solution, int n){
+        if(solution.length() == n){
+            if(n > 1 && solution.charAt(0) == '0'){
+                return;
+            }
+            
+            ans.add(solution);
+            return;
+        } 
+        
+        if(solution.length() == 0 && n % 2 == 1){
+            for(char c : array3){
+                recursive(ans, solution + c, n);
+            }
+        } else {
+            for(int i = 0; i < array1.length; i++){
+                recursive(ans, array1[i] + solution + array2[i], n);
+            }
+        }
+    }
+    
+    
+	
+    /***************************************************************/
+	public List<String> findStrobogrammatic2(int n) {
         List<String> ans = new ArrayList<String>();
         if(n < 1){
             return ans;

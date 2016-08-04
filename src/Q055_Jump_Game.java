@@ -2,18 +2,24 @@ public class Q055_Jump_Game {
 	/*****************************************************/
 	// by ninechapter using greedy
 	public boolean canJump1(int[] nums) {
-		if (nums == null || nums.length == 0)
-			return false;
-		int farthest = nums[0];
-		int n = nums.length;
-		for (int i = 0; i < n; i++) {
-			if (i <= farthest && i + nums[i] > farthest) {
-				farthest = i + nums[i];
-			}
-			if (farthest >= n - 1)
-				return true;
-		}
-		return farthest >= n - 1;
+		if(nums == null || nums.length == 0){
+            return true;
+        }
+        
+        int len = nums.length;
+        int fastest = nums[0];
+        
+        for(int i = 0; i < len; i++){
+            if(fastest >= len - 1){
+                return true;
+            } else if(fastest < i){
+                return false;
+            }
+            
+            fastest = Math.max(fastest, nums[i] + i);
+        }
+        
+        return fastest >= len - 1;
 	}
 
 	

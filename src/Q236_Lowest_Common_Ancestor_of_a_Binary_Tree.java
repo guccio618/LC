@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Q236_Lowest_Common_Ancestor_of_a_Binary_Tree {	
@@ -8,7 +9,7 @@ public class Q236_Lowest_Common_Ancestor_of_a_Binary_Tree {
     // 如果只碰到A，就返回A
     // 如果只碰到B，就返回B
     // 如果都没有，就返回null
-	public TreeNode lowestCommonAncestor_recursive(TreeNode root, TreeNode p, TreeNode q) {
+	public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
 		if (root == null || root == p || root == q) 
             return root;
         
@@ -27,8 +28,67 @@ public class Q236_Lowest_Common_Ancestor_of_a_Binary_Tree {
         return null;   // left == null && right == null
 	}
 	
+	
+	
+	/***************   by other using finding path (non_recursive)   *****************/	
+	public TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {
+        if(root == null || p == null || q == null){
+            return null;
+        }
+        
+        List<TreeNode> path1 = new ArrayList<TreeNode>();
+        List<TreeNode> path2 = new ArrayList<TreeNode>();
+        path1.add(root);
+        path2.add(root);
+        TreeNode ans = null;
+        
+        getPath(root, p, path1);
+        getPath(root, q, path2);
+        
+        for(int i = 0; i < path1.size() && i < path2.size(); i++){
+            TreeNode node1 = path1.get(i);
+            TreeNode node2 = path2.get(i);
+            
+            if(node1 == node2){
+                ans = node1;
+            } else {
+                break;
+            }
+        }
+        
+        return ans;
+    }
+    
+    public boolean getPath(TreeNode node, TreeNode target, List<TreeNode> path){
+        if(node == target){
+            return true;
+        }
+        
+        if(node.left != null){
+            path.add(node.left);
+            
+            if(getPath(node.left, target, path) == true){
+                return true;
+            }
+            
+            path.remove(path.size() - 1);
+        }
+        
+        if(node.right != null){
+            path.add(node.right);
+            
+            if(getPath(node.right, target, path) == true){
+                return true;
+            }
+            
+            path.remove(path.size() - 1);
+        }
+        
+        return false;
+    }
+	
 	/***************   by other using finding path (non_recursive)   *****************/
-	public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q){
+	public TreeNode lowestCommonAncestor3(TreeNode root, TreeNode p, TreeNode q){
 	    if(root==null) return null;
 	    if(p==null || q==null)  return null;
 	    ArrayList<TreeNode> p_path = new ArrayList<TreeNode>();

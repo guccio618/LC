@@ -16,7 +16,7 @@ public class Q364_Nested_List_Weight_Sum_II {
         int ans = 0;
         
         for(NestedInteger item : nestedList){
-            dfs(item, 1);
+            dfs(item, 1);    // 必须从1开始 ！！！
         }
         
         while(!stack.isEmpty()){

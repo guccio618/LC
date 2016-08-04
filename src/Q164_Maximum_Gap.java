@@ -25,7 +25,7 @@ public class Q164_Maximum_Gap {
         int maxGap = 0;
         int maxNum = Integer.MIN_VALUE;
         
-        for(int num : nums){
+        for(int num : nums){      // 必须找一个最大值，来确定位数
             maxNum = Math.max(maxNum, num);
         }
         

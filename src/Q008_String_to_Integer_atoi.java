@@ -3,46 +3,47 @@ public class Q008_String_to_Integer_atoi {
 	/********************************************************/
 	// by Jackie
 	public int myAtoi(String str) {
-		if(str == null || str.length() == 0){
-            return 0;
-        }
-        
-        str = str.trim();
-        int len = str.length();
-        int flag = 1;
-        long sum = 0;
-        
-        for(int i = 0; i < len; i++){
-            char c = str.charAt(i);
-                
-            if(Character.isDigit(c) == true){
-                sum = sum * 10 + (int)(c - '0');
-                if(sum > Integer.MAX_VALUE){     // 防止越界
-                    break;
-                }
-            } else if(i == 0){
-                if(c == '+'){
-                    flag = 1;
-                } else if(c == '-'){
-                    flag = -1;
-                } else {
-                    break;
-                }
-            } else {
-                break;
-            }
-        }
-        
-        sum = sum * flag;
-        
-        if(sum > Integer.MAX_VALUE){
-            return Integer.MAX_VALUE;
-        } else if(sum < Integer.MIN_VALUE){
-            return Integer.MIN_VALUE;
-        } else {
-            return (int) sum;    
-        }
-    }  
+	    if(str == null || str.length() == 0){
+	        return 0;
+	    }
+	    
+	    str = str.trim();
+	    int len = str.length();
+	    
+	    if(len == 0){
+	        return 0;
+	    }
+	    
+	    int flag = 1;
+	    char[] letters = str.toCharArray();
+	    long sum = 0;
+	    
+	    for(int i = 0; i < len; i++){
+	        if(Character.isDigit(letters[i])){
+	            sum = sum * 10 + (int)(letters[i] - '0');
+	            
+	            if(sum > Integer.MAX_VALUE){        // 防止越界 ！！！
+	                break;
+	            }
+	        } else if(i == 0 && letters[i] == '+'){
+	            continue;
+	        } else if(i == 0 && letters[i] == '-'){
+	            flag = -1;
+	        } else {
+	            break;
+	        }
+	    }
+	    
+	    sum = flag * sum;
+	    
+	    if(sum > Integer.MAX_VALUE){
+	        return Integer.MAX_VALUE;
+	    } else if(sum < Integer.MIN_VALUE){
+	        return Integer.MIN_VALUE;
+	    } else {
+	        return (int) sum;
+	    }
+	}
 	
 	
 	

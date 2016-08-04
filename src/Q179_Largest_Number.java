@@ -71,7 +71,7 @@ public class Q179_Largest_Number {    // 注意test case： 0，0，0，0
             heap.offer(Integer.toString(num));
         }
         
-        if(zeroFlag == true){
+        if(zeroFlag == true){  // 需要作是否全是0的判断 ！！！
             return "0";
         }
         

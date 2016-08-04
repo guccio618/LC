@@ -8,31 +8,30 @@ import java.util.Queue;
 public class Q239_Sliding_Window_Maximum {
 	// by ninechapter using Deque, very fast!
 	public int[] maxSlidingWindow(int[] nums, int k) {
-        ArrayList<Integer> res = new ArrayList<Integer>();
-        if(nums == null || nums.length == 0){
+		if(nums == null || k <= 0 || nums.length < k){
             return new int[0];
         }
-        Deque<Integer> list = new LinkedList<Integer>();
-        for(int i = 0; i < nums.length; ++i){
-            while(!list.isEmpty() && nums[i] > nums[list.peekLast()]){
-                list.pollLast();
+        
+        int[] ans = new int[nums.length - k + 1];
+        int index = 0;
+        Deque<Integer> dq = new LinkedList<Integer>();
+        
+        for(int i = 0; i < nums.length; i++){
+            while(!dq.isEmpty() && nums[i] > nums[dq.peekLast()]){
+                dq.pollLast();                
             }
             
-            list.offer(i);
+            dq.offer(i);
             
-            while(i - list.peekFirst() + 1 > k){
-                list.pollFirst();
+            if(i - dq.peekFirst() + 1 > k){
+                dq.pollFirst();
             }
             
             if(i >= k - 1){
-                res.add(nums[list.peekFirst()]);
+                ans[index++] = nums[dq.peekFirst()];
             }
         }
         
-        int[] ans = new int[res.size()];
-        for(int i = 0; i < res.size(); ++i){
-            ans[i] = res.get(i);
-        }
         return ans;
     }
 	

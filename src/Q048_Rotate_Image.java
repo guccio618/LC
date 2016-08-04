@@ -48,7 +48,7 @@ public class Q048_Rotate_Image {
 		}
 		
 		int n = matrix.length;
-		int left = 0, right = n -1;
+		int left = 0, right = n - 1;
 		int temp = 0;
 		
 		while (left < right) {

@@ -11,27 +11,24 @@ public class Q158_Read_N_Characters_Given_Read4_II_Call_multiple_times {
     private char[] tempBuf = new char[4];  
     
     public int read(char[] buf, int n) {
-        int readByte = 0;
+        int alreadyRead = 0;
         
-        while(readByte < n){
-            if(currentHaveRead == 0){
+        while(alreadyRead < n){
+            if(currentHaveRead == currentTotalRead){
+                currentHaveRead = 0;
                 currentTotalRead = read4(tempBuf);
             }
-            
+        
             if(currentTotalRead == 0){
                 break;
             }
             
-            while(readByte < n && currentHaveRead < currentTotalRead){
-                buf[readByte++] = tempBuf[currentHaveRead++];
-            }
-            
-            if(currentHaveRead >= currentTotalRead){
-                currentHaveRead = 0;
+            while(alreadyRead < n && currentHaveRead < currentTotalRead){
+                buf[alreadyRead++] = tempBuf[currentHaveRead++];
             }
         }
         
-        return readByte;
+        return alreadyRead;
     }
     
     public int read4(char[] tempBuf){

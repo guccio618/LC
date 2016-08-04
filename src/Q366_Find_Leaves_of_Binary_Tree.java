@@ -17,7 +17,7 @@ public class Q366_Find_Leaves_of_Binary_Tree {
         
         dfs(root);
         
-        for(int i = 1; i <= maxHeight; i++){
+        for(int i = 1; i <= maxHeight; i++){   // 必须从1开始，0表示节点是 null ！！！
             ans.add(map.get(i));
         }
         

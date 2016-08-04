@@ -1,7 +1,69 @@
 
 public class Q361_Bomb_Enemy {
-	// by Jackie using DP
+	// by other using DP
 	public int maxKilledEnemies(char[][] grid) {
+        if(grid == null || grid.length == 0 || grid[0].length == 0){
+            return 0;
+        }
+        
+        int row = grid.length;
+        int col = grid[0].length;
+        int[] colCounts = new int[col];
+        int rowCount = 0;
+        int maxNum = 0;
+        
+        for(int i = 0; i < row; i++){
+            for(int j = 0; j < col; j++){
+                if(grid[i][j] == 'W'){
+                    continue;
+                }
+                
+                if(j == 0 || grid[i][j - 1] == 'W'){
+                    rowCount = getKilledEnemiesInRow(grid, i, j);
+                }
+                
+                if(i == 0 || grid[i - 1][j] == 'W'){
+                    colCounts[j] = getKilledEnemiesInCol(grid, i, j);
+                }
+                
+                if(grid[i][j] == '0'){
+                    maxNum = Math.max(maxNum, rowCount + colCounts[j]);
+                }
+            }
+        }
+        
+        return maxNum;
+    }
+    
+    public int getKilledEnemiesInRow(char[][] grid, int x, int y){
+        int count = 0;
+        
+        for(int i = y; i < grid[0].length && grid[x][i] != 'W'; i++){
+            if(grid[x][i] == 'E'){
+                count++;
+            }
+        }
+        
+        return count;
+    }
+    
+    public int getKilledEnemiesInCol(char[][] grid, int x, int y){
+        int count = 0;
+        
+        for(int i = x; i < grid.length && grid[i][y] != 'W'; i++){
+            if(grid[i][y] == 'E'){
+                count++;
+            }
+        }
+        
+        return count;
+    }
+	
+    
+    
+    /*******************************************************************/
+	// by Jackie using DP
+	public int maxKilledEnemies2(char[][] grid) {
 		if(grid == null || grid.length == 0 || grid[0].length == 0){
             return 0;
         }

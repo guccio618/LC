@@ -1,56 +1,157 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 
+/***************************************************************************************
+ * 需要注意的是Binary Search： 
+ * 		(1). 使用Arrays.binarySearch和使用List手动实现两种方式
+ * 		(2). Arrays.binarySearch时，注意len == index, 表示插入点大于当前list长度，因此len++
+ * 		(3). Arrays.sort时候需要注意，left[0] == right[0]时，return right[1] - left[1]， 
+ * 		顺序如下：[5, 6], [5, 5]这样才能保证结果正确
+ * 
+ ***************************************************************************************/
 
 
 public class Q354_Russian_Doll_Envelopes {
+	// by other using Arrays.binarySearch, time complexity is O(nlogn)
 	public int maxEnvelopes(int[][] envelopes) {
         if(envelopes == null || envelopes.length == 0 || envelopes[0].length == 0){
             return 0;
         }
         
-        int maxNum = 1;
-        int n = envelopes.length;
-        Node[] arrays = new Node[n];
-        int[] dp = new int[n];
-        
-        for(int i = 0; i < n; i++){
-            arrays[i] = new Node(envelopes[i][0], envelopes[i][1], 0);
-            dp[i] = 1;
-        }
-        
-        Arrays.sort(arrays, new Comparator<Node>(){
-            public int compare(Node left, Node right){
-                if(left.width != right.width){
-                    return left.width - right.width;
+        Arrays.sort(envelopes, new Comparator<int[]>(){
+            public int compare(int[] left, int[] right){
+                if(left[0] != right[0]){
+                    return left[0] - right[0];      // 这里的顺序是 left[0] - right[0] ！！！
                 } else {
-                    return left.height - right.height;
+                    return right[1] - left[1];      // 这里的顺序是 right[1] - left[1] ！！！
                 }
             }
         });
         
-        for(int i = 1; i < n; i++){
+        
+        int[] dp = new int[envelopes.length];
+        int dpLen = 0;
+        
+        for(int[] envelope : envelopes){
+            int index = Arrays.binarySearch(dp, 0, dpLen, envelope[1]);
+            
+            if(index < 0){
+                index = -(index + 1);
+            }
+            
+            dp[index] = envelope[1];
+            
+            if(index == dpLen){                      // index == dpLen时，dpLen++ ！！！
+                dpLen++;
+            }
+        }
+        
+        return dpLen;
+    }
+    
+    
+	
+    /**************************************************************************/
+	// by Jackie using Binary Search, time complexity is O(nlogn)
+    public int maxEnvelopes2(int[][] envelopes) {
+        if(envelopes == null || envelopes.length == 0 || envelopes[0].length == 0){
+            return 0;
+        }
+        
+        Arrays.sort(envelopes, new Comparator<int[]>(){
+            public int compare(int[] left, int[] right){
+                if(left[0] != right[0]){
+                    return left[0] - right[0];
+                } else {
+                    return right[1] - left[1];
+                }
+            }
+        });
+    
+        List<Integer> list = new ArrayList<Integer>();
+        
+        for(int[] envelope : envelopes){
+            updateList(list, envelope[1]);
+        }
+        
+        return list.size();
+    }
+    
+    public void updateList(List<Integer> list, int target){
+        if(list.size() == 0 || target > list.get(list.size() - 1)){
+            list.add(target);
+        }
+        
+        int pos = findPos(list, target);
+        list.set(pos, target);
+    }
+    
+    public int findPos(List<Integer> list, int target){
+        if(target < list.get(0)){
+            return 0;
+        }
+        
+        int left = 0, right = list.size() - 1;
+        
+        while(left + 1 < right){
+            int midIndex = left + (right - left) / 2;
+            int mid = list.get(midIndex);
+            
+            if(mid < target){
+                left = midIndex;
+            } else {
+                right = midIndex;
+            }
+        }
+        
+        if(list.get(left) >= target){
+            return left;
+        } else if(list.get(right) >= target){
+            return right;
+        } else {
+            return right + 1;
+        }
+    }
+
+    
+    
+    /**************************************************************************/
+	// by Jackie using DP, time complexity is O(n^2)
+    public int maxEnvelopes3(int[][] envelopes) {
+        if(envelopes == null || envelopes.length == 0 || envelopes[0].length == 0){
+            return 0;
+        }
+        
+        int len = envelopes.length;
+        int[] dp = new int[len];
+        int maxLen = 1;
+        
+        Arrays.sort(envelopes, new Comparator<int[]>(){
+            public int compare(int[] left, int[] right){
+                if(left[0] != right[0]){
+                    return left[0] - right[0];
+                } else {
+                    return left[1] - right[1];
+                }
+            }
+        });
+        
+        for(int i = 0; i < len; i++){
+            dp[i] = 1;
+        }
+        
+        for(int i = 1; i < len; i++){
             for(int j = 0; j < i; j++){
-                if(arrays[i].width > arrays[j].width && arrays[i].height > arrays[j].height){
+                if(envelopes[i][0] > envelopes[j][0] && envelopes[i][1] > envelopes[j][1]){
                     dp[i] = Math.max(dp[i], dp[j] + 1);
-                    maxNum = Math.max(maxNum, dp[i]);
+                    maxLen = Math.max(maxLen, dp[i]);
                 }
             }
         }
         
-        return maxNum;
-    }
-    
-    class Node{
-        int width;
-        int height;
-        int num;
-        
-        public Node(int w, int h, int n){
-            width = w;
-            height = h;
-            num = n;
-        }
+        return maxLen;
     }
 
     

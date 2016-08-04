@@ -1,6 +1,73 @@
 
 public class Q067_Add_Binary {
+	/**************************************************/
+	// by Jackie
 	public String addBinary(String a, String b) {
+        if(a == null){
+            return b;
+        } else if(b == null){
+            return a;
+        }
+        
+        int index1 = a.length() - 1;
+        int index2 = b.length() - 1;
+        char flag = '0';
+        StringBuilder builder = new StringBuilder();
+        
+        while(index1 >= 0 || index2 >= 0){
+            if(index1 >= 0 && index2 >= 0){
+                char c1 = a.charAt(index1);
+                char c2 = b.charAt(index2);
+                
+                if(c1 == '1' && c2 == '1'){
+                    builder.insert(0, flag);
+                    flag = '1';
+                } else if(c1 == '1' || c2 == '1'){
+                    builder.insert(0, flag == '1' ? '0' : '1');
+                } else {
+                    builder.insert(0, flag);
+                    flag = '0';
+                }
+                
+                index1--;
+                index2--;
+            } else if(index1 >= 0 && index2 < 0){
+                char c1 = a.charAt(index1);
+                
+                if(c1 == '1'){
+                    builder.insert(0, flag == '1' ? '0' : '1');
+                } else {
+                    builder.insert(0, flag);
+                    flag = '0';
+                }
+                
+                index1--;
+            } else {
+                char c2 = b.charAt(index2);
+                
+                if(c2 == '1'){
+                    builder.insert(0, flag == '1' ? '0' : '1');
+                } else {
+                    builder.insert(0, flag);
+                    flag = '0';
+                }
+                
+                index2--;
+            }
+        }
+        
+        if(flag == '1'){
+            builder.insert(0, flag);
+        }
+        
+        return builder.toString();
+    }
+	
+	
+	
+	/**************************************************/
+	// by other
+	public String addBinary2(String a, String b) {
         if(b.length() == 0) return a;
         if(a.length() == 0) return b;
         String res = "";
@@ -24,101 +91,7 @@ public class Q067_Add_Binary {
         return res;
     }
 	
-	public String addBinary2(String a, String b) {
-        if(a == null || a.length() == 0){
-            return b;
-        } else if(b == null || b.length() == 0){
-            return a;
-        }
-        
-        char[] num1 = a.toCharArray();
-        char[] num2 = b.toCharArray();
-        boolean plusOneFlag = false;
-        int x = a.length() - 1;
-        int y = b.length() - 1;
-        StringBuffer ans = new StringBuffer();
-        
-        while(x >= 0 && y >= 0){
-            if(num1[x] == '1' && num2[y] == '1'){
-                if(plusOneFlag == true){
-                    ans.append("1");
-                } else {
-                    ans.append("0");
-                }
-                plusOneFlag = true;
-            } else if(num1[x] == '0' && num2[y] == '0'){
-                if(plusOneFlag == true){
-                    ans.append("1");
-                } else {
-                    ans.append("0");
-                }
-                plusOneFlag = false;
-            } else {
-                if(plusOneFlag == true){
-                    ans.append("0");
-                    plusOneFlag = true;
-                } else {
-                    ans.append("1");
-                    plusOneFlag = false;
-                }
-            }
-        	System.out.println(num1[x] + ", " + num2[y] + ", " + plusOneFlag + ", " + ans.toString());
-            x--;
-            y--;
-        }
-        
-        while(x >= 0){
-            if(num1[x] == '1'){
-                if(plusOneFlag = true){
-                    ans.append("0");
-                    plusOneFlag = true;
-                } else {
-                    ans.append("1");
-                    plusOneFlag = false;
-                }
-            } else {
-                if(plusOneFlag = true){
-                    ans.append("1");
-                } else {
-                    ans.append("0");
-                }
-                plusOneFlag = true;
-            }
-            x--;
-        }
-        
-        while(y >= 0){
-            if(num2[y] == '1'){
-                if(plusOneFlag == true){
-                	System.out.println("1");
-                    ans.append("0");
-                    plusOneFlag = true;
-                } else {
-                	System.out.println("2");
-                    ans.append("1");
-                    plusOneFlag = false;
-                }
-            } else {
-                if(plusOneFlag == true){
-                	System.out.println("3");
-                    ans.append("1");
-                } else {
-                	System.out.println("4");
-                    ans.append("0");
-                }
-                plusOneFlag = false;
-            }
-            System.out.println(num2[y] + ", " + plusOneFlag + ", " + ans.toString());
-            y--;
-        }
-        
-        if(plusOneFlag == true){
-            ans.append("1");
-        }
-        
-        ans.reverse();
-        return ans.toString();
-    }
+	
 	
 	public static void main(String[] args){
 		Q067_Add_Binary ab = new Q067_Add_Binary();

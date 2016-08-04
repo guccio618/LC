@@ -1,37 +1,38 @@
 import java.util.HashMap;
+import java.util.Map;
 
 
 public class Q290_Word_Pattern {
 	/***************************************/
 	// by other using one hashmap
 	public boolean wordPattern(String pattern, String str) {
-        if(pattern == null || pattern.length() == 0){
-			return false;
-		}
-        if(str == null || str.length() == 0){
-        	return false;
+        if(pattern == null || str == null){
+            if(pattern == null && str == null){
+                return true;
+            } else {
+                return false;
+            }
         }
         
-        HashMap<Character, String> map = new HashMap<Character, String>();
-        char[] array = pattern.toCharArray();
-        int n = array.length;
-        str = str.trim();
-        String[] strArray = str.split("\\s{1,}");
-        if(strArray.length != n){
+        String[] array = str.split("\\s{1,}");
+        
+        if(pattern.length() != array.length){
             return false;
         }
         
-        for(int i = 0; i < n; ++i){
-            if(map.containsKey(array[i])){
-                if(!strArray[i].equals(map.get(array[i]))){
+        Map<Character, String> map = new HashMap<Character, String>();
+        char[] letters = pattern.toCharArray();
+        int len = letters.length;
+        
+        for(int i = 0; i < len; i++){
+            if(map.containsKey(letters[i])){
+                if(!map.get(letters[i]).equals(array[i])){
                     return false;
                 }
+            } else if(map.containsValue(array[i])){
+                return false;
             } else {
-                if(map.containsValue(strArray[i])){
-                    return false;
-                } else {
-                    map.put(array[i], strArray[i]);
-                }
+                map.put(letters[i], array[i]);
             }
         }
         

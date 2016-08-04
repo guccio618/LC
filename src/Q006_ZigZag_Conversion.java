@@ -20,7 +20,7 @@ public class Q006_ZigZag_Conversion {
                 builders[index].append(s.charAt(pos));
                 pos++;
             }
-            for(int index = numRows - 2; index > 0 && pos < n; --index){
+            for(int index = numRows - 2; index > 0 && pos < n; --index){   // 注意从numRows - 2开始 !!!
                 builders[index].append(s.charAt(pos));
                 pos++;
             }

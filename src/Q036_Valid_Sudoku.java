@@ -3,31 +3,50 @@ import java.util.Set;
 
 
 public class Q036_Valid_Sudoku {
-	// by other
-	public Set<Character> set=new HashSet<Character>();
-	
+	// by other	
 	public boolean isValidSudoku(char[][] board) {
-	   for(int i=0;i<9;i++){
-	       if(validPartial(board,i,i,0,8)==false) return false;
-	       if(validPartial(board,0,8,i,i)==false) return false;
-	   } 
-	   for(int i=0;i<9;i+=3){
-	       for(int j=0;j<9;j+=3){
-	           if(validPartial(board,i,i+2,j,j+2)==false) return false;
-	       }
-	   }
-	   return true;
-	}
+        if(board == null || board.length == 0 || board[0].length == 0){
+            return false;
+        }
+        
+        for(int i = 0; i < 9; i++){
+            if(isValid(board, i, i, 0, 8) == false){   // check row
+                return false;
+            }
+            
+            if(isValid(board, 0, 8, i, i) == false){   // check col
+                return false;
+            }
+        }
+        
+        for(int i = 0; i < 9; i += 3){
+            for(int j = 0; j < 9; j += 3){
+                if(isValid(board, i, i + 2, j, j + 2) == false){
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    }
+    
+    public boolean isValid(char[][] board, int row_start, int row_end, int col_start, int col_end) {
+        Set<Character> set = new HashSet<Character>();
+        
+        for(int i = row_start; i <= row_end; i++){
+            for(int j = col_start; j <= col_end; j++){
+                if(board[i][j] != '.'){
+                    if(!set.contains(board[i][j])){
+                        set.add(board[i][j]);
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        }
+        
+        return true;
+    }
 	
-	public boolean validPartial(char[][] board,int row1,int row2,int col1,int col2){
-	    set.clear();
-	    for(int i=row1; i<=row2; i++){
-	        for(int j=col1; j<=col2; j++){
-	            if(board[i][j]!='.') {
-	                if(!set.add(board[i][j])) return false;
-	            }
-	        }
-	    }
-	    return true;
-	}
+	
 }

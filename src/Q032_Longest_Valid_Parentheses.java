@@ -17,14 +17,59 @@ public class Q032_Longest_Valid_Parentheses {
 					stack.pop();
 					if (stack.isEmpty()) {
 						max = Math.max(max, i - left);             // 注意这两步 ！！！
-					} else {
+					} else {									   // 这里没有 lastPos = i, test case "()()"
 						max = Math.max(max, i - stack.peek());     // 注意这两步 ！！！
-					}
+					}										
 				}
 			}
 		}
 		return max;
 	}
+	
+	
+	/*********************************************************/
+	// by other useing 区间DP, but TLE
+		public int longestValidParentheses2(String s) {
+			if(s == null || s.length() == 0){
+	            return 0;
+	        }
+			
+	        char[] array = s.toCharArray();
+	        int len = array.length;
+	        int maxLen = 0;	        
+	        boolean[][] valid = new boolean[len][len];
+	        
+	        for(int i = 0; i < len-1; ++i){
+	        	if(array[i] == '(' && array[i+1] == ')'){
+	        		valid[i][i+1] = valid[i+1][i] = true;
+	        		maxLen = 2;
+	        	}
+	        }
+	        
+	        for(int length = 2; length < len; ++length){
+	        	for(int start = 0; start+length < len; ++start){
+	        		int end = start + length;
+	        		
+	        		valid[start][end] = valid[start + 1][end - 1] && array[start] == '(' && array[end] == ')';
+	                
+	                if(valid[start][end] == true){
+	                    maxLen = Math.max(maxLen, length + 1);
+	                    continue;
+	                } 
+	                
+	                for(int k = start + 1; k < end; k++){
+	                    if(valid[start][k] == true && valid[k + 1][end] == true){
+	                        valid[start][end] = true;
+	                        maxLen = Math.max(maxLen, length + 1);
+	                        break;
+	                    }
+	                }
+	        	}
+	        }
+	        
+	        return maxLen;	        
+		}
+	
 	
 	// by other
 	public int longestValidParentheses1(String s) {
@@ -64,43 +109,8 @@ public class Q032_Longest_Valid_Parentheses {
     }
 	
 	
-	public int longestValidParentheses2(String s) {
-		if(s == null || s.length() == 0){
-            return 0;
-        }
-        char[] array = s.toCharArray();
-        int len = array.length;
-        int max = Integer.MIN_VALUE;
-        
-        boolean[][] f = new boolean[len][len];
-        for(int i = 0; i < len-1; ++i){
-        	if(array[i] == '(' && array[i+1] == ')'){
-        		f[i][i+1] = f[i+1][i] = true;
-        		max = 2;
-        	}
-        }
-        for(int length = 2; length < len; ++length){
-        	for(int start = 0; start+length < len; ++start){    	
-        		if(f[start+1][start+length-1] && array[start] =='(' && array[start+length] == ')'){
-        			f[start][start+length] = true;
-        			max = Math.max(max, length+1);
-        			continue;
-        		}
-        		for(int k = start+1; k < start+length; ++k){
-        			if(f[start][k] && f[k+1][start+length]){
-        				f[start][start+length] = true;
-        				max = Math.max(max, length+1);
-            			break;
-            		}
-        		}
-        	}
-        }
-        
-        print(f);
-        
-        return max;
-        
-	}
+	
+	
 	
 	
 	public int longestValidParentheses5(String s) {

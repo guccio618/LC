@@ -3,6 +3,61 @@ public class Q165_Compare_Version_Numbers {
 	/******************************************************/
 	// by Jackie
 	public int compareVersion(String version1, String version2) {
+        if(version1 == null || version2 == null){
+            if(version1 == null && version2 == null){
+                return 0;
+            } else if(version1 == null && version2.length() > 0){
+                return -1;
+            } else if(version1.length() > 0 && version2 == null){
+                return 1;
+            }
+        }
+        
+        String[] array1 = version1.split("\\.");
+        String[] array2 = version2.split("\\.");
+        int index1 = 0, len1 = array1.length;
+        int index2 = 0, len2 = array2.length;
+        
+        while(index1 < len1 || index2 < len2){
+            if(index1 < len1 && index2 < len2){
+                int num1 = Integer.parseInt(array1[index1]);
+                int num2 = Integer.parseInt(array2[index2]);
+                
+                if(num1 > num2){
+                    return 1;
+                } else if(num1 < num2){
+                    return -1;
+                } else ;
+                
+                index1++;
+                index2++;
+            } else if(index1 < len1 && index2 >= len2){
+                int num = Integer.parseInt(array1[index1]);
+                
+                if(num > 0){
+                    return 1;
+                } else {
+                    index1++;
+                }
+            } else {
+                int num = Integer.parseInt(array2[index2]);
+                
+                if(num > 0){
+                    return -1;
+                } else {
+                    index2++;
+                }
+            }
+        }
+        
+        return 0;
+    }
+	
+	
+	
+	/******************************************************/
+	// by Jackie
+	public int compareVersion2(String version1, String version2) {
         if(version1 == null || version1.length() == 0){
             if(version2 == null || version2.length() == 0){
                 return 0;
@@ -54,7 +109,7 @@ public class Q165_Compare_Version_Numbers {
 	
 	/******************************************************/
 	// by other
-	public int compareVersion2(String version1, String version2) {
+	public int compareVersion3(String version1, String version2) {
         if(version1.length() == 0) return -1;
         if(version2.length() == 0) return 0;
         String str1 = "", str2 = "";

@@ -24,14 +24,14 @@ public class Q054_Spiral_Matrix {
             }
             col_end--;
             
-            if (row_start <= row_end) {          // 防止 test case [[2,3]],  [[2], [3]]  ！！！
+            if (row_start <= row_end) {          // 防止 test case [[2,3]],  [[2], [3]], 注意是row  ！！！
                 for(int i = col_end; i >= col_start; --i){
                     ans.add(matrix[row_end][i]);
                 }
             }
             row_end--;      // 移动继续，为了可以顺利退出，不会死循环，放在if之外 ！！！
             
-            if(col_start <= col_end){            // 防止 test case [[2,3]],  [[2], [3]]  ！！！
+            if(col_start <= col_end){            // 防止 test case [[2,3]],  [[2], [3]], 注意是col ！！！
                 for(int i = row_end; i >= row_start; --i){
                     ans.add(matrix[i][col_start]);
                 }
