@@ -23,8 +23,10 @@ public class Q375_Guess_Number_Higher_or_Lower_II {
                 int end = start + length;
                 cost[start][end] = Integer.MAX_VALUE;
                 
-                for(int k = start; k <= end; k++){
-                    cost[start][end] = Math.min(cost[start][end], k + Math.max(k - 1 >= start ? cost[start][k - 1] : 0, k + 1 <= end ? cost[k + 1][end] : 0));
+                for(int guess = start; guess <= end; guess++){
+                    int leftPart = guess - 1 >= start ? cost[start][guess - 1] : 0;
+                    int rightPart = guess + 1 <= end ? cost[guess + 1][end] : 0;
+                    cost[start][end] = Math.min(cost[start][end], guess + Math.max(leftPart, rightPart));
                 }
             }
         }

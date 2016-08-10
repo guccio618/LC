@@ -16,13 +16,18 @@ public class Q310_Minimum_Height_Trees {
 	// by other, easily understand
 	public ArrayList<Integer> findMinHeightTrees(int n, int[][] edges) {
 		ArrayList<Integer> leaves = new ArrayList<Integer>();
-		if (n <= 1) {
-			leaves.add(0);
-			return leaves;
+		
+		if(n <= 1){
+		    if(n == 1){
+		        leaves.add(0);
+		    }
+		    
+		    return leaves;
 		}
 
 		// Construct adjencent graph
 		HashSet<Integer>[] graph = new HashSet[n];
+		
 		for (int i = 0; i < n; ++i) {
 			graph[i] = new HashSet<Integer>();
 		}

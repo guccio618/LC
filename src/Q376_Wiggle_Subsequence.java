@@ -1,7 +1,62 @@
 
 public class Q376_Wiggle_Subsequence {
-	// by Jackie using DP, time complexity O(n)
 	public int wiggleMaxLength(int[] nums) {
+        if(nums == null || nums.length == 0){
+           return 0;
+       } else if(nums.length == 1){
+       	return 1;
+       }
+       
+       int len = nums.length;
+       int up = 1;
+       int down = 1;
+       
+       for(int i = 1; i < len; i++){
+           int flag = nums[i] - nums[i - 1];
+           
+           if(flag > 0){
+               up = down + 1;
+           } else if(flag < 0){
+               down = up + 1;
+           }
+       }
+       
+       return Math.max(up, down);
+	}
+	
+	
+	public int wiggleMaxLength2(int[] nums) {
+        if(nums == null || nums.length == 0){
+           return 0;
+       } else if(nums.length == 1){
+       	return 1;
+       }
+       
+       int len = nums.length;
+       int[] up = new int[len];
+       int[] down = new int[len];
+       up[0] = down[0] = 1;
+       
+       for(int i = 1; i < len; i++){
+           int flag = nums[i] - nums[i - 1];
+           
+           if(flag > 0){
+               up[i] = down[i - 1] + 1;
+               down[i] = down[i - 1];
+           } else if(flag < 0){
+               up[i] = up[i - 1];
+               down[i] = up[i - 1] + 1;
+           } else {
+               up[i] = up[i - 1];
+               down[i] = down[i - 1];
+           }
+       }
+       
+       return Math.max(up[len - 1], down[len - 1]);
+   }
+	
+	// by Jackie using DP, time complexity O(n)
+	public int wiggleMaxLength3(int[] nums) {
         if(nums == null || nums.length == 0){
             return 0;
         } else if(nums.length == 1){
@@ -41,7 +96,7 @@ public class Q376_Wiggle_Subsequence {
 	
 	
 	// by Jackie using DP, time complexity O(n^2)
-	public int wiggleMaxLength2(int[] nums) {
+	public int wiggleMaxLength4(int[] nums) {
         if(nums == null || nums.length == 0){
             return 0;
         } else if(nums.length == 1){

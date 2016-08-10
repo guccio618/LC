@@ -21,7 +21,7 @@ public class Q272_Closest_Binary_Search_Tree_Value_II {
         initializeSuccessorStack(root, target, succ);
         initializePredecessorStack(root, target, pred);
         
-        if(!pred.isEmpty() && !succ.isEmpty() && pred.peek().val == succ.peek().val){
+        if(!pred.isEmpty() && !succ.isEmpty() && pred.peek().val == succ.peek().val){   // 注意这一步必须有 ！！！
             getNextPredecessor(pred);
         }
         
@@ -33,6 +33,7 @@ public class Q272_Closest_Binary_Search_Tree_Value_II {
             } else {
                 double succ_diff = Math.abs((double)succ.peek().val - target);
                 double pred_diff = Math.abs((double)pred.peek().val - target);
+                
                 if(succ_diff < pred_diff) {
                     ans.add(getNextSuccessor(succ));
                 } else {
@@ -82,8 +83,7 @@ public class Q272_Closest_Binary_Search_Tree_Value_II {
     
     public int getNextSuccessor(Stack<TreeNode> succ) {
         TreeNode node = succ.pop();
-        int ans = node.val;
-        
+        int ans = node.val;        
         node = node.right;
         
         while(node != null){
@@ -96,8 +96,7 @@ public class Q272_Closest_Binary_Search_Tree_Value_II {
     
     private int getNextPredecessor(Stack<TreeNode> pred) {
         TreeNode node = pred.pop();
-        int ans = node.val;
-        
+        int ans = node.val;       
         node = node.left;
         
         while(node != null){
@@ -109,8 +108,55 @@ public class Q272_Closest_Binary_Search_Tree_Value_II {
     }
     
     
-    // by Jackie using heap, time complexity O(n)
+    
+    /******************************************************************************************************************************
+     * The idea is to compare the predecessors and successors of the closest node to the target, 
+     * we can use two stacks to track the predecessors and successors, then like what we do in merge sort, 
+     * we compare and pick the closest one to the target and put it to the result list.
+     * As we know, inorder traversal gives us sorted predecessors, whereas reverse-inorder traversal gives us sorted successors.
+     * We can use iterative inorder traversal rather than recursion, but to keep the code clean, here is the recursion version.
+     * 
+     *******************************************************************************************************************************/
+    // by other using heap, time complexity O(n + k)
     public List<Integer> closestKValues2(TreeNode root, double target, int k) {
+    	  List<Integer> res = new ArrayList<>();
+
+    	  Stack<Integer> s1 = new Stack<>(); // predecessors
+    	  Stack<Integer> s2 = new Stack<>(); // successors
+
+    	  inorder(root, target, false, s1);
+    	  inorder(root, target, true, s2);
+    	  
+    	  while (k-- > 0) {
+    	    if (s1.isEmpty())
+    	      res.add(s2.pop());
+    	    else if (s2.isEmpty())
+    	      res.add(s1.pop());
+    	    else if (Math.abs(s1.peek() - target) < Math.abs(s2.peek() - target))
+    	      res.add(s1.pop());
+    	    else
+    	      res.add(s2.pop());
+    	  }
+    	  
+    	  return res;
+    	}
+
+    	// inorder traversal
+    	void inorder(TreeNode root, double target, boolean reverse_flag, Stack<Integer> stack) {
+    	  if (root == null) return;
+
+    	  inorder(reverse_flag ? root.right : root.left, target, reverse_flag, stack);
+    	  // early terminate, no need to traverse the whole tree
+    	  if ((reverse_flag && root.val <= target) || (!reverse_flag && root.val > target)) return;  // 需要注意这里有等号 root.val <= target
+    	  // track the value of current node
+    	  stack.push(root.val);
+    	  inorder(reverse_flag ? root.left : root.right, target, reverse_flag, stack);
+    	}
+    
+    
+    
+    // by Jackie using heap, time complexity O(nlogn + klogn)
+    public List<Integer> closestKValues3(TreeNode root, double target, int k) {
         List<Integer> ans = new ArrayList<Integer>();
         
         if(root == null){

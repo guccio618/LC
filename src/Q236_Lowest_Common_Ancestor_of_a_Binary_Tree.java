@@ -32,18 +32,16 @@ public class Q236_Lowest_Common_Ancestor_of_a_Binary_Tree {
 	
 	/***************   by other using finding path (non_recursive)   *****************/	
 	public TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {
-        if(root == null || p == null || q == null){
+		if(root == null || p == null || q == null){
             return null;
-        }
+        }    
         
         List<TreeNode> path1 = new ArrayList<TreeNode>();
         List<TreeNode> path2 = new ArrayList<TreeNode>();
-        path1.add(root);
-        path2.add(root);
         TreeNode ans = null;
         
-        getPath(root, p, path1);
-        getPath(root, q, path2);
+        DFS(p, root, path1);
+        DFS(q, root, path2);
         
         for(int i = 0; i < path1.size() && i < path2.size(); i++){
             TreeNode node1 = path1.get(i);
@@ -59,33 +57,25 @@ public class Q236_Lowest_Common_Ancestor_of_a_Binary_Tree {
         return ans;
     }
     
-    public boolean getPath(TreeNode node, TreeNode target, List<TreeNode> path){
-        if(node == target){
+	// 如果找到target, 则return，path不需要remove
+	public boolean DFS(TreeNode target, TreeNode curNode, List<TreeNode> path){
+        if(curNode == null){
+            return false;
+        } 
+        
+        path.add(curNode);
+        
+        if(curNode == target){
+            return true;
+        } else if(DFS(target, curNode.left, path) == true || DFS(target, curNode.right, path) == true){
             return true;
         }
         
-        if(node.left != null){
-            path.add(node.left);
-            
-            if(getPath(node.left, target, path) == true){
-                return true;
-            }
-            
-            path.remove(path.size() - 1);
-        }
-        
-        if(node.right != null){
-            path.add(node.right);
-            
-            if(getPath(node.right, target, path) == true){
-                return true;
-            }
-            
-            path.remove(path.size() - 1);
-        }
-        
+        path.remove(path.size() - 1);
         return false;
     }
+	
+	
 	
 	/***************   by other using finding path (non_recursive)   *****************/
 	public TreeNode lowestCommonAncestor3(TreeNode root, TreeNode p, TreeNode q){
