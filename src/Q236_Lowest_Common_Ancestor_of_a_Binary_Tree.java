@@ -58,16 +58,21 @@ public class Q236_Lowest_Common_Ancestor_of_a_Binary_Tree {
     }
     
 	// 如果找到target, 则return，path不需要remove
-	public boolean DFS(TreeNode target, TreeNode curNode, List<TreeNode> path){
-        if(curNode == null){
+	public boolean DFS(TreeNode current, TreeNode target, List<TreeNode> path){
+        if(current == null){
             return false;
-        } 
-        
-        path.add(curNode);
-        
-        if(curNode == target){
+        } else if(current == target){
+            path.add(current);
             return true;
-        } else if(DFS(target, curNode.left, path) == true || DFS(target, curNode.right, path) == true){
+        }
+        
+        path.add(current);
+        
+        if(DFS(current.left, target, path) == true){
+            return true;
+        }
+        
+        if(DFS(current.right, target, path) == true){
             return true;
         }
         

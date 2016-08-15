@@ -21,6 +21,7 @@ public class Q271_Encode_and_Decode_Strings {
     // Decodes a single string to a list of strings.
     public List<String> decode(String s) {
     	List<String> ans = new ArrayList<String>();
+    	
         if(s == null || s.length() == 0){
             return ans;
         }

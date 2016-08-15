@@ -4,6 +4,16 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
+/*******************************************************************************************************************
+ * 1. Build a minHeap of elements from the first row.
+ * 2. Do the following operations k-1 times :
+ * 		Every time when you poll out the root(Top Element in Heap), 
+ * 		you need to know the row number and column number of that element(so we can create a tuple class here), 
+ * 		replace that root with the next element from the same column.
+ * 
+ * 类似算分公式，分布式的做法，哪个column被取出，就以此column就补上下一个元素
+ * 
+ ********************************************************************************************************************/
 
 public class Q373_Find_K_Pairs_with_Smallest_Sums {
 	// by other, time complexity O(n * k * logn)

@@ -49,7 +49,7 @@ public class Q149_Max_Points_on_a_Line {
                 localMax = Math.max(localMax, entry.getValue());
             }
             
-            if(samePoint == n - i - 1){      // 防止全是相同点的情况，此时需要把自身这个点加进来，如：[1, 1], [1, 1], [1, 1] ！！！
+            if(samePoint == n - 1 - i){      // 防止全是相同点的情况，此时需要把自身这个点加进来，如：[1, 1], [1, 1], [1, 1] ！！！
             	samePoint++;
             }
             

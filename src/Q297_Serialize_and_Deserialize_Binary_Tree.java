@@ -10,6 +10,7 @@ public class Q297_Serialize_and_Deserialize_Binary_Tree {
     	if(root == null){
             return "";
         }
+    	
         Queue<TreeNode> q = new LinkedList<TreeNode>();
         q.add(root);
         StringBuffer serial = new StringBuffer();
@@ -17,6 +18,7 @@ public class Q297_Serialize_and_Deserialize_Binary_Tree {
         
         while(!q.isEmpty()){
             TreeNode node = q.poll();
+            
             if(node != null){
                 serial.append(node.val).append(",");
                 q.add(node.left);
@@ -38,29 +40,32 @@ public class Q297_Serialize_and_Deserialize_Binary_Tree {
         
         String[] array = data.split(",");
         int n = array.length;
+        
         if(array[0].equals("#")){
             return null;
         }
+        
         TreeNode root = new TreeNode(Integer.parseInt(array[0]));
         ArrayList<TreeNode> list = new ArrayList<TreeNode>();
         list.add(root);
         int index = 0;
-        boolean isLeftChild = true;
         
         for(int i = 1; i < n; ++i){
             if(!array[i].equals("#")){
                 TreeNode node = new TreeNode(Integer.parseInt(array[i]));
-                if(isLeftChild == true){
+                
+                if(i % 2 == 1){
                     list.get(index).left = node;
                 } else{
                     list.get(index).right = node;
                 }
-                list.add(node);    // 注意，不能漏掉这一步！！！
+                
+                list.add(node);   
             }
-            if(isLeftChild == false){
+            
+            if(i % 2 == 0){
                 index++;
             }
-            isLeftChild = !isLeftChild;
         }
         
         return root;

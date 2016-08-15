@@ -5,26 +5,28 @@ import java.util.ArrayList;
 public class Q095_Unique_Binary_Search_Trees_II {
 	public List<TreeNode> generateTrees(int n) {
         List<TreeNode> ans = new ArrayList<TreeNode>();
+        
         if(n <= 0){
             return ans;
         }
         
         List<TreeNode>[][] memo = new List[n + 1][n + 1];  // 因为是从 1 到 n，因此这里需要定义到 n + 1 !!!
-        return helper(memo, 1, n);
+        return buildTree(memo, 1, n);
     }
     
-    public List<TreeNode> helper(List<TreeNode>[][] memo, int start, int end){
+    public List<TreeNode> buildTree(List<TreeNode>[][] memo, int start, int end){
         List<TreeNode> list = new ArrayList<TreeNode>();
+        
         if(start > end){
-            list.add(null);
+            list.add(null);    // 注意这一步 ！！！
             return list;
         } else if(memo[start][end] != null){
             return memo[start][end];
         }
         
         for(int i = start; i <= end; i++){
-            List<TreeNode> left = helper(memo, start, i - 1);
-            List<TreeNode> right = helper(memo, i + 1, end);
+            List<TreeNode> left = buildTree(memo, start, i - 1);
+            List<TreeNode> right = buildTree(memo, i + 1, end);
             
             for(TreeNode leftNode : left){
                 for(TreeNode rightNode : right){

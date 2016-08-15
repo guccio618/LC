@@ -5,8 +5,44 @@ import java.util.Map;
 
 
 public class Q245_Shortest_Word_Distance_III {
-	// by Jackie, 分类讨论
 	public int shortestWordDistance(String[] words, String word1, String word2) {
+        if(words == null || words.length == 0){
+            return 0;
+        }
+        
+        int len = words.length;
+        int pos1 = -1, pos2 = -1;
+        int minLen = Integer.MAX_VALUE;
+        
+        for(int i = 0; i < len; i++){
+            if(words[i].equals(word1)){
+                if(word1.equals(word2)){
+                    if(pos1 != -1){
+                        minLen = Math.min(minLen, i - pos1);
+                    }
+                } else {
+                    if(pos2 != -1){
+                        minLen = Math.min(minLen, i - pos2);
+                    }
+                }
+                
+                pos1 = i;
+            } else if(words[i].equals(word2)){
+                if(pos1 != -1){
+                    minLen = Math.min(minLen, i - pos1);
+                }
+                
+                pos2 = i;
+            }
+        }
+        
+        return minLen;
+    }
+	
+	
+	/****************************************************************/
+	// by Jackie, 分类讨论
+	public int shortestWordDistance2(String[] words, String word1, String word2) {
         if(words == null || words.length == 0){
             return 0;
         }
@@ -67,7 +103,7 @@ public class Q245_Shortest_Word_Distance_III {
     
     
     // by Jackie using hashmap
-    public int shortestWordDistance2(String[] words, String word1, String word2) {
+    public int shortestWordDistance3(String[] words, String word1, String word2) {
         if(words == null || words.length == 0){
             return 0;
         }

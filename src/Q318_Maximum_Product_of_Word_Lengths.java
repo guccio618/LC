@@ -9,6 +9,7 @@ public class Q318_Maximum_Product_of_Word_Lengths {
         // populating the checker array with their respective numbers
         for (int i = 0; i < checker.length; i++) {
             int num = 0;
+            
             for (int j = 0; j < words[i].length(); j++) {
                 num |= 1 << (words[i].charAt(j) - 'a');   // 标记上0-26中的某一个字母出现过
             }

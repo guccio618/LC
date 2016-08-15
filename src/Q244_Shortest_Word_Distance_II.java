@@ -13,6 +13,7 @@ public class Q244_Shortest_Word_Distance_II {
         }
         
         map = new HashMap<String, List<Integer>>();
+        
         for(int i = 0; i < words.length; i++){
             if(map.containsKey(words[i])){
                 map.get(words[i]).add(i);

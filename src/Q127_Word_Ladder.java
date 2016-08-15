@@ -28,11 +28,14 @@ public class Q127_Word_Ladder {
         dict.add(end);           // 必须把end加入dict
         
         int length = 1;          // 必须从1开始
+        
         while(!queue.isEmpty()) {
             length++;
             int size = queue.size();  // 设置size,相当于层序遍历
+            
             for (int i = 0; i < size; i++) {
                 String word = queue.poll();     
+                
                 for (String nextWord: findWordRange(word, dict)) {
                     if (visited.contains(nextWord)) {
                         continue;
@@ -46,6 +49,7 @@ public class Q127_Word_Ladder {
                 }
             }
         }
+        
         return 0;
     }
 	
@@ -56,6 +60,7 @@ public class Q127_Word_Ladder {
               
         for (int i = 0; i < len; i++) {
         	char temp = array[i];      //此步非常重要，因为每次只能改变一个位置，因此改动下一个位置时，需要还原前一位
+        	
             for (char k = 'a'; k <= 'z'; k++) {
                 if(k == array[i]){
                     continue;
@@ -67,6 +72,7 @@ public class Q127_Word_Ladder {
                     wordList.add(newWord);
                 }
             }
+            
             array[i] = temp;         //此步非常重要，因为每次只能改变一个位置，因此改动下一个位置时，需要还原前一位
         }
         

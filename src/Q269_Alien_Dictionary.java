@@ -9,73 +9,78 @@ import java.util.Set;
 public class Q269_Alien_Dictionary {
 	// by other using topology sort
 	public String alienOrder(String[] words) {
-		if (words == null || words.length == 0){
-			return new String();
-		}
-		
-		Queue<Character> q = new LinkedList<Character>();
-		Set<Character>[] graph = new Set[256];
-		Map<Character, Integer> degree = new HashMap<Character, Integer>();
-		StringBuffer result = new StringBuffer();
-		
-		for (String s : words) {
-			for (char c : s.toCharArray()) {
-				degree.put(c, 0);
-			}
-		}
-		
-		for (int i = 0; i < words.length - 1; i++) {
-		    if(words[i].equals(words[i + 1])){
+		if(words == null || words.length == 0){
+            return "";
+        }
+        
+        Map<Character, Integer> map = new HashMap<Character, Integer>();
+        int len = words.length;
+        Set<Character>[] graph = new Set[256];
+        Queue<Character> queue = new LinkedList<Character>();
+        StringBuilder builder = new StringBuilder();
+        
+        for(String word : words){
+            for(char c : word.toCharArray()){
+                map.put(c, 0);
+            }
+        }
+
+        for(int i = 0; i < len - 1; i++){
+            if(words[i].equals(words[i + 1])){
                 continue;
             }
-		    
-			String cur = words[i];
-			String next = words[i + 1];
-			int length = Math.min(cur.length(), next.length());
-			
-			for (int j = 0; j < length; j++) {
-				char c1 = cur.charAt(j);
-				char c2 = next.charAt(j);
-				if (c1 != c2) {
-					if (graph[c1] == null){
-						graph[c1] = new HashSet<Character>();
-					} 
-					
-					if (!graph[c1].contains(c2)) {
-						graph[c1].add(c2);
-						degree.put(c2, degree.get(c2) + 1);
-					}
-					break;
-				}
-			}
-		}
-		
-		for (char c : degree.keySet()) {
-			if (degree.get(c) == 0){
-				q.add(c);
-			}
-		}
-		
-		while (!q.isEmpty()) {
-			char c = q.poll();
-			result.append(c);
-			
-			if (graph[c] != null) {
-				for (char c2 : graph[c]) {
-				    int num = degree.get(c2);
-					if (num == 1){
-						q.add(c2);
-					}
-					degree.put(c2, degree.get(c2) - 1);
-				}
-			}
-		}
-		
-		if (result.length() != degree.size()){
-			return "";
-		} else {
-		    return result.toString();    
-		}
+            
+            int minLen = Math.min(words[i].length() , words[i + 1].length());
+            
+            for(int index = 0; index < minLen; index++){
+                char c1 = words[i].charAt(index);
+                char c2 = words[i + 1].charAt(index);
+                
+                if(c1 != c2){
+                    if(graph[c1] == null){
+                        graph[c1] = new HashSet<Character>();
+                    }
+                    
+                    if(!graph[c1].contains(c2)){
+                        graph[c1].add(c2);
+                        map.put(c2, map.getOrDefault(c2, 0) + 1);
+                    }
+                    
+                    break;
+                }
+            }
+        }
+        
+        for(char c : map.keySet()){
+            if(map.get(c) == 0){
+                queue.offer(c);
+            }
+        }
+        
+        while(!queue.isEmpty()){
+            char node = queue.poll();
+            builder.append(node);
+            
+            if(graph[node] == null){
+                continue;
+            }
+            
+            for(char next : graph[node]){
+                int count = map.get(next);
+                
+                if(count == 1){
+                    queue.offer(next);
+                } else {
+                    map.put(next, count - 1);
+                }
+            }
+        }
+        
+        if(builder.length() == map.size()){
+            return builder.toString();    
+        } else {
+            return "";
+        }
     }
 
 	

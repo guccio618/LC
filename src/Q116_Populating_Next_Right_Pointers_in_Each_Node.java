@@ -3,9 +3,34 @@ import java.util.Queue;
 
 
 public class Q116_Populating_Next_Right_Pointers_in_Each_Node {
+	// by Jackie
+	public void connect(TreeLinkNode root) {
+        if(root == null){
+            return;
+        }
+        
+        root.next = null;
+        TreeLinkNode nextHead = root.left;
+        
+        while(nextHead != null){
+            while(root != null){
+                root.left.next = root.right;
+                
+                if(root.next != null){
+                    root.right.next = root.next.left;
+                }
+                
+                root = root.next;
+            }
+            
+            root = nextHead;
+            nextHead = root.left;
+        }
+	}
+	
 	/*********************************************************/
 	// by other using iterator
-	public void connect(TreeLinkNode root) {
+	public void connect2(TreeLinkNode root) {
 		if(root == null){
             return;
         }
@@ -27,7 +52,7 @@ public class Q116_Populating_Next_Right_Pointers_in_Each_Node {
 	
 	/*********************************************************/
 	// by other
-	public void connect2(TreeLinkNode root) {
+	public void connect3(TreeLinkNode root) {
 		if (root == null)
 			return;
 		root.next = null;
@@ -50,7 +75,7 @@ public class Q116_Populating_Next_Right_Pointers_in_Each_Node {
     
 	/*********************************************************/
 	// by Jackie
-	public void connect3(TreeLinkNode root) {
+	public void connect4(TreeLinkNode root) {
         if(root == null) return;
         int levelNum = 1;
         Queue<TreeLinkNode> q = new LinkedList<TreeLinkNode>();

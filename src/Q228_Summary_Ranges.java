@@ -3,8 +3,47 @@ import java.util.List;
 
 
 public class Q228_Summary_Ranges {
-	// by Jackie
 	public List<String> summaryRanges(int[] nums) {
+        List<String> ans = new ArrayList<String>();
+        
+        if(nums == null || nums.length == 0){
+            return ans;
+        }
+        
+        int len = nums.length;
+        int start = nums[0];
+        int numNeed = start + 1;
+        
+        for(int i = 1; i < len; i++){
+            if(numNeed == nums[i]){
+                numNeed++;
+            } else {
+                ans.add(getStr(start, numNeed - 1));
+                start = nums[i];
+                numNeed = start + 1;
+            }
+        }
+        
+        ans.add(getStr(start, numNeed - 1));
+        return ans;
+    }
+    
+    public String getStr(int start, int end){
+        StringBuilder builder = new StringBuilder();
+        
+        if(start == end){
+            builder.append(start);
+        } else {
+            builder.append(start).append("->").append(end);
+        }
+        
+        return builder.toString();
+    }
+	
+	
+	
+	// by Jackie
+	public List<String> summaryRanges2(int[] nums) {
         List<String> ans = new ArrayList<String>();
         if(nums == null || nums.length == 0){
             return ans;
@@ -22,14 +61,14 @@ public class Q228_Summary_Ranges {
             }
             
             end = nums[index];
-            ans.add(getStr(start, end));
+            ans.add(getStr2(start, end));
             index++;
         }
         
         return ans;
     }
     
-    public String getStr(int num1, int num2){
+    public String getStr2(int num1, int num2){
         if(num1 == num2){
             return Integer.toString(num1);
         } else {
@@ -41,7 +80,7 @@ public class Q228_Summary_Ranges {
     
     
 	//by jackie
-	public ArrayList<String> summaryRanges2(int[] nums) {
+	public ArrayList<String> summaryRanges3(int[] nums) {
 		ArrayList<String> res = new ArrayList<String>();
         int n = nums.length;
         int front = 0, back = 0;
