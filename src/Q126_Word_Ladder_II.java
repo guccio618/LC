@@ -30,6 +30,7 @@ public class Q126_Word_Ladder_II {
         Queue<String> q = new LinkedList<String>();
         q.offer(start);
         distance.put(start, 0);
+        
         for (String s : dict) {
             map.put(s, new ArrayList<String>());
         }
