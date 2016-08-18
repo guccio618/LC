@@ -4,36 +4,38 @@ import java.util.List;
 
 public class Q296_Best_Meeting_Point {
 	public int minTotalDistance(int[][] grid) {
-		int m = grid.length;
-		int n = grid[0].length;
-
-		List<Integer> I = new ArrayList<>(m);
-		List<Integer> J = new ArrayList<>(n);
-
-		for (int i = 0; i < m; i++) {
-			for (int j = 0; j < n; j++) {
-				if (grid[i][j] == 1) {
-					I.add(i);
-					J.add(j);
-				}
-			}
-		}
-
-		return getMin(I) + getMin(J);
+		if(grid == null || grid.length == 0 || grid[0].length == 0){
+            return 0;
+        }
+        
+        List<Integer> list_x = new ArrayList<Integer>();
+        List<Integer> list_y = new ArrayList<Integer>();
+        int row = grid.length, col = grid[0].length;
+        
+        for(int i = 0; i < row; i++){
+            for(int j = 0; j < col; j++){
+                if(grid[i][j] == 1){
+                    list_x.add(i);
+                    list_y.add(j);
+                }
+            }
+        }
+        
+        return getDistance(list_x) + getDistance(list_y);
 	}
 
-	private int getMin(List<Integer> list) {
-		int ret = 0;
-		Collections.sort(list);
-
-		int i = 0;
-		int j = list.size() - 1;
-		while (i < j) {
-			ret += list.get(j--) - list.get(i++);
-		}
-
-		return ret;
-	}
+	public int getDistance(List<Integer> list){
+        int left = 0, right = list.size() - 1, distance = 0;
+        Collections.sort(list);
+        
+        while(left < right){
+            distance += list.get(right) - list.get(left);
+            left++;
+            right--;
+        }
+        
+        return distance;
+    }
 	
 	
 

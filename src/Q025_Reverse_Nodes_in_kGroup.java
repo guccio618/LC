@@ -1,7 +1,7 @@
 
 public class Q025_Reverse_Nodes_in_kGroup {
 	public ListNode reverseKGroup(ListNode head, int k) {
-        if(head == null || head.next == null || k == 1){
+		if(head == null || head.next == null || k == 1){
             return head;
         }
         
@@ -14,6 +14,7 @@ public class Q025_Reverse_Nodes_in_kGroup {
         
         while(front != null){
             count = 0;
+            
             while(front != null && count < k){
                 count++;
                 front = front.next;
@@ -25,14 +26,10 @@ public class Q025_Reverse_Nodes_in_kGroup {
             
             nextStart = front.next;
             front.next = null;
-            
+            ListNode nodeNext = node.next;
             node.next = reverseList(node.next, nextStart);
-            
-            while(node.next != nextStart){
-                node = node.next;
-            }
-            
-            front = node;
+            node = nodeNext;
+            front = node;             // 每次front 都是从 node开始 ！！！
         }
         
         return dummy.next;

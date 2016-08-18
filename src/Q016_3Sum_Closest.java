@@ -12,6 +12,7 @@ public class Q016_3Sum_Closest {
     
         for(int i = 0; i < nums.length-2; ++i){
             int front = i+1, back = nums.length-1, sum = 0;
+            
             while(front < back){
                 sum = nums[i] + nums[front] + nums[back];
                 if(sum > target) back--;

@@ -27,16 +27,51 @@ public class Q151_Reverse_Words_in_a_String {
 	
 	/******************************************************/
 	// by other, faster
-	public static String reverseWords2(String s) {
-	    StringBuilder res = new StringBuilder();
-	    for (int start = s.length() - 1; start >= 0; start--) {
-	        if (s.charAt(start) == ' ') continue;
-	        int end = start;
-	        while (start >= 0 && s.charAt(start) != ' ') start--;
-	        res.append(s.substring(start + 1, end + 1)).append(" ");
-	    }
-	    return res.toString().trim();
-	}
+	public String reverseWords2(String s) {
+        if(s == null || s.length() == 0){
+            return "";
+        }   
+        
+        s = s.trim();
+        char[] array = s.toCharArray();
+        int len = array.length;
+        int front = 0, back = 0;
+        StringBuilder builder = new StringBuilder();
+        
+        reverseArray(array, 0, len - 1);
+        
+        while(front < len){
+            while(front < len && array[front] == ' '){
+                front++;
+            }
+            
+            back = front;
+            
+            while(front < len && array[front] != ' '){
+                front++;
+            }
+            
+            if(builder.length() > 0){
+                builder.append(" ");
+            }
+            
+            for(int i = front - 1; i >= back; i--){
+                builder.append(array[i]);
+            }
+        }
+        
+        return builder.toString();
+    }
+    
+    public void reverseArray(char[] array, int start, int end){
+        while(start < end){
+            char temp = array[start];
+            array[start] = array[end];
+            array[end] = temp;
+            start++;
+            end--;
+        }
+    }
 	
 	
 	

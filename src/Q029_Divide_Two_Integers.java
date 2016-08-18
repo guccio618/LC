@@ -11,9 +11,11 @@ public class Q029_Divide_Two_Integers {
 		int ret = 0;
 		while (divd >= divs) {
 			int counter = 0;
+			
 			while (divd >= (divs << counter)) { // keep multiply by 2 until divs > divd
 				counter++;
 			}
+			
 			counter--;                // rollback counter so that (divs<<counter) <= divd
 			ret += 1 << counter;      // quotient
 			divd -= divs << counter;

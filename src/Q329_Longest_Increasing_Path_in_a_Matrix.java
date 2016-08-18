@@ -23,6 +23,7 @@ public class Q329_Longest_Increasing_Path_in_a_Matrix {
 		if (state[i][j] > 0) {
 			return state[i][j];
 		}
+		
 		int max = 0;
 		for (int m = 0; m < dis.length; m++) {
 			if (i + dis[m][0] >= 0 && i + dis[m][0] < matrix.length

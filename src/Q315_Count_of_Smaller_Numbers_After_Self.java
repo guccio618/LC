@@ -13,48 +13,49 @@ public class Q315_Count_of_Smaller_Numbers_After_Self {
 	 * 
 	 ***************************************************************************************************************/
 	// by other
-	
-    public List<Integer> countSmaller(int[] nums) {
-    	Integer[] ans = new Integer[nums.length];
-        List<Integer> sorted = new ArrayList<Integer>();
-        for (int i = nums.length - 1; i >= 0; i--) {
-            int index = findIndex(sorted, nums[i]);
-            ans[i] = index;
-            sorted.add(index, nums[i]);
+	public List<Integer> countSmaller(int[] nums) {
+        if(nums == null || nums.length == 0){
+            return new ArrayList<Integer>();
         }
-        return Arrays.asList(ans);
+        
+        List<Integer> list = new ArrayList<Integer>();
+        int len = nums.length;
+        Integer[] position = new Integer[len];
+        
+        for(int i = len - 1; i >= 0; i--){
+            int pos = findPos(list, nums[i]);
+            position[i] = pos;
+            list.add(pos, nums[i]);
+        }
+        
+        return Arrays.asList(position);
     }
-
-    private int findIndex(List<Integer> sorted, int target) {
-        if (sorted.size() == 0) {
-        	return 0;
+    
+    public int findPos(List<Integer> list, int target){
+        if(list.size() == 0 || target <= list.get(0)){
+            return 0;
+        } else if(target > list.get(list.size() - 1)){
+            return list.size();
         }
         
-        int start = 0;
-        int end = sorted.size() - 1;
+        int left = 0, right = list.size() - 1;
         
-        if (sorted.get(end) < target) {
-        	return end + 1;
-        }
-        
-        if (sorted.get(start) >= target) {
-        	return 0;
-        }
-        
-        while (start + 1 < end) {
-            int mid = start + (end - start) / 2;
-            if (sorted.get(mid) < target) {
-                start = mid + 1;
+        while(left + 1 < right){
+            int midIndex = left + (right - left) / 2;
+            int mid = list.get(midIndex);
+            
+            if(mid < target){
+                left = midIndex;
             } else {
-                end = mid - 1;
+                right = midIndex;
             }
         }
         
-        if (sorted.get(start) >= target) {
-        	return start;
+        if(list.get(left) >= target){
+            return left;
+        } else {
+            return right;
         }
-        
-        return end;
     }
 	
 	

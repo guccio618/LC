@@ -10,6 +10,7 @@ public class Q148_Sort_List {
         fakeHead.next = head;
         ListNode pre = fakeHead;
         ListNode post = fakeHead;
+        
         while (post != null && post.next != null) {  // 找到list的中点
             post = post.next.next;
             pre = pre.next;

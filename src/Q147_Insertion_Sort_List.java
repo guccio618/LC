@@ -16,11 +16,10 @@ public class Q147_Insertion_Sort_List {
 				traver = traver.next;
 			}
 
-			ListNode traverNext = traver.next;
 			ListNode pivotNext = pivot.next;
-			traver.next = pivot;
-			pivot.next = traverNext;
-			pivot = pivotNext;
+            pivot.next = traver.next;
+            traver.next = pivot;
+            pivot = pivotNext;
 		}
 
 		return dummy.next;

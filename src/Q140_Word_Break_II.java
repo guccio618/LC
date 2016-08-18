@@ -24,15 +24,18 @@ public class Q140_Word_Break_II {
 		
 		for (int index = start, len = s.length(); index < len; ++index) {
 			String curStr = s.substring(start, index + 1);
+			
 			if (wordDict.contains(curStr)) {
-				if (memo[index] == null) {
+				if (memo[index] == null) {      // 注意这里是index ！！！
 					memo[index] = getBreaks(s, wordDict, index + 1, memo);   // 需要注意的是index + 1 !!!
 				}
+				
 				for (String str : memo[index]) {
-					if (!str.equals(""))
+					if (!str.equals("")){
 						result.add(curStr + " " + str);
-					else
+					} else {
 						result.add(curStr);
+					}
 				}
 			}
 		}

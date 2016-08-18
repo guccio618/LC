@@ -2,20 +2,25 @@
 public class Q162_Find_Peak_Element {
 	// by other using binary search
 	public int findPeakElement(int[] nums) {
-        int N = nums.length;
-        if (N == 1) {
+		if(nums == null || nums.length == 0){
             return 0;
         }
-
-        int left = 0, right = N - 1;
-        while (right - left > 1) {
-            int mid = left + (right - left) / 2;
-            if (nums[mid] < nums[mid + 1]) {
-                left = mid + 1;
+        
+        int left = 0, right = nums.length - 1;   // 不会越界
+        
+        while(left + 1 < right){
+            int mid = (left + right) / 2;
+            if(nums[mid] < nums[mid + 1]){     // 注意mid和mid+1, mid-1比较
+                left = mid;
             } else {
                 right = mid;
             }
         }
-        return (left == N - 1 || nums[left] > nums[left + 1]) ? left : right;
+        
+        if(nums[left] > nums[right]){
+            return left;
+        } else {
+            return right;
+        }
     }
 }

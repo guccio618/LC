@@ -2,22 +2,20 @@
 public class Q053_Maximum_Subarray {
 	// by Jackie using DP, time complexity O(n), space O(1)
 	public int maxSubArray(int[] nums) {
-        if(nums == null || nums.length == 0){
+		if(nums == null || nums.length == 0){
             return 0;
         }
         
-        int n = nums.length;
-        int max = nums[0];
-        int preSum = nums[0];
-        int curSum = nums[0];
+        int len = nums.length;
+        int ans = nums[0];
+        int prevMax = nums[0];
         
-        for(int i = 1; i < n; ++i){
-            curSum = Math.max(preSum + nums[i], nums[i]);
-            preSum = curSum;
-            max = Math.max(max, curSum);
+        for(int i = 1; i < len; i++){
+            prevMax = Math.max(prevMax + nums[i], nums[i]);
+            ans = Math.max(ans, prevMax);
         }
         
-        return max;
+        return ans;
     }
 	
 	

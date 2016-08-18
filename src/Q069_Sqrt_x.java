@@ -13,6 +13,7 @@ public class Q069_Sqrt_x {
         
        while (left + 1 < right) {
             long mid = left + (right - left) / 2;
+            
             if (mid * mid <= x) {
                 left = mid;
             } else {

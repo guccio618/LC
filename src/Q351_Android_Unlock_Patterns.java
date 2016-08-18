@@ -1,8 +1,7 @@
 
 public class Q351_Android_Unlock_Patterns {
 	private int[][] jumps = new int[10][10];
-    private boolean[] visited = new boolean[10];
-    
+    private boolean[] visited = new boolean[10];    
     
     public int numberOfPatterns(int m, int n) {
         jumps[1][3] = jumps[3][1] = 2;
@@ -26,6 +25,7 @@ public class Q351_Android_Unlock_Patterns {
         }
         
         solutionLen++;
+        
         if(solutionLen > n){
             return count;
         }
@@ -34,6 +34,7 @@ public class Q351_Android_Unlock_Patterns {
         
         for(int next = 1; next <= 9; next++){
             int jump = jumps[start][next];
+            
             if(!visited[next] && (jump == 0 || visited[jump] == true)){   // 注意这里的写法！！！
                 count = DFS(next, solutionLen, count, m, n);
             }

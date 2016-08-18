@@ -2,9 +2,31 @@ import java.util.ArrayList;
 
 
 public class Q007_Reverse_Integer {
+	public int reverse(int x) {
+        int flag = x > 0 ? 1 : -1;
+        x = Math.abs(x);
+        long sum = 0;
+        
+        while(x > 0){
+            int digit = x % 10;
+            x /= 10;
+            sum = sum * 10 + digit;
+        }
+        
+        sum *= flag;
+        
+        if(sum > Integer.MAX_VALUE || sum < Integer.MIN_VALUE){
+            return 0;
+        } else {
+            return (int) sum;
+        }
+    }
+	
+	
+	
 	/*****************************************************/
 	// by Jackie, test cast: -2147483648	
-	public int reverse(int x) {
+	public int reverse2(int x) {
         if(x == 0){
             return x;
         }
@@ -46,7 +68,7 @@ public class Q007_Reverse_Integer {
         
     /*****************************************************/
     // by Jackie, test cast: -2147483648	
-	public int reverse2(int x) {
+	public int reverse3(int x) {
         if(x > -10 && x < 10) return x;
         if(x >= Integer.MAX_VALUE || x <= Integer.MIN_VALUE) return 0;
         int negative_flag = 1;

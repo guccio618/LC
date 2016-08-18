@@ -2,29 +2,39 @@ import java.util.Stack;
 
 public class Q032_Longest_Valid_Parentheses {
 	// by other
-	public int longestValidParentheses(String s) {    // 使用 test case ")(()()())" 来理解！！！
-		Stack<Integer> stack = new Stack<Integer>();
-		int max = 0;
-		int left = -1;
-
-		for (int i = 0; i < s.length(); i++) {
-			if (s.charAt(i) == '(') {
-				stack.push(i);
-			} else {
-				if (stack.isEmpty()) {
-					left = i;
-				} else {
-					stack.pop();
-					if (stack.isEmpty()) {
-						max = Math.max(max, i - left);             // 注意这两步 ！！！
-					} else {									   // 这里没有 lastPos = i, test case "()()"
-						max = Math.max(max, i - stack.peek());     // 注意这两步 ！！！
-					}										
-				}
-			}
-		}
-		return max;
-	}
+	public int longestValidParentheses(String s) {  // 使用 test case ")(()()())" 来理解！！！
+        if(s == null || s.length() == 0){
+            return 0;
+        }
+        
+        int len = s.length();
+        Stack<Integer> stack = new Stack<Integer>();
+        int prevPos = -1;
+        int ans = 0;
+        
+        for(int i = 0; i < len; i++){
+            char c = s.charAt(i);
+            
+            if(c == '('){
+                stack.push(i);
+            } else {
+                if(stack.isEmpty()){
+                    prevPos = i;
+                } else {
+                    stack.pop();
+                    
+                    if(stack.isEmpty()){
+                        ans = Math.max(ans, i - prevPos);        // 注意这两步 ！！！
+                    } else {                                     // 这里没有 lastPos = i, test case "()()"
+                        ans = Math.max(ans, i - stack.peek());   // 注意这两步 ！！！
+                    }
+                }
+            }
+        }
+        
+        return ans;
+    }
+	
 	
 	
 	/*********************************************************/
