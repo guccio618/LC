@@ -3,8 +3,34 @@ import java.util.Arrays;
 
 
 public class Q300_Longest_Increasing_Subsequence {
+	/**********************************************************/
+	// by other using DP+binary search, O(nlogn)
+    public int lengthOfLIS(int[] nums) {
+        if(nums == null || nums.length == 0){
+            return 0;
+        }
+        
+        int firstInsertPos = 0;
+        
+        for(int element : nums){
+            if(firstInsertPos == 0 || element > nums[firstInsertPos - 1]){
+                nums[firstInsertPos++] = element;
+            } else {
+                int index = Arrays.binarySearch(nums, 0, firstInsertPos, element);
+                
+                if(index < 0){
+                    nums[-(index + 1)] = element;
+                }
+            }
+        }
+        
+        return firstInsertPos;
+    }
+    
+    
+    /***********************************************/
 	// by other, easily to unstand
-	public int lengthOfLIS(int[] nums) {
+	public int lengthOfLIS2(int[] nums) {
         if(nums == null || nums.length == 0){
             return 0;
         }
@@ -52,22 +78,7 @@ public class Q300_Longest_Increasing_Subsequence {
         }
     }
 	
-	
-	/**********************************************************/
-	// by other using DP+binary search, O(nlogn)
-	public int lengthOfLIS2(int[] nums) {
-        int N = 0, idx, x;
-        for(int i = 0; i < nums.length; i++) {
-            x = nums[i];
-            if (N < 1 || x > nums[N-1]) {
-                nums[N++] = x;
-            }
-            else if ((idx = Arrays.binarySearch(nums, 0, N, x)) < 0) {
-                nums[-(idx + 1)] = x;
-            }
-        }
-        return N;
-    }
+    
 	
 	/**********************************************************/
 	// by Jackie using DP, O(n^2)

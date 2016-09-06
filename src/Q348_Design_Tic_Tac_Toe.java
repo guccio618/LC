@@ -26,9 +26,11 @@ public class Q348_Design_Tic_Tac_Toe {
         
         rows[row] += num;
         cols[col] += num;
+        
         if(col == row){
             diagonal += num;
         } 
+        
         if(col + row == size - 1){
             antiDiagonal += num;
         }

@@ -3,13 +3,26 @@ import java.util.Arrays;
 
 public class Q137_Single_Number_II {
 	/*****************************************************/
-	// by other
+	// by Jackie
 	public int singleNumber(int[] nums) {
-        int len = nums.length;
-        Arrays.sort(nums);
-        int i;
-        for(i = 0; i < len - 1 && nums[i] == nums[i + 1]; i += 3);
-        return nums[i];
+        if(nums == null || nums.length == 0){
+            return 0;
+        }
+        
+        int ans = 0;
+        
+        for(int i = 0; i < 32; i++){
+            int count = 0;
+            
+            for(int num : nums){
+                count += (num >> i) & 1;
+            }    
+            
+            count %= 3;
+            ans |= (count << i);
+        }
+        
+        return ans;
     }
 	
 	/*****************************************************/

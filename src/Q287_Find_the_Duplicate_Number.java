@@ -72,8 +72,8 @@ public class Q287_Find_the_Duplicate_Number {
 	
 	public static void main(String[] args){
 		Q287_Find_the_Duplicate_Number t = new Q287_Find_the_Duplicate_Number();
-		int[] nums = {2, 1, 2};
-		System.out.println(t.findDuplicate2(nums));
+		int[] nums = {1,3,4,2,5,6,7,8,9,5};
+		System.out.println(t.findDuplicate(nums));
 		
 	}
 }

@@ -10,14 +10,16 @@ public class Q251_Flatten_2D_Vector implements Iterator<Integer>{
 	
 	public Q251_Flatten_2D_Vector(List<List<Integer>> vec2d) {
         queue = new LinkedList<Iterator<Integer>>();
+        
         for(int i = 0; i < vec2d.size(); i++){
         	queue.offer(vec2d.get(i).iterator());     // iterator的应用 ！！！
         }
+        
         current = queue.poll();
     }
 
     @Override
-    public Integer next() {       // 注意这块的写法 ！！！
+    public Integer next() {       // 注意这部分的写法 ！！！
     	if(current.hasNext()){
             return current.next();
         } else {

@@ -22,11 +22,13 @@ public class Q281_Zigzag_Iterator {
         if(!hasNext()){
             return -1;
         } else {
-            Iterator iter = queue.poll();
+            Iterator<Integer> iter = queue.poll();
             int ans = (Integer) iter.next();
+            
             if(iter.hasNext()){
                 queue.offer(iter);
             }
+            
             return ans;
         }
     }

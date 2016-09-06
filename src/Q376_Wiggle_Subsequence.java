@@ -4,7 +4,7 @@ public class Q376_Wiggle_Subsequence {
         if(nums == null || nums.length == 0){
            return 0;
        } else if(nums.length == 1){
-       	return 1;
+    	   return 1;
        }
        
        int len = nums.length;

@@ -124,6 +124,7 @@ public class Q218_The_Skyline_Problem {
 			
 			while(!heap.isEmpty() && temp1.position == heap.peek().position){  // 处理同一position上重复的高度值
 				Node temp2 = heap.poll();
+				
 				if(temp2.isStart == true){
 					q.offer(temp2.height);
 				} else {

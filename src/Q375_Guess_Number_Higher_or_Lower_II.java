@@ -18,7 +18,7 @@ public class Q375_Guess_Number_Higher_or_Lower_II {
         
         int[][] cost = new int[n + 1][n + 1];
         
-        for(int length = 1; length <= n; length++){
+        for(int length = 1; length <= n; length++){   // start=1表示从1开始猜
             for(int start = 1; start + length <= n; start++){
                 int end = start + length;
                 cost[start][end] = Integer.MAX_VALUE;

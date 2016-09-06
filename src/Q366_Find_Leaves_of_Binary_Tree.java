@@ -7,42 +7,41 @@ import java.util.Map;
 public class Q366_Find_Leaves_of_Binary_Tree {
 	// by Jackie using DFS
 	private Map<Integer, List<Integer>> map = new HashMap<Integer, List<Integer>>();
-    private int maxHeight = 0;
     
     public List<List<Integer>> findLeaves(TreeNode root) {
         List<List<Integer>> ans = new ArrayList<List<Integer>>();
+        
         if(root == null){
             return ans;
         }
         
-        dfs(root);
+        int maxDepth = DFS(root);
         
-        for(int i = 1; i <= maxHeight; i++){   // 必须从1开始，0表示节点是 null ！！！
-            ans.add(map.get(i));
+        for(int i = 1; i <= maxDepth; i++){
+            ans.add(new ArrayList<Integer>(map.get(i)));
         }
         
         return ans;
     }
     
-    public int dfs(TreeNode node){
+    public int DFS(TreeNode node){
         if(node == null){
             return 0;
-        } 
+        }
         
-        int leftHeight = dfs(node.left);
-        int rightHeight = dfs(node.right);
-        int currentHeight = Math.max(leftHeight, rightHeight) + 1;
-        maxHeight = Math.max(maxHeight, currentHeight);
+        int leftDepth = DFS(node.left);
+        int rightDepth = DFS(node.right);
+        int curDepth = Math.max(leftDepth, rightDepth) + 1;
         
-        if(map.containsKey(currentHeight)){
-            map.get(currentHeight).add(node.val);
+        if(map.containsKey(curDepth)){
+            map.get(curDepth).add(node.val); 
         } else {
             List<Integer> list = new ArrayList<Integer>();
             list.add(node.val);
-            map.put(currentHeight, list);
+            map.put(curDepth, list);
         }
         
-        return currentHeight;
+        return curDepth;
     }
     
     

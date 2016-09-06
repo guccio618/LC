@@ -8,6 +8,7 @@ public class Q305_Number_of_Islands_II {
 	// time complexity is O(n^2 + k), space O(n^2)
 	public List<Integer> numIslands2(int m, int n, int[][] positions) {
         List<Integer> ans = new ArrayList<Integer>();
+        
         if(positions == null || positions.length == 0 || positions[0].length == 0){
             return ans;
         }

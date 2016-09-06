@@ -51,7 +51,7 @@ public class Q146_LRU_Cache {
         }
 
         if (hs.size() == capacity) {
-            hs.remove(head.next.key);
+            hs.remove(head.next.key);    // 必须先remove，否则head.next改变了 ！！！
             head.next = head.next.next;
             head.next.prev = head;
         }

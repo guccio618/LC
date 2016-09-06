@@ -12,6 +12,7 @@ public class Q284_Peeking_Iterator {
 		public PeekingIterator(Iterator<Integer> iterator) {
 		    // initialize any member here.
 			iter = iterator;
+			
 			if(iter.hasNext()){
 				next = iter.next();
 			} 
@@ -27,6 +28,7 @@ public class Q284_Peeking_Iterator {
 		@Override
 		public Integer next() {
 		    int ans = next;
+		    
 		    if(iter.hasNext()){
 		    	next = iter.next();
 		    } else {

@@ -10,7 +10,7 @@
 public class Q319_Bulb_Switcher {
 	// by other
 	public int bulbSwitch(int n) {
-        return (int)Math.sqrt((double)n);
+        return (int) Math.sqrt((double) n);
 	}
 	
 	public static void main(String[] args){

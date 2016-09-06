@@ -72,6 +72,7 @@ public class Q000_Algorithm_SegmentTree {
         
         // 查询
         int mid = (root.start + root.end) / 2;
+        
         if(root.start <= index && index <= mid) {
             modify(root.left, index, value);
         }

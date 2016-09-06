@@ -9,91 +9,109 @@ import java.util.Queue;
 import java.util.Set;
 
 public class Q126_Word_Ladder_II {
-	public List<List<String>> findLadders(String start, String end, Set<String> dict) {
-        List<List<String>> ladders = new ArrayList<List<String>>();
-        Map<String, List<String>> map = new HashMap<String, List<String>>();
-        Map<String, Integer> distance = new HashMap<String, Integer>();
+	// by other using DFS, BFS
+	public List<List<String>> findLadders(String beginWord, String endWord,
+			Set<String> wordList) {
+		List<List<String>> ans = new ArrayList<List<String>>();
 
-        dict.add(start);
-        dict.add(end);
- 
-        bfs(map, distance, start, end, dict);
-        
-        List<String> path = new ArrayList<String>();
-        
-        dfs(ladders, path, end, start, distance, map);
+		if (beginWord == null || endWord == null || wordList == null
+				|| wordList.size() == 0) {
+			return ans;
+		}
 
-        return ladders;
-    }
+		Map<String, List<String>> prevMap = new HashMap<String, List<String>>();
+		Map<String, Integer> distance = new HashMap<String, Integer>();
+		List<String> path = new ArrayList<String>();
 
-	void bfs(Map<String, List<String>> map, Map<String, Integer> distance, String start, String end, Set<String> dict) {
-        Queue<String> q = new LinkedList<String>();
-        q.offer(start);
-        distance.put(start, 0);
-        
-        for (String s : dict) {
-            map.put(s, new ArrayList<String>());
-        }
-        
-        while (!q.isEmpty()) {
-            String crt = q.poll();
+		BFS(prevMap, distance, beginWord, wordList);
+		DFS(prevMap, distance, path, ans, beginWord, endWord);
+		return ans;
+	}
 
-            List<String> nextList = expand(crt, dict);
-            for (String next : nextList) {
-                map.get(next).add(crt);
-                if (!distance.containsKey(next)) {
-                    distance.put(next, distance.get(crt) + 1);
-                    q.offer(next);
-                }
-            }
-        }
-    }
-	
-    void dfs(List<List<String>> ladders, List<String> path, String crt, String start, Map<String, Integer> distance,
-            Map<String, List<String>> map) {
-        path.add(crt);
-        if (crt.equals(start)) {
-            Collections.reverse(path);
-            ladders.add(new ArrayList<String>(path));
-            Collections.reverse(path);
-        } else {
-            for (String next : map.get(crt)) {
-                if (distance.containsKey(next) && distance.get(crt) == distance.get(next) + 1) { 
-                    dfs(ladders, path, next, start, distance, map);
-                }
-            }           
-        }
-        path.remove(path.size() - 1);
-    }
+	public void BFS(Map<String, List<String>> prevMap,
+			Map<String, Integer> distance, String beginWord,
+			Set<String> wordList) {
+		Queue<String> queue = new LinkedList<String>();
+		queue.offer(beginWord);
 
-    List<String> expand(String crt, Set<String> dict) {
-        List<String> expansion = new ArrayList<String>();
+		for (String word : wordList) {
+			prevMap.put(word, new ArrayList<String>());
+		}
 
-        for (int i = 0; i < crt.length(); i++) {
-            for (char ch = 'a'; ch <= 'z'; ch++) {
-                if (ch != crt.charAt(i)) {
-                    String expanded = crt.substring(0, i) + ch + crt.substring(i + 1);
-                    if (dict.contains(expanded)) {
-                        expansion.add(expanded);
-                    }
-                }
-            }
-        }
+		distance.put(beginWord, 0);
 
-        return expansion;
-    }
-	
-	
-	
-	
+		while (!queue.isEmpty()) {
+			String word = queue.poll();
+
+			for (String newWord : Expends(word, wordList)) {
+				prevMap.get(newWord).add(word);
+
+				if (!distance.containsKey(newWord)) {
+					distance.put(newWord, distance.get(word) + 1);
+					queue.offer(newWord);
+				}
+			}
+		}
+	}
+
+	public List<String> Expends(String word, Set<String> wordList) {
+		List<String> list = new ArrayList<String>();
+		char[] letters = word.toCharArray();
+		char temp = ' ';
+
+		for (int i = 0; i < letters.length; i++) {
+			temp = letters[i];
+
+			for (char c = 'a'; c <= 'z'; c++) {
+				if (c == temp) {
+					continue;
+				}
+
+				letters[i] = c;
+				String newWord = new String(letters);
+
+				if (wordList.contains(newWord)) {
+					list.add(newWord);
+				}
+			}
+
+			letters[i] = temp;
+		}
+
+		return list;
+	}
+
+	public void DFS(Map<String, List<String>> prevMap,
+			Map<String, Integer> distance, List<String> path,
+			List<List<String>> ans, String beginWord, String curWord) {
+		path.add(curWord);
+
+		if (curWord.equals(beginWord)) {
+			Collections.reverse(path);
+			ans.add(new ArrayList<String>(path));
+			Collections.reverse(path);
+		} else {
+			for (String prevWord : prevMap.get(curWord)) {
+				if (distance.containsKey(prevWord)
+						&& distance.get(prevWord) + 1 == distance.get(curWord)) {
+					DFS(prevMap, distance, path, ans, beginWord, prevWord);
+				}
+			}
+		}
+
+		path.remove(path.size() - 1);
+	}
+
 	/**************************************************************/
 	// by other
-	public ArrayList<ArrayList<String>> findLadders2(String beginWord, String endWord, Set<String> wordList) {
+	public ArrayList<ArrayList<String>> findLadders2(String beginWord,
+			String endWord, Set<String> wordList) {
 		ArrayList<ArrayList<String>> list = new ArrayList<>();
 		int level = 0;
 		boolean found = false; // flag used to stop searching for the next level
 		Queue<TreeNode> q = new LinkedList<>();
-		Map<String, Integer> map = new HashMap<>(); // map records visited node and its level
+		Map<String, Integer> map = new HashMap<>(); // map records visited node
+													// and its level
 		q.offer(new TreeNode(beginWord, null)); // beginWord is the root of
 												// tree, no parent
 		map.put(beginWord, 0);
@@ -105,7 +123,7 @@ public class Q126_Word_Ladder_II {
 				TreeNode node = q.poll();
 				String word = node.val;
 				if (word.equals(endWord)) {
-					found = true;   // mark true so it will go on searching until
+					found = true; // mark true so it will go on searching until
 									// the end of current level, so all paths
 									// are of the same length.
 					ArrayList<String> ladder = new ArrayList<>();
@@ -114,9 +132,8 @@ public class Q126_Word_Ladder_II {
 						node = node.parent;
 					}
 					list.add(ladder);
-				} 
-				else { // change character one at a time
-					if(found){
+				} else { // change character one at a time
+					if (found) {
 						continue;
 					}
 					char[] wordArray = word.toCharArray();
@@ -129,14 +146,17 @@ public class Q126_Word_Ladder_II {
 								// if a visited node is at lower level, it won't
 								// be added again. Duplicate is allowed ONLY at
 								// same level
-								if (wordList.contains(newWord) && (!map.containsKey(newWord) || map.get(newWord) == level)) {
+								if (wordList.contains(newWord)
+										&& (!map.containsKey(newWord) || map
+												.get(newWord) == level)) {
 									map.put(newWord, level);
 									TreeNode child = new TreeNode(newWord, node);
 									q.offer(child);
 								}
 							}
 						}
-						wordArray[j] = c;   // change it back before modifying next char
+						wordArray[j] = c; // change it back before modifying
+											// next char
 					}
 				}
 			}
