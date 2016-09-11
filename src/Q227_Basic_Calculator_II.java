@@ -12,26 +12,28 @@ public class Q227_Basic_Calculator_II {
         int n = s.length();
         Stack<Integer> stack = new Stack<Integer>();
         int num = 0;
-        char sign = ' ';
+        char preSign = ' ';
         
         for(int i = 0; i < n; ++i){
             char c = s.charAt(i);
+            
             if(Character.isDigit(c)){
                 num = num * 10 + (int)(c - '0');
-            } 
+            }
+            
             if(!Character.isDigit(c) && c != ' ' || i == n - 1){
-                if(sign == '+'){
+                if(preSign == '+'){
                     stack.push(num);
-                } else if(sign == '-'){
+                } else if(preSign == '-'){
                     stack.push(-num);
-                } else if(sign == '*'){
+                } else if(preSign == '*'){
                     stack.push(stack.pop() * num);
-                } else if(sign == '/'){
+                } else if(preSign == '/'){
                     stack.push(stack.pop() / num);
                 } else {
                     stack.push(num);
                 }
-                sign = c;
+                preSign = c;
                 num = 0;
             }
             

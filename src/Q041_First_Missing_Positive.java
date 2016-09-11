@@ -11,7 +11,7 @@ public class Q041_First_Missing_Positive {
 		}
 
 		for (int i = 0; i < nums.length; i++) {
-			while (nums[i] > 0 && nums[i] <= nums.length && nums[i] != (i + 1) && nums[i] != nums[nums[i] - 1]) {
+			while (nums[i] > 0 && nums[i] <= nums.length && nums[i] != (i + 1) && nums[i] != nums[nums[i] - 1]) {				
 				int tmp = nums[nums[i] - 1];   // 3,4,-1,1
 				nums[nums[i] - 1] = nums[i];
 				nums[i] = tmp;
@@ -84,7 +84,8 @@ public class Q041_First_Missing_Positive {
 	
 	public static void main(String[] args){
 		Q041_First_Missing_Positive test = new Q041_First_Missing_Positive();
-		int[] array = {3,4,-1,1};
+//		int[] array = {3,4,-1,1};
+		int[] array = {2, 1};
 		System.out.println(test.firstMissingPositive(array));
 	} 
 }

@@ -15,6 +15,7 @@ public class Q224_Basic_Calculator {
         
         for(int i = 0; i < n; ++i){
             char c = s.charAt(i);
+            
             if(Character.isDigit(c)){
                 num = num * 10 + (int) (c - '0');
             } else if(c == '+'){

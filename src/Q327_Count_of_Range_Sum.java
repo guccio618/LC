@@ -17,50 +17,64 @@ public class Q327_Count_of_Range_Sum {
         }
     }
 	
-    private SegmentTreeNode buildSegmentTree(Long[] valArr, int low, int high) {
-        if(low > high) return null;
-        SegmentTreeNode stn = new SegmentTreeNode(valArr[low], valArr[high]);
-        if(low == high) return stn;
-        int mid = (low + high)/2;
-        stn.left = buildSegmentTree(valArr, low, mid);
-        stn.right = buildSegmentTree(valArr, mid+1, high);
+    private SegmentTreeNode buildSegmentTree(Long[] nums, int start, int end) {
+        if(start > end) {
+        	return null;
+        } else if (start == end) {
+        	return new SegmentTreeNode(nums[start], nums[end]);
+        }
+        
+        SegmentTreeNode stn = new SegmentTreeNode(nums[start], nums[end]);      
+        int mid = (start + end) / 2;
+        stn.left = buildSegmentTree(nums, start, mid);
+        stn.right = buildSegmentTree(nums, mid + 1, end);
         return stn;
     }
     
-    private void updateSegmentTree(SegmentTreeNode stn, Long val) {
-        if(stn == null) return;
-        if(val >= stn.min && val <= stn.max) {
-            stn.count++;
-            updateSegmentTree(stn.left, val);
-            updateSegmentTree(stn.right, val);
+    private void updateSegmentTree(SegmentTreeNode root, Long val) {
+        if(root == null) {
+        	return;
+        } else if(val >= root.min && val <= root.max) {
+            root.count++;
+            updateSegmentTree(root.left, val);
+            updateSegmentTree(root.right, val);
         }
     }
-    private int getCount(SegmentTreeNode stn, long min, long max) {
-        if(stn == null) return 0;
-        if(min > stn.max || max < stn.min) return 0;
-        if(min <= stn.min && max >= stn.max) return stn.count;
-        return getCount(stn.left, min, max) + getCount(stn.right, min, max);
+    
+    private int getCount(SegmentTreeNode root, long min, long max) {
+        if(root == null) {
+        	return 0;
+        } else if(min > root.max || max < root.min) {
+        	return 0;
+        } else if(min <= root.min && max >= root.max) {
+        	return root.count;
+        }
+        
+        return getCount(root.left, min, max) + getCount(root.right, min, max);
     }
 
     public int countRangeSum(int[] nums, int lower, int upper) {
-        if(nums == null || nums.length == 0) return 0;
+        if(nums == null || nums.length == 0) {
+        	return 0;
+        }
+        
         int ans = 0;
         Set<Long> valSet = new HashSet<Long>();
         long sum = 0;
+        
         for(int i = 0; i < nums.length; i++) {
             sum += (long) nums[i];
             valSet.add(sum);
         }
 
         Long[] valArr = valSet.toArray(new Long[0]);
-
         Arrays.sort(valArr);
-        SegmentTreeNode root = buildSegmentTree(valArr, 0, valArr.length-1);
+        SegmentTreeNode root = buildSegmentTree(valArr, 0, valArr.length - 1);
 
-        for(int i = nums.length-1; i >=0; i--) {
+        for(int i = nums.length - 1; i >= 0; i--) {
             updateSegmentTree(root, sum);
             sum -= (long) nums[i];
-            ans += getCount(root, (long)lower+sum, (long)upper+sum);
+            ans += getCount(root, (long)lower + sum, (long)upper + sum);
         }
         
         return ans;

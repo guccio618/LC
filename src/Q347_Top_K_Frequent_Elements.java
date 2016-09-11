@@ -33,16 +33,19 @@ public class Q347_Top_K_Frequent_Elements {
         }
         
         int index = n;
+        
         while(k > 0){
             if(index >= 0 && bucket[index] != null){
                 for(int num : bucket[index]){
                     ans.add(num);
                     k--;
+                    
                     if(k == 0){
                         return ans;
                     }
                 }
             }
+            
             index--;
         }
         
