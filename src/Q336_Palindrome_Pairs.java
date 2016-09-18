@@ -28,6 +28,7 @@ public class Q336_Palindrome_Pairs {
                 
                 if(isPalindrome(str1)){
                     String str2_reverse = new StringBuffer(str2).reverse().toString();
+                    
                     if(map.containsKey(str2_reverse) && map.get(str2_reverse) != i){
                         List<Integer> list = new ArrayList<Integer>();
                         list.add(map.get(str2_reverse));
@@ -38,6 +39,7 @@ public class Q336_Palindrome_Pairs {
                 
                 if(isPalindrome(str2)){
                     String str1_reverse = new StringBuffer(str1).reverse().toString();
+                    
                     if(map.containsKey(str1_reverse) && map.get(str1_reverse) != i && str2.length() != 0){
                         List<Integer> list = new ArrayList<Integer>();
                         list.add(i);
@@ -65,6 +67,7 @@ public class Q336_Palindrome_Pairs {
             if(c1 != c2){
                 return false;
             }
+            
             left++;
             right--;
         }

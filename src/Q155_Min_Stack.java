@@ -1,47 +1,39 @@
-import java.util.ArrayList;
-import java.util.PriorityQueue;
-import java.util.Queue;
 import java.util.Stack;
 
 
 public class Q155_Min_Stack {
-	long min;
-    Stack<Long> stack;
-
-    public Q155_Min_Stack(){
-        stack=new Stack<>();
-    }
-
+	private Stack<Integer> stack = new Stack<Integer>();
+    private Stack<Integer> min = new Stack<Integer>();  
+    
     public void push(int x) {
-        if (stack.isEmpty()){
-            stack.push(0L);
-            min=x;
-        }else{
-            stack.push(x-min);//Could be negative if min value needs to change
-            if (x<min) min=x;
+    	stack.push(x);
+        if(min.isEmpty()){
+            min.push(x);
+        } else {
+            min.push(Math.min(x, min.peek()));
         }
     }
 
     public void pop() {
-        if (stack.isEmpty()) return;
-
-        long pop=stack.pop();
-
-        if (pop<0)  min=min-pop;//If negative, increase the min value
-
+        if(stack.isEmpty()){
+            return;
+        }
+        stack.pop();
+        min.pop();
     }
 
     public int top() {
-        long top=stack.peek();
-        if (top>0){
-            return (int)(top+min);
-        }else{
-           return (int)(min);
+        if(stack.isEmpty()){
+            return -1;
         }
+        return stack.peek();
     }
 
     public int getMin() {
-        return (int)min;
+        if(min.isEmpty()){
+            return -1;
+        }
+        return min.peek();
     }
 	
     

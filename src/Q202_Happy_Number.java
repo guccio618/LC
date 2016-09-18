@@ -62,38 +62,51 @@ public class Q202_Happy_Number {
     /******************************************************/
 	// by Jackie 
     public boolean isHappy3(int n) {
-        if(n <= 0){
+        if(n == 0){
             return false;
-        } else if(n == 1){
-            return true;
-        }
+        } 
         
-        Set<Integer> set = new HashSet<Integer>();
+        n = Math.abs(n);
+        Set<Integer> visited = new HashSet<Integer>();
+        visited.add(n);
         
         while(n != 1){
-            if(set.contains(n)){
+            int num = getNextInteger(n);
+            
+            if(num == -1){
+            	System.out.println("1");
                 return false;
+            } else if(visited.contains(num)){
+            	System.out.println("2: " + num);
+                return false;
+            } else {
+                n = num;
+                visited.add(num);
             }
-            set.add(n);
-            n = getSum3(n);            
         }
         
         return true;
     }
     
-    public int getSum3(int num){
-        int sum = 0;
-        while(num > 0){
-            int digit = num % 10;
-            num /= 10;
+    public int getNextInteger(int n){
+        long sum = 0;
+        
+        while(n > 0){
+            int digit = n % 10;
+            n /= 10;
             sum += digit * digit;
+            
+            if(sum > Integer.MAX_VALUE){
+                return -1;
+            }
         }
-        return sum;
+        
+        return (int) sum;
     }
     
     
     public static void main(String[] args){
     	Q202_Happy_Number t = new Q202_Happy_Number();
-    	t.isHappy3(7);
+    	System.out.println(t.isHappy3(7));
     }
 }
