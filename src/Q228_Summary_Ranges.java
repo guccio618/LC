@@ -4,18 +4,18 @@ import java.util.List;
 
 public class Q228_Summary_Ranges {
 	public List<String> summaryRanges(int[] nums) {
-        List<String> ans = new ArrayList<String>();
+        List<String> ans = new ArrayList<>();
         
-        if(nums == null || nums.length == 0){
+        if (nums == null || nums.length == 0) {
             return ans;
         }
         
-        int len = nums.length;
         int start = nums[0];
         int numNeed = start + 1;
+        int len = nums.length;
         
-        for(int i = 1; i < len; i++){
-            if(numNeed == nums[i]){
+        for (int i = 1; i < len; i++) {
+            if (nums[i] == numNeed) {
                 numNeed++;
             } else {
                 ans.add(getStr(start, numNeed - 1));
@@ -23,15 +23,15 @@ public class Q228_Summary_Ranges {
                 numNeed = start + 1;
             }
         }
-        
+
         ans.add(getStr(start, numNeed - 1));
         return ans;
     }
     
-    public String getStr(int start, int end){
+    public String getStr(int start, int end) {
         StringBuilder builder = new StringBuilder();
         
-        if(start == end){
+        if (start == end) {
             builder.append(start);
         } else {
             builder.append(start).append("->").append(end);

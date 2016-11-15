@@ -3,41 +3,45 @@
  * find all unique combinations in C where the candidate numbers sums to T.
  * Each number in C may only be used once in the combination.
  ******************************************************************************/
-import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.*;
 
 
 public class Q040_Combination_Sum_II {
 	/*******************************************************/
 	// by other, faster
-	public LinkedList<LinkedList<Integer>> combinationSum2(int[] candidates,
-			int target) {
-		Arrays.sort(candidates);
-		LinkedList<LinkedList<Integer>> ans = new LinkedList<LinkedList<Integer>>();
-		ch(candidates, target, 0, new LinkedList<Integer>(), ans);
-		return ans;
-	}
-
-	public void ch(int[] candidates, int remain, int rindex,
-			LinkedList<Integer> tmp, LinkedList<LinkedList<Integer>> ans) {
-		if (remain == 0) {
-			LinkedList<Integer> a = new LinkedList<Integer>(tmp);
-			ans.add(a);
-			return;
-		}
-		int entered = 0; // get rid of duplicate combinations
-		for (int i = rindex; i < candidates.length; i++) {
-			if (entered != candidates[i]) {// get rid of duplicate combinations
-				if (remain - candidates[i] < 0)
-					break; // This line of code can reduce 7ms from execution
-							// time!
-				tmp.add(candidates[i]);
-				entered = candidates[i];
-				ch(candidates, remain - candidates[i], i + 1, tmp, ans);
-				tmp.remove(tmp.size() - 1);
-			}
-		}
-	}
+	public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>> ans = new ArrayList();
+        
+        if(candidates == null || candidates.length == 0) {
+            return ans;
+        }
+        
+        Arrays.sort(candidates);
+        backtrack(ans, new ArrayList<Integer>(), target, candidates, 0);
+        return ans;
+    }
+    
+    public void backtrack(List<List<Integer>> ans, List<Integer> solution, int target, int[] candidates, int start) {
+        if(target == 0) {
+            ans.add(new ArrayList<Integer>(solution));
+            return;
+        }
+        
+        for(int i = start; i < candidates.length; i++) {
+            if(target < candidates[i]) {
+                return ;
+            }
+            
+            solution.add(candidates[i]);
+            backtrack(ans, solution, target - candidates[i], candidates, i + 1);
+            solution.remove(solution.size() - 1);
+            
+            // eliminate the duplicate
+            while(i + 1 < candidates.length && candidates[i] == candidates[i + 1]) {
+                i++;
+            }
+        }
+    }
 	
 	
 	/*******************************************************/
@@ -59,9 +63,9 @@ public class Q040_Combination_Sum_II {
         
         path.add(candidates[pos]);
         sum -= candidates[pos];
-        if(sum == 0)
+        if(sum == 0) {
             res.add(new LinkedList<Integer>(path));
-        else{
+        } else{
             for(int i = pos+1, len = candidates.length; i < len; ++i){
             	if(candidates[pos] > sum) break;
                 backtrack(candidates, i, sum, path);
@@ -79,10 +83,10 @@ public class Q040_Combination_Sum_II {
     
     public static void main(String[] args){
     	Q040_Combination_Sum_II t = new Q040_Combination_Sum_II();
-//    	int[] candidates = {10,1,2,7,6,1,5};
+    	int[] candidates = {-1,10,1,2,7,6,1,5};
 //    	LinkedList<LinkedList<Integer>> res = t.combinationSum2(candidates, 8);
     	int[] candidates2 = {2,2,2};
-    	LinkedList<LinkedList<Integer>> res = t.combinationSum2(candidates2, 4);
+    	List<List<Integer>> res = t.combinationSum2(candidates, 4);
     	for(int i = 0; i < res.size(); ++i){
     		for(int j = 0; j < res.get(i).size(); ++j){
     			System.out.print(res.get(i).get(j) + ", ");

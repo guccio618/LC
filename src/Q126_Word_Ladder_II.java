@@ -9,52 +9,146 @@ import java.util.Queue;
 import java.util.Set;
 
 public class Q126_Word_Ladder_II {
+	// test case: 
+    // beginWord == null or endWord == null
+    // beginWord == endWord
+    // wordList is empty
+    // beginWord cannot been transfered to endWord
+
+	
 	// by other using DFS, BFS
-	public List<List<String>> findLadders(String beginWord, String endWord,
-			Set<String> wordList) {
-		List<List<String>> ans = new ArrayList<List<String>>();
+    public List<List<String>> findLadders(String beginWord, String endWord, Set<String> wordList) {
+    	List<List<String>> ans = new ArrayList();
+    	
+    	if(beginWord == null || endWord == null || wordList == null || wordList.size() == 0) {
+            return ans;
+        } else if(beginWord.equals(endWord)) {
+            return ans;
+        }
+    	
+        HashMap<String, List<String>> map = new HashMap();
+        Set<String> level1 = new HashSet();
+        Set<String> level2 = new HashSet();
+        level1.add(beginWord); 
+        level2.add(endWord);
+        BFS(level1, level2, map, wordList, true);
 
-		if (beginWord == null || endWord == null || wordList == null
-				|| wordList.size() == 0) {
-			return ans;
-		}
+        List<String> path = new ArrayList();
+        path.add(beginWord);
+        
+        DFS(beginWord, endWord, map, path, ans);
+        return ans;
+    }
 
-		Map<String, List<String>> prevMap = new HashMap<String, List<String>>();
-		Map<String, Integer> distance = new HashMap<String, Integer>();
-		List<String> path = new ArrayList<String>();
+    public void BFS(Set<String> level1, Set<String> level2, Map<String, List<String>> map, Set<String> wordList, boolean forward) {
+        if(level1.size() > level2.size()) {
+            BFS(level2, level1, map, wordList, !forward);
+            return ;
+        }
+        
+        wordList.removeAll(level1);
+        wordList.removeAll(level2);
+        Set<String> nextLevel = new HashSet();
+        boolean connected = false;
+        
+        for(String word : level1) {
+            char[] letters = word.toCharArray();
+            
+            for(int i = 0; i < letters.length; i++) {
+                char temp = letters[i];
+                
+                for(char c = 'a'; c <= 'z'; c++) {
+                    if (c == temp) {
+                        continue;
+                    }
+                    
+                    letters[i] = c;
+                    String newWord = new String(letters);
+        
+                    if (level2.contains(newWord) || (!connected && wordList.contains(newWord))) {
+                        if (level2.contains(newWord)) {
+                            connected = true;
+                        } else {
+                            nextLevel.add(newWord);
+                        }
 
-		BFS(prevMap, distance, beginWord, wordList);
-		DFS(prevMap, distance, path, ans, beginWord, endWord);
+                        String curWord = forward ? word : newWord;
+                        String nextWord = forward ? newWord : word;     
+                        List<String> nextList = map.getOrDefault(curWord, new ArrayList());
+                        nextList.add(nextWord);
+                        map.put(curWord, nextList);
+                    }
+                }
+                
+                letters[i] = temp;
+            }
+        }
+        
+        if(!connected && !nextLevel.isEmpty()) {
+            BFS(nextLevel, level2, map, wordList, forward);
+        }
+    }
+    
+    public void DFS(String curWord, String endWord, Map<String, List<String>> map, List<String> path, List<List<String>> ans) {
+        if(curWord.equals(endWord)) {
+            ans.add(new ArrayList<String>(path));
+            return ;
+        } else if(!map.containsKey(curWord)) {
+            return;
+        }
+        
+        for(String nextWord : map.get(curWord)) {
+            path.add(nextWord);
+            DFS(nextWord, endWord, map, path, ans);
+            path.remove(path.size() - 1);
+        }
+    }
+
+    
+    /**************************************************************/
+    // by other
+    public List<List<String>> findLadders2(String beginWord, String endWord, Set<String> wordList) {
+        List<List<String>> ans = new ArrayList<>();
+        
+        if(beginWord == null || endWord == null || wordList == null || wordList.size() == 0) {
+            return ans;
+        } else if(beginWord.equals(endWord)) {
+            return ans;
+        }
+        
+        Map<String, List<String>> prevWordMap = new HashMap<>();
+        Map<String, Integer> minDistanceMap = new HashMap<>();
+        List<String> path = new ArrayList<>();
+        
+        BFS(prevWordMap, minDistanceMap, beginWord, wordList);
+		DFS(prevWordMap, minDistanceMap, path, ans, beginWord, endWord);
 		return ans;
-	}
-
-	public void BFS(Map<String, List<String>> prevMap,
-			Map<String, Integer> distance, String beginWord,
-			Set<String> wordList) {
-		Queue<String> queue = new LinkedList<String>();
-		queue.offer(beginWord);
-
-		for (String word : wordList) {
-			prevMap.put(word, new ArrayList<String>());
-		}
-
-		distance.put(beginWord, 0);
-
-		while (!queue.isEmpty()) {
-			String word = queue.poll();
-
-			for (String newWord : Expends(word, wordList)) {
-				prevMap.get(newWord).add(word);
-
-				if (!distance.containsKey(newWord)) {
-					distance.put(newWord, distance.get(word) + 1);
-					queue.offer(newWord);
-				}
-			}
-		}
-	}
-
-	public List<String> Expends(String word, Set<String> wordList) {
+    }
+    
+    public void BFS(Map<String, List<String>> prevWordMap, Map<String, Integer> minDistanceMap, String beginWord, Set<String> wordList) {
+        Queue<String> queue = new LinkedList<>();
+        queue.offer(beginWord);
+        minDistanceMap.put(beginWord, 0);
+        
+        for(String word : wordList) {
+            prevWordMap.put(word, new ArrayList<String>());
+        }
+        
+        while(!queue.isEmpty()) {
+            String word = queue.poll();
+            
+            for(String newWord : Expends(word, wordList)) {
+                prevWordMap.get(newWord).add(word);
+                
+                if(!minDistanceMap.containsKey(newWord)) {
+                    minDistanceMap.put(newWord, minDistanceMap.get(word) + 1);
+                    queue.offer(newWord);
+                }
+            }
+        }
+    }
+    
+    public List<String> Expends(String word, Set<String> wordList) {
 		List<String> list = new ArrayList<String>();
 		char[] letters = word.toCharArray();
 		char temp = ' ';
@@ -80,31 +174,31 @@ public class Q126_Word_Ladder_II {
 
 		return list;
 	}
-
-	public void DFS(Map<String, List<String>> prevMap,
-			Map<String, Integer> distance, List<String> path,
-			List<List<String>> ans, String beginWord, String curWord) {
-		path.add(curWord);
-
-		if (curWord.equals(beginWord)) {
-			Collections.reverse(path);
-			ans.add(new ArrayList<String>(path));
-			Collections.reverse(path);
-		} else {
-			for (String prevWord : prevMap.get(curWord)) {
-				if (distance.containsKey(prevWord)
-						&& distance.get(prevWord) + 1 == distance.get(curWord)) {
-					DFS(prevMap, distance, path, ans, beginWord, prevWord);
-				}
-			}
-		}
-
-		path.remove(path.size() - 1);
+	
+	public void DFS(Map<String, List<String>> prevWordMap, Map<String, Integer> minDistanceMap, List<String> path, List<List<String>> ans, String beginWord, String curWord) {
+	    path.add(curWord);
+	    
+	    if(beginWord.equals(curWord)) {
+	        Collections.reverse(path);
+	        ans.add(new ArrayList<String>(path));
+	        Collections.reverse(path);
+	    } else {
+	        for(String prevWord : prevWordMap.get(curWord)) {
+	            if(minDistanceMap.containsKey(prevWord) && minDistanceMap.get(prevWord) + 1 == minDistanceMap.get(curWord)) {
+	                DFS(prevWordMap, minDistanceMap, path, ans, beginWord, prevWord);
+	            }
+	        }
+	    }
+	    
+	    path.remove(path.size() - 1);
 	}
+    
+    
+    
 
 	/**************************************************************/
 	// by other
-	public ArrayList<ArrayList<String>> findLadders2(String beginWord,
+	public ArrayList<ArrayList<String>> findLadders3(String beginWord,
 			String endWord, Set<String> wordList) {
 		ArrayList<ArrayList<String>> list = new ArrayList<>();
 		int level = 0;
@@ -181,7 +275,7 @@ public class Q126_Word_Ladder_II {
 	private LinkedList<LinkedList<String>> result = new LinkedList<LinkedList<String>>();
 	private int minStep = Integer.MAX_VALUE;
 
-	public LinkedList<LinkedList<String>> findLadders3(String beginWord,
+	public LinkedList<LinkedList<String>> findLadders4(String beginWord,
 			String endWord, Set<String> wordList) {
 		LinkedList<String> path = new LinkedList<String>();
 		wordList.add(endWord);
@@ -232,6 +326,15 @@ public class Q126_Word_Ladder_II {
 		wordList.add("dog");
 		wordList.add("lot");
 		wordList.add("log");
+		
+		Set<String> wordList2 = new HashSet<String>();
+		wordList2.add("hot");
+		wordList2.add("dot");
+		wordList2.add("dog");
+		wordList2.add("lot");
+		wordList2.add("log");
+		
+		
 		List<List<String>> res = t.findLadders("hit", "cog", wordList);
 		for (int i = 0; i < res.size(); ++i) {
 			for (int j = 0; j < res.get(i).size(); ++j) {
@@ -239,6 +342,5 @@ public class Q126_Word_Ladder_II {
 			}
 			System.out.println();
 		}
-
 	}
 }

@@ -9,31 +9,28 @@ import java.util.Map;
 public class Q249_Group_Shifted_Strings {
 	public List<List<String>> groupStrings(String[] strings) {
         List<List<String>> ans = new ArrayList<List<String>>();
-        if(strings == null || strings.length == 0){
+        
+        if (strings == null || strings.length == 0) {
             return ans;
         }
         
-        Map<String, List<String>> map = new HashMap<String, List<String>>();
+        Map<String, List<String>> map = new HashMap<>();
         
-        for(String str : strings){
-            String newStr = getFirstShifted(str);
-
-            if(map.containsKey(newStr)){
-                map.get(newStr).add(str);
+        for (String word : strings) {
+            String firstShiftedString = getFirstShifted(word);
+            
+            if (map.containsKey(firstShiftedString)) {
+                map.get(firstShiftedString).add(word);
             } else {
-                List<String> list = new ArrayList<String>();
-                list.add(str);
-                map.put(newStr, list);
+                List<String> list = new ArrayList<>();
+                list.add(word);
+                map.put(firstShiftedString, list);
             }
         }
         
-        for(Map.Entry<String, List<String>> entry : map.entrySet()){
+        for (Map.Entry<String, List<String>> entry : map.entrySet()) {
             List<String> list = entry.getValue();
-            Collections.sort(list, new Comparator<String>(){
-                public int compare(String left, String right){
-                    return left.compareTo(right);
-                }
-            });
+            Collections.sort(list);
             ans.add(list);
         }
         
@@ -41,17 +38,18 @@ public class Q249_Group_Shifted_Strings {
     }
     
     public String getFirstShifted(String target){
-        int n = target.length();
-        int diff = target.charAt(0) - 'a';
         char[] letters = target.toCharArray();
+        int len = letters.length;
+        int diff = letters[0] - 'a';
         
-        for(int i = 0; i < n; i++){
-        	int distance = letters[i] - 'a' - diff;
-        	if(distance >= 0){
-        		letters[i] -= diff;
-        	} else {
-        		letters[i] = (char) (distance + 26 + 'a');
-        	}
+        for (int i = 0; i < len; i++) {
+            int curDiff = letters[i] - 'a' - diff;
+            
+            if (curDiff >= 0) {
+                letters[i] -= diff;
+            } else {
+                letters[i] = (char) (curDiff + 26 + 'a');
+            }
         }
         
         return new String(letters);

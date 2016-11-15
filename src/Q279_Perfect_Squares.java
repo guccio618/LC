@@ -1,8 +1,29 @@
 
 public class Q279_Perfect_Squares {
+	// time complexity O (n^2)
+	public int numSquares(int n) {
+        if (n <= 0) {
+            return 0;
+        }
+        
+        int[] ways = new int[n + 1];
+        
+        for (int i = 0; i <= n; i++) {
+            ways[i] = i;
+        }
+        
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j * j <= i; j++) {
+                ways[i] = Math.min(ways[i], ways[i - j * j] + 1);
+            }
+        }
+        
+        return ways[n];
+    }
+	
 	/*****************************************************/
 	// by Jackie using DP
-	public int numSquares(int n) {
+	public int numSquares2(int n) {
 		if(n <= 0){
             return 0;
         }

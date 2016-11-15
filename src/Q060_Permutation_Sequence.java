@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Q060_Permutation_Sequence {
 	/*********************************************************************
-	 * I'm sure somewhere can be simplified so it'd be nice if anyone can let me know. The pattern was that:
+	 * The pattern was that:
 		say n = 4, you have {1, 2, 3, 4}
 		If you were to list out all the permutations you have
 

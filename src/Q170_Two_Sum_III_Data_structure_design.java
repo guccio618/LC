@@ -1,11 +1,11 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 
 
 
 public class Q170_Two_Sum_III_Data_structure_design {
+	// this method, insert O(1), find O(n), which is used in write heavy
+	
 	private List<Integer> list = new ArrayList<Integer>();
     private Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 
@@ -33,6 +33,21 @@ public class Q170_Two_Sum_III_Data_structure_design {
 	    return false;
     }
 	
+    // in this method, insert O(n), find O(1), which is used in read heavy
+    private Set<Integer> numbers = new HashSet();
+    private Set<Integer> sums = new HashSet();
+    
+    public void add2(int number) {
+    	for(int num : numbers) {
+	        sums.add(num + number);
+	    }
+	    
+	    numbers.add(number);
+    }
+    
+    public boolean find2(int value) {
+    	return sums.contains(value);
+    }
     
     
     

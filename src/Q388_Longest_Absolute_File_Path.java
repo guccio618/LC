@@ -21,15 +21,15 @@ public class Q388_Longest_Absolute_File_Path {
         for(String str : array){
             int level = getLevel(str);
             
-            while(stack.size() > level){
+            while(stack.size() > level){     // find the parent, using ">" ！！！
                 curLen -= stack.pop();
             }
             
-            int len = str.replaceAll("\t", "").length() + 1;
+            int len = str.replaceAll("\t", "").length() + 1;   // add the "/"
             curLen += len;
             
             if(str.contains(".")){
-                maxLen = Math.max(maxLen, curLen - 1);
+                maxLen = Math.max(maxLen, curLen - 1);        // delete the first "/"
             }
             
             stack.push(len);

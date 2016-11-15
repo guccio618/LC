@@ -215,6 +215,13 @@ public class A_test {
 	
 	public static void main(String[] args){
 		A_test t = new A_test();
+		
+		int cur = 3;
+		List<Integer> list = new ArrayList<Integer>();
+
+		
+		System.out.println("*****" + (cur <<= 2));
+		
 //		int[] nums = {4, 7, 9, 6, 8};
 //		
 //		System.out.println(t.getView(nums));

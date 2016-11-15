@@ -48,6 +48,10 @@ public class Q269_Alien_Dictionary {
                     
                     break;
                 }
+                
+                if (words[i].charAt(minLen - 1) == words[i + 1].charAt(minLen - 1) && minLen < words[i].length()) {
+                    return "";
+                }
             }
         }
         

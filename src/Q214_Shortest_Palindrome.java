@@ -1,6 +1,37 @@
 
 public class Q214_Shortest_Palindrome {
 	public String shortestPalindrome(String s) {
+        if (s == null || s.length() == 0) {
+            return s;
+        }
+        
+        int len = s.length();
+        
+        for(int i = len - 1; i >= 0; i--) {
+            if(isPalindrome(s, 0, i) == true) {
+                String suffix = s.substring(i + 1, len);
+                return new StringBuilder(suffix).reverse().toString() + s;
+            }
+        }
+        
+        return new StringBuilder(s).reverse().toString() + s;
+    }
+    
+    public boolean isPalindrome(String s, int start, int end) {
+        while(start < end) {
+            if(s.charAt(start) != s.charAt(end)) {
+                return false;
+            } 
+            
+            start++;
+            end--;
+        }
+        
+        return true;
+    }
+	
+	
+	public String shortestPalindrome2(String s) {
         if(s == null || s.length() == 0){
             return "";
         }
@@ -85,7 +116,7 @@ public class Q214_Shortest_Palindrome {
 	
 	/*************************************************/
 	// by other, nice!!!
-	public String shortestPalindrome2(String s) {
+	public String shortestPalindrome3(String s) {
 		int j = 0;
 	    for (int i = s.length() - 1; i >= 0; i--) {
 	        if (s.charAt(i) == s.charAt(j)) { 
@@ -105,7 +136,7 @@ public class Q214_Shortest_Palindrome {
 	
 	/*************************************************/
 	// by Jackie, but exceed time limit
-	public String shortestPalindrome3(String s) {
+	public String shortestPalindrome4(String s) {
         if(s == null || s.length() == 0){
             return new String();
         } else if(isPalindrome(s) == true){

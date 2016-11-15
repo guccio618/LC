@@ -2,6 +2,48 @@ import java.util.Stack;
 
 
 public class Q394_Decode_String {
+	public String decodeString(String s) {
+		Stack<String> st = new Stack<String>();
+		
+		for (int i = 0; i < s.length(); i++) {
+			Character ch = s.charAt(i);
+			
+			if (ch != ']') {
+				st.push(String.valueOf(ch));
+			} else {
+				StringBuilder sb = new StringBuilder("");
+				
+				while (!st.empty() && !st.peek().equals("[")) {
+					sb.append(st.pop());
+				}
+				
+				st.pop();
+				StringBuilder sbnum = new StringBuilder("");
+				
+				while (!st.empty() && st.peek().length() == 1 && Character.isDigit(st.peek().charAt(0))) {
+					sbnum.append(st.pop());
+				}
+				
+				int num = Integer.valueOf(sbnum.reverse().toString());
+				String str = sb.toString();
+				
+				for (int j = 1; j < num; j++) {
+					sb.append(str);
+				}
+				
+				st.push(sb.toString());
+			}
+		}
+		
+		StringBuilder sb = new StringBuilder("");
+		
+		while (!st.empty()) {
+			sb.append(st.pop());
+		}
+		
+		return sb.toString();
+	}
+	
 	
 //	s = "3[a]2[bc]", return "aaabcbc".
 //	s = "3[a2[c]]", return "accaccacc".
@@ -9,7 +51,7 @@ public class Q394_Decode_String {
 	
 	/*******************************************************/
 	// by other using stack, faster
-	public String decodeString(String s) {
+	public String decodeString2(String s) {
 		if(s == null || s.length() == 0){
         	return "";
         } else if(s.indexOf("[", 0) < 0){
@@ -68,7 +110,7 @@ public class Q394_Decode_String {
 	
 	/*******************************************************/
 	// by Jackie using recursion
-	public String decodeString2(String s) {
+	public String decodeString3(String s) {
         if(s == null || s.length() == 0){
         	return "";
         } else if(s.indexOf("[", 0) < 0){

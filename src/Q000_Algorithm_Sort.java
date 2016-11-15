@@ -146,7 +146,8 @@ public class Q000_Algorithm_Sort {
 	
 	void heapSort(int[] array) {         // 时间O(n*logn)，空间O(1)，不稳定
 		build_Max_heap(array);   // 构建堆,除了叶子外，其他叶子以上部分已经完成排序，
-		int n = array.length;    // 按照从大到小，至上而下排序
+		int n = array.length;    // 按照从小到大，至上而下排序
+		
 		for (int i = n-1; i >= 1; i--) {  // 叶子无法排序，因此每次将位于root的最大的节点
 			swap(array, 0, i);            // 和最后的节点替换，然后重新进行排序
 			heapify(array, 0, i);
@@ -155,6 +156,7 @@ public class Q000_Algorithm_Sort {
 
 	void build_Max_heap(int[] array) {    // 仅完成叶子以上节点从大到小排序
 		int n = array.length; 
+		
 		for (int i = n/2-1; i >= 0; i--){
 			heapify(array, i, n);
 		}
@@ -163,7 +165,8 @@ public class Q000_Algorithm_Sort {
 	void heapify(int[] A, int i, int max) {
 		int left = 2*i+1;              // 左孩子的下标（如果存在的话）
 		int right = 2*i+2;             // 右孩子的下标（如果存在的话）
-		int largest = i;            
+		int largest = i;   
+		
 		if (left < max && A[left] > A[i])
 			largest = left;
 		if (right < max && A[right] > A[largest])

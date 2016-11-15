@@ -1,62 +1,66 @@
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+
 
 
 public class Q187_Repeated_DNA_Sequences {
-	/****************************************************************/
-	// by Jackie
-	public List<String> findRepeatedDnaSequences(String s) {
-        List<String> ans = new ArrayList<String>();
-        if(s == null || s.length() <= 10){
-            return ans;
+	// test case:
+    // s is empty or s.length is smaller than 10
+	
+	// using hashset and bit manipulation
+    public List<String> findRepeatedDnaSequences(String s) {
+        if(s == null || s.length() == 0) {
+            return new ArrayList<>();
         }
         
-        int n = s.length();
-        HashSet<String> set = new HashSet<String>();
-        HashSet<String> store = new HashSet<String>();
+        int[] hash = new int[26];
+        hash['C' - 'A'] = 1;
+        hash['G' - 'A'] = 2;
+        hash['T' - 'A'] = 3;
+        int sequenceCode = 0;
+        int mask = 0xfffff;       // 10 characters which will take 20 bits and 2 bit for each
+        Set<Integer> visited = new HashSet();
+        Set<String> duplicated = new HashSet();
         
-        for(int i = 0; i <= n - 10; ++i){
-            String subStr = s.substring(i, i + 10);
-            if(set.contains(subStr)) {
-                if(!store.contains(subStr)){
-                	store.add(subStr);
-                    ans.add(subStr);
-                }
-            } else {
-                set.add(subStr);
+        for(int i = 0; i < s.length(); i++) {
+            sequenceCode <<= 2;   // plus 4, because the base is 4
+            sequenceCode |= hash[s.charAt(i) - 'A'];
+            
+            if(i < 9){
+                continue;
+            }
+            
+            sequenceCode &= mask;
+            
+            if(!visited.add(sequenceCode)) {
+                duplicated.add(s.substring(i - 9, i + 1));
             }
         }
         
-        return ans;
+        return new ArrayList<String>(duplicated);
     }
-	
-	
-	
 	
 	/****************************************************************/
-	// by Jackie
-	public LinkedList<String> findRepeatedDnaSequences2(String s) {
-		LinkedList<String> res = new LinkedList<String>();
-        if(s == null || s.length() == 0) return res;
-        HashSet<String> stringSet = new HashSet<String>();
-        HashSet<String> resSet = new HashSet<String>();
-        
-        for(int i = 0, len = s.length(); i <= len-10; ++i){
-            if( stringSet.contains(s.substring(i, i+10)) )
-                resSet.add(s.substring(i, i+10));
-            else
-                stringSet.add(s.substring(i, i+10));
+	// by Jackie, using two hashset
+	public List<String> findRepeatedDnaSequences2(String s) {
+        if(s == null || s.length() <= 10){
+            return new ArrayList<String>();
         }
         
-        Iterator iter = resSet.iterator();
-        while(iter.hasNext())
-        	res.add((String)iter.next());       
-        return res;
+        int n = s.length();
+        Set<String> visited = new HashSet<String>();
+        Set<String> duplicated = new HashSet<String>();
+        
+        for(int i = 0; i <= n - 10; ++i){
+            String subStr = s.substring(i, i + 10);
+            
+            if(!visited.add(subStr)) {
+            	duplicated.add(subStr);
+            }
+        }
+        
+        return new ArrayList<String>(duplicated);
     }
-	
+
 	
 	
 	/********************************* main function *******************************/

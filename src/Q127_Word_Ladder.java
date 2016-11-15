@@ -1,8 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 
 /*******************************************************
  * Given two words (beginWord and endWord), and a 
@@ -27,10 +23,10 @@ public class Q127_Word_Ladder {
         visited.add(start);
         dict.add(end);           // 必须把end加入dict
         
-        int length = 1;          // 必须从1开始
+        int step = 1;          // 必须从1开始
         
         while(!queue.isEmpty()) {
-            length++;
+            step++;
             int size = queue.size();  // 设置size,相当于层序遍历
             
             for (int i = 0; i < size; i++) {
@@ -41,7 +37,7 @@ public class Q127_Word_Ladder {
                         continue;
                     }
                     if (nextWord.equals(end)) {
-                        return length;
+                        return step;
                     }
                     
                     visited.add(nextWord);
@@ -82,35 +78,59 @@ public class Q127_Word_Ladder {
 	
 	
 	/***********************************************************/
-	//by other using BFS of graph
-	public static int ladderLength2(String beginWord, String endWord, Set<String> wordList) {
-	    Queue<String> queue = new LinkedList<>();
-	    queue.add(beginWord);
-	    wordList.add(endWord);
-	    int step = 0;
-	    while (!queue.isEmpty()) {
-	        step++;
-	        int size = queue.size();
-	        for (int i = 0; i < size; i++) {
-	            String source = queue.poll();
-	            if (source.equals(endWord)) return step;
-	            char[] array = source.toCharArray();
-	            for (int j = 0; j < source.length(); j++) { // select one bit and change it for another
-	                for (char k = 'a'; k <= 'z'; k++) {     // character from "a" to "z"
-	                    char temp = array[j];               // temp is used for recording the previous value of array[j] 
-	                    array[j] = k;
-	                    String newStr = new String(array);
-	                    if (wordList.contains(newStr)) {
-	                        wordList.remove(newStr);   // means this word has been visited and should be remove from wordList
-	                        queue.add(newStr);
-	                    }
-	                    array[j] = temp;
-	                }
-	            }
-	        }
-	    }
-	    return wordList.contains(endWord) ? 0 : step;
+	// follow up, find one path
+	
+	public List<String> findOneLadder(String beginWord, String endWord, Set<String> wordList) {
+		List<String> ans = new ArrayList();
+		
+		if(beginWord == null || endWord == null || wordList == null || wordList.size() == 0) {
+			return ans;
+		} else if(beginWord.equals(endWord)) {
+		    return ans;
+		}
+		
+		wordList.add(endWord);
+		Queue<String> queue = new LinkedList();
+		Map<String, String> prevWordMap = new HashMap();
+		queue.offer(beginWord);
+		prevWordMap.put(beginWord, null);
+		boolean found_flag = false;
+		
+		while(!queue.isEmpty() && !found_flag) {
+			int size = queue.size();
+			
+			for(int i = 0; i < size && !found_flag; i++) {
+				String curWord = queue.poll();
+				
+				for(String nextWord : findWordRange(curWord, wordList)) {
+					if(prevWordMap.containsKey(nextWord)) {
+						continue;
+					}
+					
+					prevWordMap.put(nextWord, curWord);
+					
+					if(endWord.equals(nextWord)) {
+						found_flag = true;
+						break;
+					}
+					
+					queue.offer(nextWord);
+				}
+			}
+		}
+		
+		if(found_flag) {
+			String tempWord = endWord;
+			
+			while(tempWord != null) {
+				ans.add(0, tempWord);
+				tempWord = prevWordMap.get(tempWord);
+			}
+		}
+		
+		return ans;
 	}
+	
 	
 	public static void main(String[] args){
 		Q127_Word_Ladder t = new Q127_Word_Ladder();
@@ -120,6 +140,14 @@ public class Q127_Word_Ladder {
 		wordList.add("dog");
 		wordList.add("lot");
 		wordList.add("log");
-		System.out.println(t.ladderLength("hit", "cog", wordList));
+		
+		String beginWord = "hit";
+		String endWord = "cog";	
+		System.out.println(t.ladderLength(beginWord, endWord, wordList));		
+		List<String> ans = t.findOneLadder(beginWord, endWord, wordList);
+		
+		for(String word : ans) {
+			System.out.print(word + " ");
+		}
 	}
 }

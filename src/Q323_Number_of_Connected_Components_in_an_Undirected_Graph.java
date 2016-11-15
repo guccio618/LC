@@ -10,9 +10,55 @@ import java.util.Set;
 
 
 public class Q323_Number_of_Connected_Components_in_an_Undirected_Graph {
+	public int countComponents(int n, int[][] edges) {
+        if (n <= 0) {
+            return 0;
+        }
+        
+        Set<Integer>[] graph = new Set[n];
+        Set<Integer> visited = new HashSet<>();
+        int count = 0;
+        
+        for (int i = 0; i < n; i++) {
+            graph[i] = new HashSet<Integer>();
+        }
+        
+        for (int[] edge : edges) {
+            graph[edge[0]].add(edge[1]);
+            graph[edge[1]].add(edge[0]);
+        }
+        
+        for (int i = 0; i < n; i++) {
+            if (!visited.contains(i)) {
+                count++;
+                BFS(graph, i, visited);
+            }
+        }
+        
+        return count;
+    }
+    
+    public void BFS(Set<Integer>[] graph, int root, Set<Integer> visited) {
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(root);
+        visited.add(root);
+        
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+            
+            for (int nextNode : graph[node]) {
+                if (!visited.contains(nextNode)) {
+                    visited.add(nextNode);
+                    queue.offer(nextNode);
+                }
+            }
+        }
+    }
+	
+	
 	/***********************************************/
 	// by Jackie using BFS
-	public int countComponents(int n, int[][] edges) {
+	public int countComponents2(int n, int[][] edges) {
         if(n <= 0){
             return 0;
         } else if(edges == null || edges.length == 0 || edges[0].length == 0){
@@ -46,10 +92,6 @@ public class Q323_Number_of_Connected_Components_in_an_Undirected_Graph {
         return count;
     }
     
-	
-	
-	/***********************************************/
-	// by Jackie using union find
     public void bfs(Set<Integer>[] graph, int root, Set<Integer> visited){
         Queue<Integer> queue = new LinkedList<Integer>();
         queue.offer(root);
@@ -70,7 +112,11 @@ public class Q323_Number_of_Connected_Components_in_an_Undirected_Graph {
         }
     }
 	
-	public int countComponents2(int n, int[][] edges) {
+    
+    
+    /***********************************************/
+	// by Jackie using union find
+	public int countComponents3(int n, int[][] edges) {
         if(n <= 0){
             return 0;
         } else if(edges == null || edges.length == 0 || edges[0].length == 0){

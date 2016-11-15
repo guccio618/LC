@@ -15,6 +15,7 @@ public class Q230_Kth_Smallest_Element_in_a_BST {
         if(node == null) {
         	return ;
         }
+        
         inOrder(node.left, k); 
         count++;
         if(count == k){

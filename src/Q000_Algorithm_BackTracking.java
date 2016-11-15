@@ -24,17 +24,19 @@ public class Q000_Algorithm_BackTracking {
 	public void backtrack_recursive(int row) {
 		if(row <= num_recursive){        
 			 for(int i = 1; i <= num_recursive; i++) {
-				 x_recursive[row] = i;                
-		            if(valid_recursive(row)) {        // 判断是否当前列可以摆放皇后，如果成立，进入下一级递归	            	
-		            	backtrack_recursive(row+1);   // 计算第t+1行的摆放方法
-		            }
-		        }
-		}		
-		else {  // 打印可行的解的构成， 若不想打印，可以直接设置: if(t > num) return;
+				 x_recursive[row] = i;  
+				 
+		         if(valid_recursive(row)) {        // 判断是否当前列可以摆放皇后，如果成立，进入下一级递归	            	
+		        	 backtrack_recursive(row+1);   // 计算第t+1行的摆放方法
+		         }
+		     }
+		} else {  // 打印可行的解的构成， 若不想打印，可以直接设置: if(t > num) return;
 	        sum_recursive++;      // 可行的解数目＋1
+	        
 	        for(int m = 1; m <= num_recursive; m++) {
 	            System.out.print(x_recursive[m] + ", "); // 这一行用输出当递归到叶节点的时候，一个可行解
 	        }
+	        
 	        System.out.println();
 	    }	       
 	}
@@ -47,6 +49,7 @@ public class Q000_Algorithm_BackTracking {
 	    		return false;    
 		    }
 		}
+	    
 	    return true;
 	}
 		
@@ -64,16 +67,15 @@ public class Q000_Algorithm_BackTracking {
                 	x[i] = j;       // 检查合格后才往x[i]里存，不同于递归法
                     j = 1;          // mark and try next j
                     break;
-                }
-                else {
+                } else {
                     j++;
                 }
             }
             
             if(x[i] == 0) {    // 如果第i行没有找到可以放置皇后的位置
-                if(i == 1)     	   // 回溯到第一行，还是没找到可行的解，那就说明都遍历了
+                if(i == 1) {     	   // 回溯到第一行，还是没找到可行的解，那就说明都遍历了
                     break;
-                else {             // 否则的话回溯,并把上一行的皇后清空，再往后移动一位
+                } else {             // 否则的话回溯,并把上一行的皇后清空，再往后移动一位
                     --i;       
                     j = x[i] + 1;  // j从上一行的皇后位置的后一位开始，因为之前的位置已经判断过不可以放置
                     x[i] = 0;      // 原来的皇后位置清零
@@ -86,8 +88,7 @@ public class Q000_Algorithm_BackTracking {
                 pushIn(result, x, num); // 保存解的结果           
                 j = x[i] + 1;           // 但是由于还没完全返回全部的组合，所以还要继续找
                 x[i] = 0;
-            }
-            else{
+            } else{
             	i++;
             }
         }
@@ -107,11 +108,14 @@ public class Q000_Algorithm_BackTracking {
 		return sum;
 	}
 	
+	
 	public void pushIn(LinkedList<LinkedList<Integer>> result, int[] x,int num) {
 		LinkedList<Integer> temp = new LinkedList<Integer>();
+		
         for(int i = 1; i <= num; ++i) {
             temp.add(x[i]);
         }
+        
         result.add(temp);
     }
 	

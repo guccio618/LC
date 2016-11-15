@@ -6,6 +6,66 @@ import java.util.Set;
 
 public class Q401_Binary_Watch {
 	public List<String> readBinaryWatch(int num) {
+        List<String> ans = new ArrayList<>();
+        
+        if(num < 0 || num > 10) {
+            return ans;
+        }
+        
+        int[] lights = new int[10];
+        
+        backtrack(ans, lights, 0, num, 0);
+        return ans;
+    }
+    
+    public void backtrack(List<String> ans, int[] lights, int currentNum, int num, int start) {
+        if(currentNum == num) {
+            int base = 1;
+            int part1 = 0;
+            
+            for(int i = 3; i >= 0; i--) {
+                if(lights[i] == 1) {
+                    part1 += base;
+                }
+                base *= 2;
+            }
+            
+            if(part1 >= 12) {
+                return;
+            }
+            
+            base = 1;
+            int part2 = 0;
+            
+            for(int i = 9; i >= 4; i--) {
+                if(lights[i] == 1) {
+                    part2 += base;
+                }
+                base *= 2;
+            }
+            
+            if(part2 >= 60) {
+                return;
+            }
+            
+            String str2 = Integer.toString(part2);
+            str2 = str2.length() == 1 ? "0" + str2 : str2;
+            ans.add(Integer.toString(part1) + ":" + str2);
+            return;
+        } else if (start == lights.length) {
+            return;
+        }
+        
+        for(int i = start; i < lights.length; i++) {
+            lights[i] = 1;
+            backtrack(ans, lights, currentNum + 1, num, i + 1);
+            lights[i] = 0;
+        }
+    }
+	
+	
+    
+	public List<String> readBinaryWatch2(int num) {
 		List<String> ans = new ArrayList<String>();
 		
 		if(num < 0 || num > 10){

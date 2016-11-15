@@ -1,9 +1,36 @@
-import java.util.Comparator;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
+
 
 public class Q252_Meeting_Rooms {
 	public boolean canAttendMeetings(Interval[] intervals) {
+        if (intervals == null || intervals.length == 0) {
+            return true;
+        }
+        
+        int len = intervals.length;
+        int[] begins = new int[len];
+        int[] ends = new int[len];
+        
+        for (int i = 0; i < len; i++) {
+            begins[i] = intervals[i].start;
+            ends[i] = intervals[i].end;
+        }
+        
+        Arrays.sort(begins);
+        Arrays.sort(ends);
+        
+        for (int i = 1; i < len; i++) {
+            if (begins[i] < ends[i - 1]) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+	
+	
+	// method 2
+	public boolean canAttendMeetings2(Interval[] intervals) {
 		if (intervals == null || intervals.length == 0) {
 			return true;
 		}

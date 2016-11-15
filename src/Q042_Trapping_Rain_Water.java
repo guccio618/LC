@@ -6,8 +6,35 @@ public class Q042_Trapping_Rain_Water {
 	 * 对比题目见11题
 	 * 
 	 **************************************************************************************/
+	// two pointers
+	public int trap(int[] height) {
+        if (height == null || height.length == 0) {
+            return 0;
+        }
+        
+        int left = 0, right = height.length - 1;
+        int count = 0;
+        
+        while (left < right) {
+            int smaller = Math.min(height[left], height[right]);
+            
+            while (left < right && height[left] <= smaller) {
+                count += smaller - height[left];
+                left++;
+            }
+            
+            while (left < right && height[right] <= smaller) {
+                count += smaller - height[right];
+                right--;
+            }
+        }
+        
+        return count;
+    }
+	
+	
 	// by ninechapter using two pointers
-	public int trap(int[] heights) {
+	public int trap2(int[] heights) {
 		if(heights == null || heights.length == 0){
             return 0;
         }
@@ -41,7 +68,7 @@ public class Q042_Trapping_Rain_Water {
 	
 	
 	// by Jackie using DP, time complexity O(n), space 0(n)
-	public int trap2(int[] height) {
+	public int trap3(int[] height) {
         if(height == null || height.length == 0){
             return 0;
         }

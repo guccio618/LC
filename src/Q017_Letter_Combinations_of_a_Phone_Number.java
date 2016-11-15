@@ -3,38 +3,35 @@ import java.util.List;
 
 
 public class Q017_Letter_Combinations_of_a_Phone_Number {
-private List<String> res = new ArrayList<String>();
-    
-    public List<String> letterCombinations(String digits) {
-        if(digits == null || digits.length() == 0){
-            return res;
+	public List<String> letterCombinations(String digits) {
+        List<String> ans = new ArrayList<>();
+        
+        if (digits == null || digits.length() == 0) {
+            return ans;
         }
-        char[][] map = {
-                            {'a','b','c'}, {'d','e','f'}, {'g','h','i'}, 
-                            {'j','k','l'}, {'m','n','o'}, {'p','q','r','s'}, 
-                            {'t','u','v'}, {'w','x','y','z'}
-                         };
-        char[] digitArray = digits.toCharArray();
-        StringBuffer sb = new StringBuffer();
-        helper(map, sb, digitArray, 0);
-        return res;
+        
+        backtrack(ans, "", digits, 0);
+        return ans;
     }
     
-    public void helper(char[][] map, StringBuffer sb, char[] digitArray, int curPos){
-        if(curPos == digitArray.length){
-            res.add(sb.toString());
-            return;
+    public void backtrack(List<String> ans, String solution, String digits, int startPos) {
+        if (startPos == digits.length()) {
+            ans.add(solution);
+            return ;
         }
-        int num = digitArray[curPos] - '0';
-        if(num < 2 || num > 9){
-            return;
-        }
-        for(int i = 0, len = map[num - 2].length; i < len; ++i){
-            sb.append(map[num - 2][i]);
-            helper(map, sb, digitArray, curPos + 1);
-            sb.deleteCharAt(sb.length() - 1);
+        
+        String[] array = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        int pos = digits.charAt(startPos) - '0';
+        
+        for (int i = 0; i < array[pos].length(); i++) {
+            char c = array[pos].charAt(i);
+            
+            backtrack(ans, solution + c, digits, startPos + 1);
         }
     }
+    
+    
+    
     
     
     public static void main(String[] args){

@@ -2,6 +2,8 @@ import java.util.Stack;
 
 
 public class Q155_Min_Stack {
+	// two lists or two stack
+	
 	private Stack<Integer> stack = new Stack<Integer>();
     private Stack<Integer> min = new Stack<Integer>();  
     

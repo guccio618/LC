@@ -9,7 +9,7 @@
  *******************************************************************/  
 
 public class Q000_Data_Structure_Trie {
-	private int SIZE = 26;
+	private final int SIZE = 26;
 	private TrieNode root;       // 字典树的根
 
 	Q000_Data_Structure_Trie() { // 初始化字典树
@@ -18,15 +18,15 @@ public class Q000_Data_Structure_Trie {
 	
 	/***********   字典树节点   ************/
 	private class TrieNode {       
-		private int num;           // 有多少单词通过这个节点,即节点字符出现的次数
-		private TrieNode[] son;    // 所有的儿子节点
-		private boolean isEnd;     // 是不是最后一个节点
+		private int wordCount;           // 有多少单词通过这个节点,即节点字符出现的次数
+		private TrieNode[] children;    // 所有的儿子节点
+		private boolean isWord;     // 是不是最后一个节点
 		private char val;          // 节点存放的值
 
 		TrieNode() {
-			num = 1;
-			son = new TrieNode[SIZE];
-			isEnd = false;
+			wordCount = 1;
+			children = new TrieNode[SIZE];
+			isWord = false;
 		}
 	}
 
@@ -36,19 +36,24 @@ public class Q000_Data_Structure_Trie {
 		if (str == null || str.length() == 0) {
 			return;
 		}
+		
 		TrieNode node = root;
 		char[] letters = str.toCharArray();
+		
 		for (int i = 0, len = str.length(); i < len; i++) {
 			int pos = letters[i] - 'a';
-			if (node.son[pos] == null) {
-				node.son[pos] = new TrieNode();
-				node.son[pos].val = letters[i];
+			
+			if (node.children[pos] == null) {
+				node.children[pos] = new TrieNode();
+				node.children[pos].val = letters[i];
 			} else {
-				node.son[pos].num++;
+				node.children[pos].wordCount++;
 			}
-			node = node.son[pos];
+			
+			node = node.children[pos];
 		}
-		node.isEnd = true;
+		
+		node.isWord = true;
 	}
 	
 	// 计算单词前缀的数量
@@ -56,17 +61,20 @@ public class Q000_Data_Structure_Trie {
 		if (prefix == null || prefix.length() == 0) {
 			return -1;
 		}
+		
 		TrieNode node = root;
 		char[] letters = prefix.toCharArray();
+		
 		for (int i = 0, len = prefix.length(); i < len; i++) {
 			int pos = letters[i] - 'a';
-			if (node.son[pos] == null) {
+			if (node.children[pos] == null) {
 				return 0;
 			} else {
-				node = node.son[pos];
+				node = node.children[pos];
 			}
 		}
-		return node.num;
+		
+		return node.wordCount;
 	}
 
 	// 在字典树中查找一个完全匹配的单词.
@@ -74,47 +82,58 @@ public class Q000_Data_Structure_Trie {
 		if (str == null || str.length() == 0) {
 			return false;
 		}
+		
 		TrieNode node = root;
 		char[] letters = str.toCharArray();
+		
 		for (int i = 0, len = str.length(); i < len; i++) {
 			int pos = letters[i] - 'a';
-			if (node.son[pos] != null) {
-				node = node.son[pos];
+			
+			if (node.children[pos] != null) {
+				node = node.children[pos];
 			} else {
 				return false;
 			}
 		}
-		return node.isEnd;
+		
+		return node.isWord;
 	}
 	
 	// 匹配含“..”的 regular expression
 	public boolean search(String word) {
-        if(word.length() == 0) return false;
+        if(word.length() == 0){
+        	return false;
+        }
+        
         char[] letters = word.toCharArray();
-        TrieNode temp = root;
-        return bt(temp, letters, 0);
+        TrieNode node = root;
+        
+        return bt(node, letters, 0);
     }
 	
 	public boolean bt(TrieNode node, char[] letters, int pos){
-		if(pos == letters.length) return node.isEnd;
+		if(pos == letters.length) {
+			return node.isWord;
+		}
 		
 		if(letters[pos] != '.'){
 			int n = letters[pos] - 'a';
-			if(node.son[n] != null)
-				return bt(node.son[n], letters, pos+1);
-			else
+			
+			if(node.children[n] != null) {
+				return bt(node.children[n], letters, pos+1);
+			} else {
 				return false;
-		}
-		else{
-			boolean flag = false;
+			}
+		} else{			
 			for(int i = 0; i < 26; ++i){
-				if(node.son[i] != null){
-					flag = bt(node.son[i], letters, pos+1);
-					if(flag == true)
+				if(node.children[i] != null){
+					if(bt(node.children[i], letters, pos+1) == true) {
 						return true;
+					}
 				}
 			}
-			return flag;
+			
+			return false;
 		}
 	}
 
@@ -122,7 +141,8 @@ public class Q000_Data_Structure_Trie {
 	public void preTraverse(TrieNode node) {
 		if (node != null) {
 			System.out.print(node.val + "-");
-			for (TrieNode child : node.son) {
+			
+			for (TrieNode child : node.children) {
 				preTraverse(child);
 			}
 		}
@@ -136,18 +156,22 @@ public class Q000_Data_Structure_Trie {
 		Q000_Data_Structure_Trie tree = new Q000_Data_Structure_Trie();
 		String[] strs = { "banana", "band", "bee", "absolute", "acm", };
 		String[] prefix = { "ba", "b", "band", "abc", };
+		
 		for (String str : strs) {
 			tree.insert(str);
 		}
+		
 		System.out.println("acm: " + tree.has("acm"));
-		System.out.println("a..: " + tree.search("a..."));
+		System.out.println("a.: " + tree.search("a."));
+		System.out.println("a..: " + tree.search("a.."));
+		System.out.println("a...: " + tree.search("a..."));
 		tree.preTraverse(tree.getRoot());
 		System.out.println();
 		// tree.printAllWords();
+		
 		for (String pre : prefix) {
 			int num = tree.countPrefix(pre);
 			System.out.println(pre + " " + num);
 		}
-
 	}
 }

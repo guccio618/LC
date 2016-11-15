@@ -19,8 +19,10 @@ public class Q000_DataStructure_Graph_VertexList {
 	public Q000_DataStructure_Graph_VertexList(int V) {
 		v_num = V;
 		edges = new LinkedList<LinkedList<Edge>>();
-		for (int i = 0; i < V + 1; ++i)
+		
+		for (int i = 0; i < V + 1; ++i) {
 			edges.add(new LinkedList<Edge>());
+		}
 	}
 
 	public void add(int from, int to, double cost) {
@@ -31,12 +33,15 @@ public class Q000_DataStructure_Graph_VertexList {
 		}
 
 		for (Edge e : edges.get(from)) {
-			if (e.vertex == to && e.cost == cost)
+			if (e.vertex == to && e.cost == cost) {
 				return;
+			}
 		}
+		
 		for (Edge e : edges.get(to)) {
-			if (e.vertex == from && e.cost == cost)
+			if (e.vertex == from && e.cost == cost){
 				return;
+			}
 		}
 
 		edges.get(from).add(new Edge(to, cost));
@@ -45,17 +50,21 @@ public class Q000_DataStructure_Graph_VertexList {
 
 	public boolean isAdjacent(int from, int to) {
 		for (Edge e : edges.get(from)) {
-			if (e.vertex == to)
+			if (e.vertex == to) {
 				return true;
+			}
 		}
+		
 		return false;
 	}
 
 	public double getCost(int from, int to) {
 		for (Edge e : edges.get(from)) {
-			if (e.vertex == to)
+			if (e.vertex == to) {
 				return e.cost;
+			}
 		}
+		
 		return Double.MAX_VALUE;
 	}
 
@@ -63,70 +72,72 @@ public class Q000_DataStructure_Graph_VertexList {
 	// recursive DFS
 	public boolean[] DFS_recursive(int start) {
 		boolean[] visited = new boolean[v_num + 1];
-		for (int i = 0; i < v_num; ++i)
+		
+		for (int i = 0; i < v_num; ++i) {
 			visited[i] = false;
+		}
+		
 		DFS(start, visited);
 		System.out.println();
 		return visited;
 	}
 
 	public void DFS(int v, boolean[] visited) {
-		if (visited[v]){
+		if (visited[v] == true){
 			return;
 		}
+		
 		visited[v] = true;
 		System.out.print(v + ", ");
 
 		for (Edge e : edges.get(v)) {
-			if (!visited[e.vertex])
+			if (!visited[e.vertex]) {
 				DFS(e.vertex, visited);
+			}
 		}
 	}
 
 	// stack DFS
 	public void DFS_stack(int start) {
 		Stack<Integer> s = new Stack<Integer>();
-		s.push(start);
-
 		boolean[] visited = new boolean[v_num + 1];
+		
 		for (int i = 0; i < v_num; ++i){
 			visited[i] = false;
 		}
+		
+		s.push(start);
+		visited[start] = true;
 
 		while (!s.isEmpty()) {
 			int temp = s.pop();
-			if (visited[temp]){
-				continue;
-			}
-			visited[temp] = true;
-			System.out.print(temp + ", ");
+			System.out.print(temp + ", ");   // doing something
 
 			for (Edge e : edges.get(temp)) {
 				if (visited[e.vertex] == false){
 					s.push(e.vertex);
+					visited[e.vertex] = true;
 				}
 			}
 		}
+		
 		System.out.println();
 	}
 
 	/****************** BFS **********************/
 	public void BFS(int start) {
 		Queue<Integer> q = new LinkedList<Integer>();
-		q.add(start);
-
 		boolean[] visited = new boolean[v_num + 1];
+		
 		for (int i = 0; i < v_num; ++i){
 			visited[i] = false;
 		}
+		
+		q.add(start);
+		visited[start] = true;
 
 		while (!q.isEmpty()) {
 			int temp = q.poll();
-			if (visited[temp]){
-				continue;
-			}
-			
-			visited[temp] = true;
 			System.out.print(temp + ", ");
 
 			for (Edge e : edges.get(temp)) {
@@ -135,16 +146,20 @@ public class Q000_DataStructure_Graph_VertexList {
 				}
 			}
 		}
+		
 		System.out.println();
 	}
 
 	/****************** isConnect **********************/
 	public boolean isConnect() {
 		boolean[] visited = DFS_recursive(1);
-		for (int i = 1; i < visited.length; ++i)
+		
+		for (int i = 1; i < visited.length; ++i) {
 			if (visited[i] == false){
 				return false;
 			}
+		}
+		
 		return true;
 	}
 
@@ -190,14 +205,15 @@ public class Q000_DataStructure_Graph_VertexList {
 
 		for (int i = v_num; i >= 1;) {
 			System.out.print(i + ", ");
+			
 			if (i == 1){
 				break;
 			}
+			
 			i = path[i];
 		}
 
 		System.out.println();
-
 		return dist[v_num];
 	}
 
@@ -237,16 +253,18 @@ public class Q000_DataStructure_Graph_VertexList {
 		double[][] dist = new double[v_num + 1][v_num + 1];
 		int[][] path = new int[v_num + 1][v_num + 1];
 
-		for (int i = 1; i <= v_num; ++i)
+		for (int i = 1; i <= v_num; ++i) {
 			path[i][i] = i;
+		}
 
-		for (int i = 1; i <= v_num; ++i)
+		for (int i = 1; i <= v_num; ++i) {
 			for (int j = 1; j <= v_num; ++j) {
 				if (i == j)
 					dist[i][j] = 0;
 				else
 					dist[i][j] = Double.POSITIVE_INFINITY;
 			}
+		}
 
 		for (int i = 1; i < edges.size(); ++i) {
 			for (Edge e : edges.get(i)) {
@@ -255,13 +273,16 @@ public class Q000_DataStructure_Graph_VertexList {
 			}
 		}
 
-		for (int k = 1; k <= v_num; ++k)
-			for (int i = 1; i <= v_num; ++i)
-				for (int j = 1; j <= v_num; ++j)
+		for (int k = 1; k <= v_num; ++k) {
+			for (int i = 1; i <= v_num; ++i) {
+				for (int j = 1; j <= v_num; ++j) {
 					if (dist[i][j] > dist[i][k] + dist[k][j]) {
 						dist[i][j] = dist[i][k] + dist[k][j];
 						path[i][j] = k;
 					}
+				}
+			}
+		}
 
 		// for(int i = 1; i <= v_num; ++i){
 		// for(int j = 1; j <= v_num; ++j)
@@ -271,18 +292,20 @@ public class Q000_DataStructure_Graph_VertexList {
 
 		for (int i = v_num; i >= 1;) {
 			System.out.print(i + ", ");
-			if (i == 1)
+			
+			if (i == 1) {
 				break;
+			}
+			
 			i = path[1][i];
 		}
+		
 		System.out.println();
-
 		return dist[1][v_num];
 	}
 
 	public static void main(String[] args) {
-		Q000_DataStructure_Graph_VertexList g1 = new Q000_DataStructure_Graph_VertexList(
-				6);
+		Q000_DataStructure_Graph_VertexList g1 = new Q000_DataStructure_Graph_VertexList(6);
 		g1.add(1, 2, 1.0);
 		g1.add(1, 4, 2.0);
 		g1.add(2, 4, 1.0);
@@ -292,8 +315,7 @@ public class Q000_DataStructure_Graph_VertexList {
 		g1.add(4, 5, 0.5);
 		g1.add(5, 6, 1.1);
 
-		Q000_DataStructure_Graph_VertexList g2 = new Q000_DataStructure_Graph_VertexList(
-				6);
+		Q000_DataStructure_Graph_VertexList g2 = new Q000_DataStructure_Graph_VertexList(6);
 		g2.add(1, 2, 2.5);
 		g2.add(1, 4, 1.2);
 		g2.add(2, 4, 0.6);
@@ -303,8 +325,7 @@ public class Q000_DataStructure_Graph_VertexList {
 		g2.add(4, 5, 0.5);
 		g2.add(5, 6, 2.1);
 
-		Q000_DataStructure_Graph_VertexList g3 = new Q000_DataStructure_Graph_VertexList(
-				5);
+		Q000_DataStructure_Graph_VertexList g3 = new Q000_DataStructure_Graph_VertexList(5);
 		g3.add(1, 2, 2.5);
 		g3.add(1, 4, 1.2);
 		g3.add(1, 5, 2.0);

@@ -4,33 +4,38 @@ import java.util.List;
 
 
 public class Q046_Permutations {
-	// by ninechapter using recursive
-	public List<List<Integer>> permute(int[] nums) {
+	// test case:
+    // nums is empty
+    
+    public List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> ans = new ArrayList<List<Integer>>();
-        if(nums == null || nums.length == 0){
+        
+        if(nums == null || nums.length == 0) {
             return ans;
         }
         
-        List<Integer> list = new ArrayList<Integer>();
-        helper(nums, list, ans);
+        boolean[] visited = new boolean[nums.length];
+        backtrack(ans, new ArrayList<Integer>(), nums, visited);
         return ans;
     }
     
-    public void helper(int[] nums, List<Integer> list, List<List<Integer>> ans){
-        if(list.size() == nums.length){
+    public void backtrack(List<List<Integer>> ans, List<Integer> list, int[] nums, boolean[] visited) {
+        if(list.size() == nums.length) {
             ans.add(new ArrayList<Integer>(list));
-            return;
+            return ;
         }
         
-        for(int i = 0; i < nums.length; i++){
-            if(list.contains(nums[i])){
-                continue;
+        for(int i = 0; i < nums.length; i++) {
+            if(visited[i] == false) {
+                visited[i] = true;
+                list.add(nums[i]);
+                backtrack(ans, list, nums, visited);
+                list.remove(list.size() - 1);
+                visited[i] = false;
             }
-            list.add(nums[i]);
-            helper(nums, list, ans);
-            list.remove(list.size() - 1);
         }
     }
+
 	
 	
 	/******************************************************/

@@ -9,26 +9,28 @@ public class Q022_Generate_Parentheses {
 	/********************************************************/
 	// by other
 	public List<String> generateParenthesis(int n) {
-        List<String> ans = new ArrayList<String>();
-        if(n <= 0){
+        List<String> ans = new ArrayList<>();
+        
+        if (n <= 0) {
             return ans;
         }
         
-        backtrack(ans, "", 0, 0, n);
+        helper(ans, "", 0, 0, n);
         return ans;
     }
     
-    public void backtrack(List<String> ans, String str, int openNum, int closeNum, int n){
-        if(str.length() == n * 2){
-            ans.add(str);
+    public void helper(List<String> ans, String solution, int openNum, int closeNum, int n) {
+        if (n * 2 == solution.length()) {
+            ans.add(solution);
             return ;
         }
         
-        if(openNum < n){
-            backtrack(ans, str + "(", openNum + 1, closeNum, n);
-        }
-        if(closeNum < openNum){        // closeNum 对比的对象是 openNum, 表示紧跟"("， 一旦少于"("数，则马上加上")"
-            backtrack(ans, str + ")", openNum, closeNum + 1, n);
+        if (openNum < n) {
+            helper(ans, solution + "(", openNum + 1, closeNum, n);
+        } 
+        
+        if (closeNum < openNum) {
+            helper(ans, solution + ")", openNum, closeNum + 1, n);
         }
     }
     

@@ -1,6 +1,28 @@
 
 public class Q283_Move_Zeroes {
 	public void moveZeroes(int[] nums) {
+        if(nums == null || nums.length == 0){
+            return;
+        }
+        
+        int len = nums.length, front = 0, back = 0;
+        
+        while(front < len){
+            if(nums[front] != 0){
+                nums[back] = nums[front];
+                back++;
+            }
+            
+            front++;
+        }
+        
+        while(back < len){
+            nums[back] = 0;
+            back++;
+        }
+    }
+	
+	public void moveZeroes2(int[] nums) {
 		if(nums == null || nums.length == 0){
 			return ;
 		}
@@ -31,7 +53,7 @@ public class Q283_Move_Zeroes {
 		}
 	}
 	
-	public void moveZeroes2(int[] nums) {
+	public void moveZeroes3(int[] nums) {
         if(nums == null || nums.length == 0) return;
         int n = nums.length;
         int count = 0;

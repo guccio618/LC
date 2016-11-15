@@ -2,8 +2,51 @@ import java.util.HashMap;
 
 
 public class Q200_Number_of_Islands {
-	// by ninechapter uses BFS
 	public int numIslands(char[][] grid) {
+        if (grid == null || grid.length == 0 || grid[0].length == 0) {
+            return 0;            
+        }
+        
+        int row = grid.length, col = grid[0].length;
+        boolean[][] visited = new boolean[row][col];
+        int islandCount = 0;
+        
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (grid[i][j] == '1' && visited[i][j] == false) {
+                    islandCount++;
+                    DFS(grid, i, j, visited);
+                }
+            }
+        }
+        
+        return islandCount;
+    }
+    
+    
+    public void DFS(char[][] grid, int x, int y, boolean[][] visited) {
+        if (visited[x][y] == true) {
+            return ;
+        }
+        
+        int[] dx = {1, -1, 0, 0};
+        int[] dy = {0, 0, 1, -1};
+        visited[x][y] = true;
+        
+        for (int i = 0; i < 4; i++) {
+            int newX = x + dx[i];
+            int newY = y + dy[i];
+            
+            if (newX >= 0 && newX < grid.length && newY >= 0 && newY < grid[0].length && grid[newX][newY] == '1') {
+                DFS(grid, newX, newY, visited);
+            }
+        }
+    }
+	
+	
+	
+	// by ninechapter uses BFS
+	public int numIslands2(char[][] grid) {
         if(grid == null || grid.length == 0 || grid[0].length == 0){
             return 0;
         }
@@ -41,7 +84,7 @@ public class Q200_Number_of_Islands {
     
     /****************************************************/
     // by Jackie using Union Find
-    public int numIslands2(char[][] grid) {
+    public int numIslands3(char[][] grid) {
         if(grid == null || grid.length == 0){
             return 0;
         }

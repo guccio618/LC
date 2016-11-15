@@ -1,43 +1,50 @@
-import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.*;
 
 
 public class Q047_Permutations_II {
 	/********************************************************/
 	// by Jackie
-	private LinkedList<LinkedList<Integer>> res = new LinkedList<LinkedList<Integer>>();
-    
-    public LinkedList<LinkedList<Integer>> permuteUnique(int[] nums) {
-        if(nums == null) return res;
-        Arrays.sort(nums);
-        LinkedList<Integer> path = new LinkedList<Integer>();
+	public List<List<Integer>> permuteUnique(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<List<Integer>>();
+        
+        if(nums == null || nums.length == 0) {
+            return ans;
+        }
+        
         boolean[] visited = new boolean[nums.length];
-        backtrack(nums, 0, visited, path);
-        return res;
+        Arrays.sort(nums);
+        backtrack(ans, new ArrayList<Integer>(), nums, visited);
+        return ans;
     }
     
-    public void backtrack(int[] nums, int curPos, boolean[]visited, LinkedList<Integer> path){
-    	if(curPos == nums.length){
-            res.add(new LinkedList<Integer>(path));
-    	}
-    	else{
-    		for(int i = 0, len = nums.length; i < len; ++i){
-    			if(visited[i] == true) continue;
-    			visited[i] = true;
-    			path.add(nums[i]);
-    			backtrack(nums, curPos+1, visited, path);
-    			path.remove(path.size()-1);
-    			visited[i] = false;
-    			while(i+1 < len && nums[i+1] == nums[i]) ++i;   // 判断重复应该放在visited[i] = false的情况里 ！！！
-    		}
-    	}
+    public void backtrack(List<List<Integer>> ans, List<Integer> list, int[] nums, boolean[] visited) {
+        if(list.size() == nums.length) {
+            ans.add(new ArrayList<Integer>(list));
+            return ;
+        }
+        
+        for(int i = 0; i < nums.length; i++) {
+            if(visited[i] == false) {
+                visited[i] = true;
+                list.add(nums[i]);
+                backtrack(ans, list, nums, visited);
+                list.remove(list.size() - 1);
+                visited[i] = false;
+                
+                // 重复部分需要写在 visited[i] == false里
+                // 表示当此element被选上时，才跳过相同的element
+                while(i + 1 < nums.length && nums[i] == nums[i + 1]) {
+                    i++;
+                }
+            }
+        }
     }
     
     
     public static void main(String[] args){
     	Q047_Permutations_II t = new Q047_Permutations_II();
     	int[] nums = {0,1,0,0,9};
-    	LinkedList<LinkedList<Integer>> res = t.permuteUnique(nums);
+    	List<List<Integer>> res = t.permuteUnique(nums);
     	for(int i = 0; i < res.size(); ++i){
     		for(int j = 0; j < res.get(i).size(); ++j){
     			System.out.print(res.get(i).get(j) + ", ");

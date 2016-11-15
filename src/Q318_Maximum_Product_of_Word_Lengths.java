@@ -22,6 +22,7 @@ public class Q318_Maximum_Product_of_Word_Lengths {
                     max = Math.max(max, words[i].length() * words[j].length());
             }
         }  
+        
         return max;
     }
 	

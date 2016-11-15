@@ -3,6 +3,35 @@ import java.util.HashMap;
 
 public class Q294_Flip_Game_II {
 	public boolean canWin(String s) {
+        if (s == null || s.length() == 0) {
+            return false;
+        }
+        
+        char[] status = s.toCharArray();
+        return search(status);
+    }
+    
+    public boolean search(char[] status) {
+        for (int i = 0; i < status.length - 1; i++) {
+            if (status[i] == '+' && status[i + 1] == '+') {
+                status[i] = status[i + 1] = '-';
+                
+                if (!search(status)) {
+                    status[i] = status[i + 1] = '+';
+                    return true; 
+                }
+                
+                status[i] = status[i + 1] = '+';
+            }
+        }
+        
+        return false;
+    }
+    
+    
+    
+	
+	public boolean canWin2(String s) {
 	    HashMap<String, Boolean> memoize = new HashMap<String, Boolean>();
 	    return canWinRec(s, memoize);
 	}
@@ -27,7 +56,7 @@ public class Q294_Flip_Game_II {
 	}
 	
 	
-	public boolean canWin2(String s) {
+	public boolean canWin3(String s) {
         if(s == null || s.length() == 0){
             return false;
         }

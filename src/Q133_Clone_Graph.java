@@ -9,31 +9,31 @@ public class Q133_Clone_Graph {
 	/*********************************************************/
 	// by other
 	public UndirectedGraphNode cloneGraph(UndirectedGraphNode root) {
-        if(root == null){
+        if (root == null) {
             return null;
         }
         
         UndirectedGraphNode copyRoot = new UndirectedGraphNode(root.label);
-        Queue<UndirectedGraphNode> queue = new LinkedList<UndirectedGraphNode>();
-        queue.offer(root);
-        Queue<UndirectedGraphNode> copyQueue = new LinkedList<UndirectedGraphNode>();
-        copyQueue.offer(copyRoot);
+        Queue<UndirectedGraphNode> queue = new LinkedList<>();
+        Queue<UndirectedGraphNode> copyQueue = new LinkedList<>();
         Map<UndirectedGraphNode, UndirectedGraphNode> map = new HashMap<UndirectedGraphNode, UndirectedGraphNode>();
+        queue.offer(root);
+        copyQueue.offer(copyRoot);
         map.put(root, copyRoot);
         
-        while(!queue.isEmpty()){
+        while (!queue.isEmpty()) {
             UndirectedGraphNode node = queue.poll();
             UndirectedGraphNode copyNode = copyQueue.poll();
             
-            for(UndirectedGraphNode next : node.neighbors){
-                if(map.containsKey(next)){
-                    copyNode.neighbors.add(map.get(next));
+            for (UndirectedGraphNode nextNode : node.neighbors) {
+                if (map.containsKey(nextNode)) {
+                    copyNode.neighbors.add(map.get(nextNode));
                 } else {
-                    UndirectedGraphNode copyNext = new UndirectedGraphNode(next.label);
-                    copyNode.neighbors.add(copyNext);
-                    map.put(next, copyNext);
-                    queue.offer(next);
-                    copyQueue.offer(copyNext);
+                    UndirectedGraphNode copyNextNode = new UndirectedGraphNode(nextNode.label);
+                    copyNode.neighbors.add(copyNextNode);
+                    map.put(nextNode, copyNextNode);
+                    queue.offer(nextNode);
+                    copyQueue.offer(copyNextNode);
                 }
             }
         }

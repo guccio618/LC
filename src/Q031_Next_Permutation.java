@@ -11,32 +11,42 @@ public class Q031_Next_Permutation {
 	 ***************************************************************/
 	// by other
 	public void nextPermutation(int[] nums) {
-	    int i = nums.length - 2;
-	    while(i >= 0 && nums[i] >= nums[i + 1])      // Find 1st id i that breaks descending order
-	    	i--;
-
-	    int j = nums.length - 1;
-	    if(i >= 0) {                                 // If not entirely descending  注意必需 i >= 0 ！！！
-	        while(nums[j] <= nums[i])                // Find rightmost first larger number j
-	        	j--;           
-	        swap(nums, i, j);                        // Switch i and j
-	    }
-
-	    reverse(nums, i + 1, nums.length - 1);       // Reverse the descending sequence
-	}
-
-	public void swap(int[] nums, int i, int j) {
-	    int tmp = nums[i];
-	    nums[i] = nums[j];
-	    nums[j] = tmp;
-	}
-
-	public void reverse(int[] nums, int i, int j) {
-	    while(i < j) {
-	        swap(nums, i, j);
-	        i++; j--;
-	    }
-	}
+        if (nums == null || nums.length == 0) {
+            return ;
+        }
+        
+        int len = nums.length;
+        int index1 = len - 2;
+        int index2 = len - 1;
+        
+        while (index1 >= 0 && nums[index1] >= nums[index1 + 1]) {   // Find 1st id i that breaks descending order
+            index1--;
+        }
+        
+        if (index1 >= 0) {                   // If not entirely descending  注意必需 i >= 0 ！！!
+            while (nums[index1] >= nums[index2]) {     // Find rightmost first larger number        
+                index2--;
+            }
+            
+            int temp = nums[index1];
+            nums[index1] = nums[index2];
+            nums[index2] = temp;
+        }
+        
+        reverseArray(nums, index1 + 1, len - 1);
+    }
+    
+    public void reverseArray(int[] nums, int start, int end) {
+        while (start < end) {
+            int temp = nums[start];
+            nums[start] = nums[end];
+            nums[end] = temp;
+            start++;
+            end--;
+        }
+    }
+	
+    
 	
 	
 	/***************************************************************

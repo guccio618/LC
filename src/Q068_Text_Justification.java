@@ -3,7 +3,63 @@ import java.util.List;
 
 
 public class Q068_Text_Justification {
-	public List<String> fullJustify(String[] words, int maxWidth) {
+	// test case:
+    // words is empty
+    // maxWidth is less than 1
+    // words contains element whose length is larger than maxWidth
+    // words contains element whose length is 0
+    
+    public List<String> fullJustify(String[] words, int maxWidth) {
+        List<String> ans = new ArrayList<>();
+        
+        if(words == null || words.length == 0 || maxWidth <= 0){
+            ans.add("");
+            return ans;
+        }
+        
+        StringBuilder blankBuilder = new StringBuilder();
+        int len = words.length;
+        
+        for(int i = 0; i < maxWidth; i++) {
+            blankBuilder.append(" ");
+        }
+        
+        String pads = blankBuilder.toString();
+        int sum = 0;
+        
+        for(int i = 0, j = 0; i < len; i = j) {
+            sum = words[i].length();
+            
+            for(j = i + 1; j < len && sum + words[j].length() + j - i <= maxWidth; j++) {
+                sum += words[j].length();
+            }
+            
+            StringBuilder builder = new StringBuilder();
+            int addWordNum = j - i - 1;
+            int blankForEachWord = (j == len || 0 == addWordNum) ? 1 : (maxWidth - sum) / addWordNum;
+            int additionalBlank = (j == len || 0 == addWordNum) ? 0 : maxWidth - sum - addWordNum * blankForEachWord;
+            
+            for(int k = i; k < j - 1; k++) {
+                builder.append(words[k]);
+                builder.append(pads.substring(0, (k - i < additionalBlank) ? blankForEachWord + 1 : blankForEachWord));
+            }
+            
+            builder.append(words[j - 1]);
+            
+            if(j == len || 0 == addWordNum) {   // deal with special case
+                builder.append(pads.substring(0, maxWidth - sum - addWordNum));
+            }
+            
+            ans.add(builder.toString());
+        }
+        
+        return ans;
+    }
+	
+	
+	
+	/***************************************************/
+	public List<String> fullJustify2(String[] words, int maxWidth) {
         List<String> ans = new ArrayList<String>();
         if(words == null || words.length == 0 || maxWidth <= 0){
             return ans;

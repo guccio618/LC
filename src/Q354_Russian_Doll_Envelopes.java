@@ -32,10 +32,10 @@ public class Q354_Russian_Doll_Envelopes {
         
         
         int[] dp = new int[envelopes.length];
-        int firstInsertPos = 0;
+        int increaseListLength = 0;
         
         for(int[] envelope : envelopes){
-            int index = Arrays.binarySearch(dp, 0, firstInsertPos, envelope[1]);
+            int index = Arrays.binarySearch(dp, 0, increaseListLength, envelope[1]);
             
             if(index < 0){
                 index = -(index + 1);
@@ -43,12 +43,12 @@ public class Q354_Russian_Doll_Envelopes {
             
             dp[index] = envelope[1];
             
-            if(index == firstInsertPos){                      // index == dpLen时，dpLen++ ！！！
-                firstInsertPos++;
+            if(index == increaseListLength){                      // index == dpLen时，dpLen++ ！！！
+                increaseListLength++;
             }
         }
         
-        return firstInsertPos;
+        return increaseListLength;
     }
     
     

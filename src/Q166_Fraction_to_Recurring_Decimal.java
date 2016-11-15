@@ -2,8 +2,54 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Q166_Fraction_to_Recurring_Decimal {
-	// by other
 	public String fractionToDecimal(int numerator, int denominator) {
+        if(numerator == 0) {
+            return "0";
+        } else if(denominator == 0){
+            return "";
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        
+        if(numerator > 0 && denominator < 0 || numerator < 0 && denominator > 0) {
+            sb.append("-");
+        }
+        
+        long num = Math.abs((long) numerator);
+        long denom = Math.abs((long) denominator);
+        
+        sb.append(num / denom);
+        num %= denom;
+        
+        if(num == 0) {
+            return sb.toString();
+        }
+        
+        sb.append(".");
+        Map<Long, Integer> map = new HashMap<>();   // 记录余数以及此余数后头第一个avail的位置
+        map.put(num, sb.length());   
+        
+        while(num > 0) {
+            num *= 10;           // 将小数点后的第一位乘10
+            sb.append(num / denom);
+            num %= denom;
+            
+            if(map.containsKey(num)) {
+                int pos = map.get(num);
+                sb.insert(pos, "(");
+                sb.append(")");
+                break;
+            } else {
+                map.put(num, sb.length());
+            }
+        }
+        
+        return sb.toString();
+    }
+	
+	
+	// by other
+	public String fractionToDecimal2(int numerator, int denominator) {
 		boolean isNegative = ((numerator < 0 && denominator > 0) || (numerator > 0 && denominator < 0)) ? true : false;
 		long numeratorL = Math.abs((long) numerator);
 		long denominatorL = Math.abs((long) denominator);

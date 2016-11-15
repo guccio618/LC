@@ -7,44 +7,38 @@ public class Q010_Regular_Expression_Matching {
 	/*************************************************************/
 	// by other using DP, easily understand
 	public boolean isMatch(String s, String p) {
+		if (s == null || p == null) {
+            if (s == null && p == null) {
+                return true; 
+            } else {
+                return false;
+            }
+        }
+		
 		int sLen = s.length(), pLen = p.length();
-		boolean[][] dp = new boolean[sLen + 1][pLen + 1];
-		dp[0][0] = true; // If s and p are "", isMathch() returns true;
+		boolean[][] canMatch = new boolean[sLen + 1][pLen + 1];
+		canMatch[0][0] = true;                  // If s and p are "", isMathch() returns true;
 		
 		for(int i = 2; i <= pLen; i++){
-			dp[0][i] = dp[0][i - 2] && p.charAt(i - 1) == '*';
+			canMatch[0][i] = canMatch[0][i - 2] && p.charAt(i - 1) == '*';
 //			if(dp[0][i] == false){        // 注意，这里不能break，防止test case: "c*c*"
 //				break;
 //			}
 		}
 
-		for (int i = 0; i <= sLen; i++) {  
-			// j starts from 1, since dp[i][0] is false when i != 0;
-			for (int j = 1; j <= pLen; j++) {
-				char c = p.charAt(j-1);    // p[j-1]相当于p中的第j个char,即dp中的j
-
-				if (c != '*') {	
-					// The previous character of s and p should match;
-					// And, dp[i-1][j-1] is true;
-					dp[i][j] = ( i > 0 && dp[i-1][j-1] && (c == '.' || c == s.charAt(i-1)) ); 
-				} else {
-					// Two situations:
-					// (1) dp[i][j-2] is true, and there is 0 preceding element of '*';
-					// (2) The last character of s should match the preceding element of '*';
-					//     And, dp[i-1][j] should be true;
-					dp[i][j] = ( (j > 1 && dp[i][j-2])  // 不使用*, 如 "c*" 此时表示0个c,因此向前跳2步,判断此时是否为true
-								 || ( i > 0             
-										 &&  dp[i-1][j]  // 如a*能表示a,即*可以表示为其前面的char
-										 &&  (p.charAt(j-2) == '.' || p.charAt(j-2) == s.charAt(i-1)) 
-								    )
-							   ); 
-				}	
-			}
-			for(int j = 0; j <= pLen; ++j)
-				System.out.print(dp[i][j] + ", ");
-			System.out.println();
-		}
-		return dp[sLen][pLen];
+		for (int i = 1; i <= sLen; i++) {
+            for (int j = 1; j <= pLen; j++) {
+                char c = p.charAt(j - 1);
+                
+                if (c != '*') {
+                    canMatch[i][j] = canMatch[i - 1][j - 1] && (c == '.' || c == s.charAt(i - 1));
+                } else {
+                    canMatch[i][j] = (j >= 2 && canMatch[i][j - 2]) || (canMatch[i][j - 1]) || (canMatch[i - 1][j] && j >= 2 && (p.charAt(j - 2) == '.' || p.charAt(j - 2) == s.charAt(i - 1)));
+                }
+            }
+        }
+        
+        return canMatch[sLen][pLen];
 	}
 	
 	

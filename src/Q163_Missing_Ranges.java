@@ -9,27 +9,32 @@ public class Q163_Missing_Ranges {
 	/****************************************************************************/
 	// by other, simple
 	public List<String> findMissingRanges(int[] nums, int lower, int upper) {
-        List<String> ans = new ArrayList<String>();
+        List<String> ans = new ArrayList<>();
         
         if(lower > upper){
             return ans;
         }
         
-        int len = nums.length;
         int numNeed = lower;
+        int len = nums.length;
         
-        for(int i = 0; i < len; i++){
-            if(nums[i] < numNeed){
+        for (int num : nums) {
+            if (num < numNeed) {
                 continue;
-            } else if(nums[i] == numNeed){
+            } else if (num == numNeed) {
                 numNeed++;
-            } else if(nums[i] > numNeed){
-                ans.add(getStr(numNeed, nums[i] - 1));
-                numNeed = nums[i] + 1;
+            } else {
+                ans.add(getStr(numNeed, num - 1));
+                
+                if (num == Integer.MAX_VALUE) {    // 防止test case 为 [0, Integer.MAX_VALUE] ！！！
+                    return ans;
+                } else {
+                    numNeed = num + 1;
+                }
             }
         }
         
-        if(numNeed <= upper){
+        if (numNeed <= upper) {
             ans.add(getStr(numNeed, upper));
         }
         

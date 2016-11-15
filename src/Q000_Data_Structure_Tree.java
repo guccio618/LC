@@ -9,34 +9,46 @@ public class Q000_Data_Structure_Tree {
 	private Q000_Data_Structure_Tree right;
 
 	public Q000_Data_Structure_Tree(int v, int n) {
-		if (v >= n)
+		if (v >= n) {
 			return;
+		}
+		
 		value = v;
-		if ((2 * v + 1) < n)
+		
+		if ((2 * v + 1) < n) {
 			left = new Q000_Data_Structure_Tree(2 * v + 1, n);
-		if ((2 * v + 2) < n)
+		}
+		
+		if ((2 * v + 2) < n) {
 			right = new Q000_Data_Structure_Tree(2 * v + 2, n);
+		}
 	}
 
 	public static void recursivePreOrder(Q000_Data_Structure_Tree root) {
-		if (root == null)
+		if (root == null) {
 			return;
+		}
+		
 		System.out.print(root.value + ", ");
 		recursivePreOrder(root.left);
 		recursivePreOrder(root.right);
 	}
 
 	public static void recursiveInOrder(Q000_Data_Structure_Tree root) {
-		if (root == null)
+		if (root == null) {
 			return;
+		}
+		
 		recursiveInOrder(root.left);
 		System.out.print(root.value + ", ");
 		recursiveInOrder(root.right);
 	}
 
 	public static void recursivePostOrder(Q000_Data_Structure_Tree root) {
-		if (root == null)
+		if (root == null) {
 			return;
+		}
+		
 		recursivePostOrder(root.left);
 		recursivePostOrder(root.right);
 		System.out.print(root.value + ", ");
@@ -44,8 +56,10 @@ public class Q000_Data_Structure_Tree {
 
 	// 先序遍历
 	public static void preOrder(Q000_Data_Structure_Tree root) {
-		if (root == null)
+		if (root == null) {
 			return;
+		}
+		
 		Stack s = new Stack<Q000_Data_Structure_Tree>();
 
 		while (root != null || !s.isEmpty()) {
@@ -54,6 +68,7 @@ public class Q000_Data_Structure_Tree {
 				s.push(root); // 先访问，再入栈
 				root = root.left;
 			}
+			
 			root = (Q000_Data_Structure_Tree) s.pop(); // 如果是null，出栈并处理右子树
 			root = root.right;
 		}
@@ -61,8 +76,10 @@ public class Q000_Data_Structure_Tree {
 
 	// 中序遍历
 	public static void inOrder(Q000_Data_Structure_Tree root) {
-		if (root == null)
+		if (root == null) {
 			return;
+		}
+		
 		Stack s = new Stack<Integer>();
 
 		while (root != null || !s.isEmpty()) {
@@ -70,6 +87,7 @@ public class Q000_Data_Structure_Tree {
 				s.push(root); // 先入栈，后访问
 				root = root.left;
 			}
+			
 			root = (Q000_Data_Structure_Tree) s.pop();
 			System.out.print(root.value + ", ");
 			root = root.right; // 如果是null，出栈并处理右子树
@@ -99,6 +117,7 @@ public class Q000_Data_Structure_Tree {
 					s.push(node);
 					node = node.left;
 				}
+				
 				continue;
 			}
 			
@@ -142,48 +161,65 @@ public class Q000_Data_Structure_Tree {
 
 	// 层序遍历
 	public static void levelOrder(Q000_Data_Structure_Tree root) {
-		if (root == null)
+		if (root == null) {
 			return;
+		}
+		
 		Queue q = new LinkedList<Q000_Data_Structure_Tree>();
 		q.add(root);
 
 		while (!q.isEmpty()) {
 			Q000_Data_Structure_Tree temp = (Q000_Data_Structure_Tree) q.poll();
 			System.out.print(temp.value + ", ");
-			if (temp.left != null)
+			
+			if (temp.left != null) {
 				q.add(temp.left);
-			if (temp.right != null)
+			}
+			
+			if (temp.right != null) {
 				q.add(temp.right);
+			}
 		}
 	}
 
 	// 双栈实现螺旋遍历
 	public static void spiralOrder(Q000_Data_Structure_Tree root) {
-		if (root == null)
+		if (root == null) {
 			return;
+		}
+		
 		Stack s1 = new Stack<Q000_Data_Structure_Tree>();
 		Stack s2 = new Stack<Q000_Data_Structure_Tree>();
 		s1.push(root);
 
 		while (!s1.isEmpty() || !s2.isEmpty()) {
 			Q000_Data_Structure_Tree temp;
+			
 			if(!s1.isEmpty()){
 				while (!s1.isEmpty()) {
 					temp = (Q000_Data_Structure_Tree) s1.pop();
 					System.out.print(temp.value + ", ");
-					if (temp.right != null)
+					
+					if (temp.right != null) {
 						s2.push(temp.right);
-					if (temp.left != null)
+					}
+					
+					if (temp.left != null) {
 						s2.push(temp.left);
+					}
 				}
 			} else {
 				while (!s2.isEmpty()) {
 					temp = (Q000_Data_Structure_Tree) s2.pop();
 					System.out.print(temp.value + ", ");
-					if (temp.left != null)
+					
+					if (temp.left != null) {
 						s1.push(temp.left);
-					if (temp.right != null)
+					}
+					
+					if (temp.right != null) {
 						s1.push(temp.right);
+					}
 				}
 			}
 		}
@@ -192,17 +228,19 @@ public class Q000_Data_Structure_Tree {
 	//单栈实现螺旋遍历
 	public static void spiralOrder2(Q000_Data_Structure_Tree root) {
 		int depth = get_depth(root);
+		
         for(int i = 0; i < depth; ++i){
-                if(i%2 != 0)
-                	preOrder2Right(root, i);
-                else   
-                	preOrder2Left(root, i);
-
+        	if(i%2 != 0) {
+        		preOrder2Right(root, i);
+            } else {   
+            	preOrder2Left(root, i);
+            }
         }
 	}
 	
 	public static void preOrder2Left(Q000_Data_Structure_Tree root, int height){
-	    Stack s = new Stack<Q000_Data_Structure_Tree>();	    
+	    Stack s = new Stack<Q000_Data_Structure_Tree>();	
+	    
 	    while(root != null || !s.empty()){
 	        while(root != null) {
 	          if(get_depth(root) == height)
@@ -210,6 +248,7 @@ public class Q000_Data_Structure_Tree {
 	            s.push(root);
 	            root = root.left;
 	        }
+	        
 	        if(!s.empty()){
 	            root = (Q000_Data_Structure_Tree) s.pop();
 	            root = root.right;
@@ -218,7 +257,8 @@ public class Q000_Data_Structure_Tree {
 	}
 	
 	public static void preOrder2Right(Q000_Data_Structure_Tree root, int height){
-	    Stack s = new Stack<Q000_Data_Structure_Tree>();	    
+	    Stack s = new Stack<Q000_Data_Structure_Tree>();
+	    
 	    while(root != null || !s.empty()){
 	        while(root != null) {
 	          if(get_depth(root) == height)
@@ -226,6 +266,7 @@ public class Q000_Data_Structure_Tree {
 	            s.push(root);
 	            root = root.right;
 	        }
+	        
 	        if(!s.empty()){
 	            root = (Q000_Data_Structure_Tree) s.pop();
 	            root = root.left;
@@ -234,13 +275,15 @@ public class Q000_Data_Structure_Tree {
 	}
 	
 	public static int get_depth(Q000_Data_Structure_Tree root){  
-	    int depth = 0;  
+	    int depth = 0; 
+	    
 	    if(root != null){  
 	        int left_depth = get_depth(root.left);  
 	        int right_depth = get_depth(root.right);  
 	        depth = (left_depth > right_depth) ? left_depth : right_depth;  
 	        depth++;  
 	    }  
+	    
 	    return depth;  
 	}  
 

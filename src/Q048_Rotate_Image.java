@@ -21,6 +21,7 @@ public class Q048_Rotate_Image {
 				matrix[up][col] = matrix[down][col];
 				matrix[down][col] = temp;
 			}
+			
 			up++;
 			down--;
 		}

@@ -4,80 +4,87 @@ import java.util.Set;
 
 
 public class Q327_Count_of_Range_Sum {
-	class SegmentTreeNode {
-        SegmentTreeNode left;
-        SegmentTreeNode right;
-        int count;
-        long min;
-        long max;
-        
-        public SegmentTreeNode(long min, long max) {
-            this.min = min;
-            this.max = max;
-        }
-    }
-	
-    private SegmentTreeNode buildSegmentTree(Long[] nums, int start, int end) {
-        if(start > end) {
-        	return null;
-        } else if (start == end) {
-        	return new SegmentTreeNode(nums[start], nums[end]);
-        }
-        
-        SegmentTreeNode stn = new SegmentTreeNode(nums[start], nums[end]);      
-        int mid = (start + end) / 2;
-        stn.left = buildSegmentTree(nums, start, mid);
-        stn.right = buildSegmentTree(nums, mid + 1, end);
-        return stn;
-    }
-    
-    private void updateSegmentTree(SegmentTreeNode root, Long val) {
-        if(root == null) {
-        	return;
-        } else if(val >= root.min && val <= root.max) {
-            root.count++;
-            updateSegmentTree(root.left, val);
-            updateSegmentTree(root.right, val);
-        }
-    }
-    
-    private int getCount(SegmentTreeNode root, long min, long max) {
-        if(root == null) {
-        	return 0;
-        } else if(min > root.max || max < root.min) {
-        	return 0;
-        } else if(min <= root.min && max >= root.max) {
-        	return root.count;
-        }
-        
-        return getCount(root.left, min, max) + getCount(root.right, min, max);
-    }
-
-    public int countRangeSum(int[] nums, int lower, int upper) {
-        if(nums == null || nums.length == 0) {
-        	return 0;
+	public int countRangeSum(int[] nums, int lower, int upper) {
+        if (nums == null || nums.length == 0 || lower > upper) {
+            return 0;
         }
         
         int ans = 0;
-        Set<Long> valSet = new HashSet<Long>();
+        Set<Long> set = new HashSet<>();
         long sum = 0;
         
         for(int i = 0; i < nums.length; i++) {
             sum += (long) nums[i];
-            valSet.add(sum);
+            set.add(sum);
         }
-
-        Long[] valArr = valSet.toArray(new Long[0]);
-        Arrays.sort(valArr);
-        SegmentTreeNode root = buildSegmentTree(valArr, 0, valArr.length - 1);
+        
+        long[] array = new long[set.size()];
+        int index = 0;
+        
+        for (long num : set) {
+            array[index++] = num;
+        }
+        
+        Arrays.sort(array);
+        SegmentTreeNode root = buildTree(array, 0, array.length - 1);
 
         for(int i = nums.length - 1; i >= 0; i--) {
-            updateSegmentTree(root, sum);
+            modify(root, sum);
             sum -= (long) nums[i];
-            ans += getCount(root, (long)lower + sum, (long)upper + sum);
+            ans += query(root, (long)lower + sum, (long)upper + sum);
         }
         
         return ans;
+    }
+    
+    
+    public SegmentTreeNode buildTree(long[] nums, int start, int end) {
+        if (start > end) {
+            return null;
+        } else if (start == end) {
+            return new SegmentTreeNode(nums[start], nums[end]);
+        }
+        
+        int mid = start + (end - start) / 2;
+        SegmentTreeNode root = new SegmentTreeNode(nums[start], nums[end]);
+        root.left = buildTree(nums, start, mid);
+        root.right = buildTree(nums, mid + 1, end);
+        return root;
+    }
+    
+    public int query(SegmentTreeNode node, long min, long max) {
+        if (node == null) {
+            return 0;
+        } else if (min > node.max || max < node.min) {
+            return 0;
+        } else if (min <= node.min && node.max <= max) {
+            return node.count;
+        } else {
+            return query(node.left, min, max) + query(node.right, min, max);
+        }
+    }
+    
+    public void modify(SegmentTreeNode node, long value) {
+        if (node == null) {
+            return ;
+        } else if (node.min <= value && value <= node.max) {
+            node.count++;
+            modify(node.left, value);
+            modify(node.right, value);
+        }
+    }
+    
+    class SegmentTreeNode {
+        int count;
+        long max, min;
+        SegmentTreeNode left, right;
+        
+        public SegmentTreeNode(long min, long max) {
+            this.max = max;
+            this.min = min;
+            count = 0;
+            left = right = null;
+        }
     }
 	
 	

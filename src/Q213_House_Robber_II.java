@@ -17,22 +17,23 @@ public class Q213_House_Robber_II {
         }
         
         int n = nums.length;
-        int[] dp1 = new int[n];
-        int[] dp2 = new int[n];
-        dp1[0] = nums[0];
-        dp1[1] = Math.max(nums[0], nums[1]);
-        dp2[1] = nums[1];
-        dp2[2] = Math.max(nums[1], nums[2]);
+        int[] profit1 = new int[n];
+        int[] profit2 = new int[n];
+        
+        profit1[0] = nums[0];
+        profit1[1] = Math.max(nums[0], nums[1]);
+        profit2[1] = nums[1];
+        profit2[2] = Math.max(nums[1], nums[2]);
         
         for(int i = 2; i < n - 1; ++i){
-            dp1[i] = Math.max(dp1[i - 2] + nums[i], dp1[i - 1]);
+            profit1[i] = Math.max(profit1[i - 2] + nums[i], profit1[i - 1]);
         }
         
         for(int i = 3; i < n; ++i){
-            dp2[i] = Math.max(dp2[i - 2] + nums[i], dp2[i - 1]);
+            profit2[i] = Math.max(profit2[i - 2] + nums[i], profit2[i - 1]);
         }
         
-        return Math.max(dp1[n - 2], dp2[n - 1]);
+        return Math.max(profit1[n - 2], profit2[n - 1]);
     }
 	
 	

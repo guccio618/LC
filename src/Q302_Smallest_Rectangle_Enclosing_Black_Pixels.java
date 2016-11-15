@@ -1,50 +1,49 @@
 
 public class Q302_Smallest_Rectangle_Enclosing_Black_Pixels {
 	// by other using binary search, O(n * lgm + m * lgn)
-	private char[][] image;
-	
-	public int minArea(char[][] iImage, int x, int y) {
-	    image = iImage;
+	public int minArea(char[][] image, int x, int y) {
 	    int row = image.length, col = image[0].length;
-	    int left = searchColumns(0, y, 0, row, true);
-	    int right = searchColumns(y + 1, col, 0, row, false);
-	    int top = searchRows(0, x, left, right, true);
-	    int bottom = searchRows(x + 1, row, left, right, false);
+	    int left = searchColumns(image, 0, y, 0, row, true);
+	    int right = searchColumns(image, y, col, 0, row, false);
+	    int top = searchRows(image, 0, x, left, right, true);
+	    int bottom = searchRows(image, x, row, left, right, false);
 	    return (right - left) * (bottom - top);
 	}
 	
-	private int searchColumns(int start, int end, int top, int bottom, boolean opt) {
-	    while (start != end) {
-	        int k = top, mid = (start + end) / 2;
+	public int searchColumns(char[][] image, int left, int right, int top, int bottom, boolean opt) {
+	    while (left < right) {
+	        int k = top, mid = (left + right) / 2;
 	        
-	        while (k < bottom && image[k][mid] == '0'){
+	        while (k < bottom && image[k][mid] == '0') {
 	        	++k;
 	        }
 	        
-	        if (k < bottom == opt){
-	            end = mid;
+	        if (k < bottom == opt) { // 表示找到
+	            right = mid;
 	        } else {
-	            start = mid + 1;        // 注意这里需要＋1 !!!
+	            left = mid + 1;     // 注意这里要 ＋1 ！！！
 	        }
 	    }
-	    return start;
+	    
+	    return left;
 	}
 	
-	private int searchRows(int start, int end, int left, int right, boolean opt) {
-	    while (start != end) {
-	        int k = left, mid = (start + end) / 2;
+	public int searchRows(char[][] image, int top, int bottom, int left, int right, boolean opt) {
+	    while (top < bottom) {
+	        int k = left, mid = (top + bottom) / 2;
 	        
-	        while (k < right && image[mid][k] == '0'){
+	        while (k < right && image[mid][k] == '0') {
 	        	++k;
 	        }
 	        
-	        if (k < right == opt){
-	            end = mid;
+	        if (k < right == opt) {  // 表示找到
+	            bottom = mid;
 	        } else {
-	            start = mid + 1;        // 注意这里需要＋1 !!!
+	            top = mid + 1;      // 注意这里要 ＋1 ！！！
 	        }
 	    }
-	    return start;
+	    
+	    return top;
 	}
 	
 	

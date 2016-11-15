@@ -52,8 +52,8 @@ public class Q079_Word_Search {
     public boolean backtrack(char[][] board, int x, int y, boolean[][] visited, String word, int start){
         if(visited[x][y] == true){
             return false;
-        } else if(start == word.length() - 1 && board[x][y] == word.charAt(start)){  // 必须在这里判断，防止test case: [a], a  ！！！
-            return true;
+        } else if(start == word.length() - 1){  // 必须在这里判断，防止test case: [a], a  ！！！
+        	return board[x][y] == word.charAt(start);
         } else if(board[x][y] != word.charAt(start)){
             return false;
         }

@@ -16,6 +16,7 @@ public class Q012_Integer_to_Roman {
 			for (; times > 0; times--){
 				res.append(symbols[digit]);
 			}
+			
 			digit++;
 		}
 		return res.toString();

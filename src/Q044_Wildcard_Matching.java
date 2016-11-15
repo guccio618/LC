@@ -7,37 +7,38 @@ import java.util.Arrays;
 
 public class Q044_Wildcard_Matching {
 	/*************************************************************/
-	// by other using DP, easily understand
 	public boolean isMatch(String s, String p) {
-		// write your code here
-		int m = s.length(), n = p.length();
-		boolean[][] matrix = new boolean[m + 1][n + 1]; // 表示s中的0~i可以匹配p中的0~j
-
-		// s="" p="" is true
-		matrix[0][0] = true;
-
-		// Handle cases like s="" p="****"
-		for (int i = 1; i <= n; i++) {
-			if (p.charAt(i - 1) == '*')
-				matrix[0][i] = true;
-			else
-				break;
-		}
-
-		for (int i = 1; i <= m; i++) {
-			for (int j = 1; j <= n; j++) {
-				char c = p.charAt(j - 1);
-				if (c != '*')
-					matrix[i][j] = matrix[i - 1][j - 1] && (s.charAt(i - 1) == c || c == '?');
-				else {
-					// matrix[i][j-1] => * is empty
-					// matrix[i-1][j] => match sequence of characters
-					matrix[i][j] = matrix[i][j - 1] || matrix[i - 1][j];
-				}
-			}
-		}
-		return matrix[m][n];
-	}
+        if (s == null || p == null) {
+            if (s == null && p == null) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        
+        int sLen = s.length();
+        int pLen = p.length();
+        boolean[][] canMatch = new boolean[sLen + 1][pLen + 1];
+        canMatch[0][0] = true;
+        
+        for (int i = 1; i <= pLen; i++) {
+            canMatch[0][i] = canMatch[0][i - 1] && p.charAt(i - 1) == '*';
+        }
+        
+        for (int i = 1; i <= sLen; i++) {
+            for (int j = 1; j <= pLen; j++) {
+                char c = p.charAt(j - 1);
+                
+                if (c != '*') {
+                    canMatch[i][j] = canMatch[i - 1][j - 1] && (c == '?'|| c == s.charAt(i - 1));
+                } else {
+                    canMatch[i][j] = canMatch[i][j - 1] || canMatch[i - 1][j];
+                }
+            }
+        }
+        
+        return canMatch[sLen][pLen];
+    }
 	
 	/*************************************************************/
 	// by other using DP, easily understand

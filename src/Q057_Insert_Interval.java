@@ -8,48 +8,85 @@ import java.util.Queue;
 
 
 public class Q057_Insert_Interval {
-	// by Jackie, faster!
-	public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
-        if(intervals == null || newInterval == null){
-            return intervals;
-        }
-        
-        List<Interval> ans = new ArrayList<Interval>();
-        int startTime = Integer.MIN_VALUE, endTime = Integer.MIN_VALUE;
-        intervals.add(newInterval);
-        
-        Collections.sort(intervals, new Comparator<Interval>(){
-        	public int compare(Interval left, Interval right){
-        		if(left.start != right.start){
-        			return left.start - right.start;
-        		} else{
-        			return left.end - right.end;
-        		}
-        	}
-        });
-        
-        for(Interval node : intervals){
-        	if(startTime == Integer.MIN_VALUE && endTime == Integer.MIN_VALUE){
-        		startTime = node.start;
-        		endTime = node.end;
-        	} else {
-        		if(endTime < node.start){
-        			ans.add(new Interval(startTime, endTime));
-        			startTime = node.start;
-        			endTime = node.end;
-        		} else {
-        			endTime = Math.max(endTime, node.end);
-        		}
-        	}
-        }
-        
-        ans.add(new Interval(startTime, endTime));
-        return ans;
-	}
+	// Time complexity is O(nlogn)
+		public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
+			List<Interval> ans = new ArrayList<>();
+			intervals.add(newInterval);
+
+			Collections.sort(intervals, new Comparator<Interval>() {
+				public int compare(Interval inter1, Interval inter2) {
+					if (inter1.start != inter2.start) {
+						return inter1.start - inter2.start;
+					} else {
+						return inter1.end - inter2.end;
+					}
+				}
+			});
+
+			int startPos = Integer.MIN_VALUE, endPos = Integer.MIN_VALUE;
+
+			for (Interval inter : intervals) {
+				if (startPos == Integer.MIN_VALUE) {
+					startPos = inter.start;
+					endPos = inter.end;
+					continue;
+				}
+
+				if (endPos >= inter.start) {
+					endPos = Math.max(endPos, inter.end);
+				} else {
+					ans.add(new Interval(startPos, endPos));
+					startPos = inter.start;
+					endPos = inter.end;
+				}
+			}
+
+			ans.add(new Interval(startPos, endPos));
+			return ans;
+		}
+
+		// Time complexity is O(n)
+		public List<Interval> insert2(List<Interval> intervals, Interval newInterval) {
+			List<Interval> ans = new ArrayList<>();
+			int len = intervals.size();
+			int index = 0;
+			int startPos = newInterval.start, endPos = newInterval.end;
+
+			while (index < len) {
+				Interval currentInterval = intervals.get(index);
+
+				if (currentInterval.end >= newInterval.start) {
+					break;
+				} else {
+					ans.add(currentInterval);
+					index++;
+				}
+			}
+
+			while (index < len) {
+				Interval currentInterval = intervals.get(index);
+
+				if (endPos >= currentInterval.start) {
+					startPos = Math.min(startPos, currentInterval.start);
+					endPos = Math.max(endPos, currentInterval.end);
+					index++;
+				} else {
+					break;
+				}
+			}
+
+			ans.add(new Interval(startPos, endPos));
+
+			while (index < len) {
+				ans.add(intervals.get(index++));
+			}
+
+			return ans;
+		}
 	
 	
 	// by Jackie
-	public List<Interval> insert2(List<Interval> intervals, Interval newInterval) {
+	public List<Interval> insert3(List<Interval> intervals, Interval newInterval) {
         if(intervals == null || newInterval == null){
             return intervals;
         }
